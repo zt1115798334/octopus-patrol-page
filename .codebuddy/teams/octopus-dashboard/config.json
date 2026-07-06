@@ -1,0 +1,18 @@
+{
+  "name": "octopus-dashboard",
+  "leadAgentId": "bd5eb9313d754d2ca7f114a38df94acc",
+  "workspacePath": "d:/zt/workspace/Webstrom/octopus-patrol-page",
+  "createdAt": "2026-07-06T03:47:08.294Z",
+  "options": {
+    "workspacePath": "d:/zt/workspace/Webstrom/octopus-patrol-page",
+    "isAutoTeam": false
+  },
+  "members": [
+    {
+      "memberId": "team-lead@octopus-dashboard",
+      "name": "team-lead",
+      "role": "Team Lead - coordinates the team and interacts with the user"
+    }
+  ],
+  "isAutoTeam": false
+}
