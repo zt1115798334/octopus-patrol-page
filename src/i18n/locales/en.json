@@ -95,7 +95,12 @@
     "loginSuccess": "Login successful",
     "loginFailed": "Login failed",
     "pleaseInputUsername": "Please enter username",
-    "pleaseInputPassword": "Please enter password"
+    "pleaseInputPassword": "Please enter password",
+    "loginSubtitle": "Please enter your credentials to sign in",
+    "platformDesc": "Intelligent Patrol · Full Monitoring · Smart Management",
+    "statsAvailability": "Availability",
+    "statsLatency": "Response",
+    "statsMonitoring": "Monitoring"
   },
   "dashboard": {
     "title": "Dashboard",

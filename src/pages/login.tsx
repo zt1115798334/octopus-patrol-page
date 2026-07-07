@@ -1,10 +1,10 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Eye, EyeOff, Bot, Loader2 } from 'lucide-react'
+import { Eye, EyeOff, Bot } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { login as loginApi } from '@/api/modules/auth'
@@ -28,6 +28,19 @@ export default function LoginPage() {
   const location = useLocation()
   const authLogin = useAuthStore((s) => s.login)
   const { t, i18n } = useTranslation()
+  const hadDarkRef = useRef(false)
+
+  // Force dark mode for the login page effect
+  useEffect(() => {
+    const root = document.documentElement
+    hadDarkRef.current = root.classList.contains('dark')
+    root.classList.add('dark')
+    return () => {
+      if (!hadDarkRef.current) {
+        root.classList.remove('dark')
+      }
+    }
+  }, [])
 
   const {
     register,
@@ -58,95 +71,227 @@ export default function LoginPage() {
     [authLogin, navigate, location, t],
   )
 
+  const stats = [
+    { value: '99.9%', label: t('auth.statsAvailability') },
+    { value: '<50ms', label: t('auth.statsLatency') },
+    { value: '24/7', label: t('auth.statsMonitoring') },
+  ]
+
   return (
-    <div className="min-h-screen flex bg-gradient-to-br from-neutral-50 via-white to-primary-50 dark:from-neutral-950 dark:via-neutral-900 dark:to-primary-950">
-      {/* Left - Brand */}
-      <div className="hidden lg:flex flex-1 flex-col justify-center items-center p-12 relative">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-col items-center text-center max-w-md"
-        >
-          <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center mb-6 shadow-[0_0_40px_rgba(99,102,241,0.3)]">
-            <Bot className="h-8 w-8 text-white" />
-          </div>
-          <h1 className="text-3xl font-bold text-neutral-900 dark:text-neutral-50 mb-3">
-            Octopus Patrol
-          </h1>
-          <p className="text-lg text-neutral-500 dark:text-neutral-400">
-            智能巡检平台 · 全方位监控 · 智能化管理
-          </p>
-          <div className="mt-8 grid grid-cols-3 gap-4 text-center">
-            {[
-              { value: '99.9%', label: '可用性' },
-              { value: '<50ms', label: '响应速度' },
-              { value: '24/7', label: '全天监控' },
-            ].map((stat) => (
-              <div key={stat.label} className="px-4 py-3 rounded-xl bg-white/50 dark:bg-white/5 backdrop-blur">
-                <div className="text-xl font-bold gradient-text">{stat.value}</div>
-                <div className="text-xs text-neutral-500 mt-1">{stat.label}</div>
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-neutral-950">
+      {/* Background flowing light beams */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Beam 1 - wide sweeping light */}
+        <div
+          className="absolute top-0 left-1/2 w-[800px] h-[600px] animate-light-flow-1 opacity-30"
+          style={{
+            background:
+              'radial-gradient(ellipse at center, rgba(99,102,241,0.4) 0%, rgba(14,165,233,0.15) 30%, transparent 70%)',
+            filter: 'blur(60px)',
+          }}
+        />
+        {/* Beam 2 - angled sweep */}
+        <div
+          className="absolute bottom-0 right-1/4 w-[600px] h-[500px] animate-light-flow-2 opacity-25"
+          style={{
+            background:
+              'radial-gradient(ellipse at center, rgba(14,165,233,0.35) 0%, rgba(99,102,241,0.1) 35%, transparent 70%)',
+            filter: 'blur(80px)',
+          }}
+        />
+        {/* Beam 3 - smaller fast sweep */}
+        <div
+          className="absolute top-1/3 right-1/3 w-[400px] h-[400px] animate-light-flow-3 opacity-20"
+          style={{
+            background:
+              'radial-gradient(ellipse at center, rgba(139,92,246,0.3) 0%, rgba(99,102,241,0.1) 40%, transparent 70%)',
+            filter: 'blur(50px)',
+          }}
+        />
+      </div>
+
+      {/* Floating gradient orbs */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          className="absolute top-[15%] left-[10%] w-72 h-72 rounded-full animate-float-orb-1"
+          style={{
+            background:
+              'radial-gradient(circle, rgba(99,102,241,0.25) 0%, rgba(99,102,241,0.05) 40%, transparent 70%)',
+            filter: 'blur(40px)',
+          }}
+        />
+        <div
+          className="absolute bottom-[10%] right-[15%] w-80 h-80 rounded-full animate-float-orb-2"
+          style={{
+            background:
+              'radial-gradient(circle, rgba(14,165,233,0.2) 0%, rgba(14,165,233,0.05) 40%, transparent 70%)',
+            filter: 'blur(50px)',
+          }}
+        />
+        <div
+          className="absolute top-[40%] right-[5%] w-48 h-48 rounded-full animate-float-orb-3"
+          style={{
+            background:
+              'radial-gradient(circle, rgba(139,92,246,0.2) 0%, rgba(139,92,246,0.03) 40%, transparent 70%)',
+            filter: 'blur(35px)',
+          }}
+        />
+      </div>
+
+      {/* Subtle grid overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        style={{
+          backgroundImage:
+            'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+          backgroundSize: '60px 60px',
+        }}
+      />
+
+      {/* Main glass card with border glow */}
+      <motion.div
+        initial={{ opacity: 0, y: 20, scale: 0.97 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className="relative w-full max-w-[420px] mx-4 z-10"
+      >
+        {/* Animated border glow ring */}
+        <div
+          className="absolute -inset-[1px] rounded-2xl animate-card-glow opacity-70"
+          style={{
+            background:
+              'linear-gradient(135deg, rgba(99,102,241,0.5), rgba(14,165,233,0.5), rgba(139,92,246,0.5), rgba(99,102,241,0.5))',
+            backgroundSize: '300% 300%',
+            filter: 'blur(8px)',
+          }}
+        />
+
+        {/* Card content */}
+        <div className="relative rounded-2xl bg-neutral-900/80 backdrop-blur-xl border border-white/10 p-8 shadow-2xl">
+          {/* Subtle inner glow */}
+          <div
+            className="absolute inset-0 rounded-2xl opacity-30 animate-pulse-glow pointer-events-none"
+            style={{
+              background:
+                'radial-gradient(circle at 50% 0%, rgba(99,102,241,0.15) 0%, transparent 60%)',
+            }}
+          />
+
+          <div className="relative">
+            {/* Brand header */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.3 }}
+              className="flex flex-col items-center text-center mb-8"
+            >
+              <div className="relative h-14 w-14 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center mb-4 shadow-[0_0_30px_rgba(99,102,241,0.4)]">
+                <div className="absolute inset-0 rounded-2xl bg-white/20 animate-pulse-glow" />
+                <Bot className="h-7 w-7 text-white relative z-10" />
               </div>
-            ))}
-          </div>
-        </motion.div>
-      </div>
+              <h1 className="text-2xl font-bold tracking-tight text-white mb-1">
+                Octopus Patrol
+              </h1>
+              <p className="text-sm text-neutral-400">{t('auth.platformDesc')}</p>
+            </motion.div>
 
-      {/* Right - Form */}
-      <div className="flex-1 flex items-center justify-center p-8">
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4, delay: 0.2 }}
-          className="w-full max-w-sm"
-        >
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-50">{t('auth.login')}</h2>
-            <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
-              请输入您的账号信息登录系统
-            </p>
-          </div>
+            {/* Stats row */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.4 }}
+              className="grid grid-cols-3 gap-3 mb-8"
+            >
+              {stats.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="flex flex-col items-center py-3 rounded-xl bg-white/5 border border-white/5"
+                >
+                  <span className="text-lg font-bold gradient-text">{stat.value}</span>
+                  <span className="text-xs text-neutral-500 mt-0.5">{stat.label}</span>
+                </div>
+              ))}
+            </motion.div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <Input
-              label={t('auth.username')}
-              placeholder={t('auth.pleaseInputUsername')}
-              {...register('username')}
-              error={errors.username?.message}
-            />
-            <Input
-              label={t('auth.password')}
-              type={showPassword ? 'text' : 'password'}
-              placeholder={t('auth.pleaseInputPassword')}
-              rightIcon={
-                <button type="button" onClick={() => setShowPassword(!showPassword)} className="cursor-pointer">
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </button>
-              }
-              {...register('password')}
-              error={errors.password?.message}
+            {/* Divider */}
+            <motion.div
+              initial={{ opacity: 0, scaleX: 0 }}
+              animate={{ opacity: 1, scaleX: 1 }}
+              transition={{ duration: 0.4, delay: 0.45 }}
+              className="h-px bg-gradient-to-r from-transparent via-neutral-700 to-transparent mb-6"
             />
 
-            <div className="flex items-center justify-between">
-              <label className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400 cursor-pointer">
-                <Switch checked={rememberMe} onCheckedChange={setRememberMe} />
-                {t('auth.rememberMe')}
-              </label>
-              <button
-                type="button"
-                onClick={() => i18n.changeLanguage(i18n.language === 'zh' ? 'en' : 'zh')}
-                className="text-sm text-primary-500 hover:text-primary-600 transition-colors"
-              >
-                {i18n.language === 'zh' ? 'English' : '中文'}
-              </button>
-            </div>
+            {/* Login form */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.5 }}
+            >
+              <div className="mb-6">
+                <h2 className="text-lg font-semibold text-white">{t('auth.login')}</h2>
+                <p className="text-sm text-neutral-500 mt-1">{t('auth.loginSubtitle')}</p>
+              </div>
 
-            <Button type="submit" className="w-full" loading={loading}>
-              {t('auth.login')}
-            </Button>
-          </form>
-        </motion.div>
-      </div>
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                <Input
+                  label={t('auth.username')}
+                  placeholder={t('auth.pleaseInputUsername')}
+                  {...register('username')}
+                  error={errors.username?.message}
+                />
+                <Input
+                  label={t('auth.password')}
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder={t('auth.pleaseInputPassword')}
+                  rightIcon={
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="cursor-pointer text-neutral-500 hover:text-neutral-300 transition-colors"
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
+                  }
+                  {...register('password')}
+                  error={errors.password?.message}
+                />
+
+                <div className="flex items-center justify-between pt-1">
+                  <label className="flex items-center gap-2 text-sm text-neutral-400 cursor-pointer">
+                    <Switch checked={rememberMe} onCheckedChange={setRememberMe} />
+                    {t('auth.rememberMe')}
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => i18n.changeLanguage(i18n.language === 'zh' ? 'en' : 'zh')}
+                    className="text-sm text-primary-400 hover:text-primary-300 transition-colors"
+                  >
+                    {i18n.language === 'zh' ? 'English' : '中文'}
+                  </button>
+                </div>
+
+                <Button type="submit" className="w-full" loading={loading} size="lg">
+                  {t('auth.login')}
+                </Button>
+              </form>
+            </motion.div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Bottom copyright */}
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.8 }}
+        className="absolute bottom-6 text-xs text-neutral-600 z-10"
+      >
+        &copy; {new Date().getFullYear()} Octopus Patrol. All rights reserved.
+      </motion.p>
     </div>
   )
 }

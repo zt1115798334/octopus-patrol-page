@@ -20,7 +20,7 @@ export default function LogManagement() {
   const [pageSize] = useState(10)
   const [keywords, setKeywords] = useState('')
 
-  const logQuery: QueryLogDto = { pageNumber: page, pageSize }
+  const logQuery: QueryLogDto = { pageNumber: page, pageSize, keywords: keywords || undefined }
   const { data, isLoading } = useQuery({ queryKey: ['logs', logQuery], queryFn: () => findLogPage(logQuery) })
   const { data: statsData, isLoading: statsLoading } = useQuery({ queryKey: ['logStats'], queryFn: getLogStatistics })
 
@@ -46,7 +46,7 @@ export default function LogManagement() {
       <Card>
         <CardContent className="pt-4">
           <div className="flex items-center gap-3 mb-4">
-            <div className="relative flex-1 max-w-sm"><Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400" /><Input placeholder={t('common.keywordSearch')} className="pl-9" value={keywords} onChange={(e) => setKeywords(e.target.value)} /></div>
+            <div className="relative flex-1 max-w-sm"><Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400" /><Input placeholder={t('common.keywordSearch')} className="pl-9" value={keywords} onChange={(e) => { setKeywords(e.target.value); setPage(1) }} onKeyDown={(e) => e.key === 'Enter' && queryClient.invalidateQueries({ queryKey: ['logs'] })} /></div>
             <Button variant="outline" size="icon" onClick={() => queryClient.invalidateQueries({ queryKey: ['logs'] })}><RefreshCw className="h-4 w-4" /></Button>
           </div>
           {isLoading ? <SkeletonTable rows={5} /> : items.length === 0 ? <EmptyState /> : (

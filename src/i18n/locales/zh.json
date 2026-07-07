@@ -95,7 +95,12 @@
     "loginSuccess": "登录成功",
     "loginFailed": "登录失败",
     "pleaseInputUsername": "请输入用户名",
-    "pleaseInputPassword": "请输入密码"
+    "pleaseInputPassword": "请输入密码",
+    "loginSubtitle": "请输入您的账号信息登录系统",
+    "platformDesc": "智能巡检平台 · 全方位监控 · 智能化管理",
+    "statsAvailability": "可用性",
+    "statsLatency": "响应速度",
+    "statsMonitoring": "全天监控"
   },
   "dashboard": {
     "title": "仪表盘",

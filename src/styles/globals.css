@@ -102,6 +102,65 @@
   /* Transitions */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Login page animations */
+  --animate-light-flow-1: light-flow-1 20s ease-in-out infinite;
+  --animate-light-flow-2: light-flow-2 25s ease-in-out infinite;
+  --animate-light-flow-3: light-flow-3 18s ease-in-out infinite;
+  --animate-float-orb-1: float-orb-1 12s ease-in-out infinite;
+  --animate-float-orb-2: float-orb-2 15s ease-in-out infinite;
+  --animate-float-orb-3: float-orb-3 13s ease-in-out infinite;
+  --animate-card-glow: card-border-glow 6s ease-in-out infinite alternate;
+  --animate-pulse-glow: pulse-glow 3s ease-in-out infinite;
+}
+
+/* ===================================================
+   Login Page Keyframes (root level for Tw v4)
+   =================================================== */
+
+@keyframes light-flow-1 {
+  0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+  25% { transform: translate(50%, 30%) rotate(90deg); }
+  50% { transform: translate(30%, 60%) rotate(180deg); }
+  75% { transform: translate(-30%, 20%) rotate(270deg); }
+}
+
+@keyframes light-flow-2 {
+  0%, 100% { transform: translate(30%, 40%) rotate(0deg); }
+  33% { transform: translate(-40%, -20%) rotate(120deg); }
+  66% { transform: translate(20%, -40%) rotate(240deg); }
+}
+
+@keyframes light-flow-3 {
+  0%, 100% { transform: translate(20%, -30%) rotate(0deg); }
+  50% { transform: translate(-20%, 40%) rotate(180deg); }
+}
+
+@keyframes float-orb-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.1); }
+  66% { transform: translate(-10px, 30px) scale(0.9); }
+}
+
+@keyframes float-orb-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-40px, -30px) scale(1.15); }
+}
+
+@keyframes float-orb-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(20px, 40px) scale(0.85); }
+  66% { transform: translate(-30px, -10px) scale(1.1); }
+}
+
+@keyframes card-border-glow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
 }
 
 /* Dark mode */

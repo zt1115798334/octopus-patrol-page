@@ -6,14 +6,13 @@ import { EmptyState } from '@/components/ui/empty-state'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
 import { formatDate } from '@/lib/utils'
-import { post } from '@/lib/api-client'
-import type { ResultMessage, Page, UserPricingPlanHistoryDto, QueryKeywordsDto } from '@/types'
+import { findUserPricingPlanHistoryPage } from '@/api/modules/pricing-plan-history'
 
 export default function PricingHistoryPage() {
   const { t } = useTranslation()
   const { data, isLoading } = useQuery({
     queryKey: ['pricingHistory'],
-    queryFn: () => post<ResultMessage<Page<UserPricingPlanHistoryDto>>>('/userPricingPlanHistory/findUserPricingPlanHistoryPage', { pageNumber: 1, pageSize: 50 } as QueryKeywordsDto),
+    queryFn: () => findUserPricingPlanHistoryPage({ pageNumber: 1, pageSize: 50 }),
   })
   const items = data?.data?.content || []
 

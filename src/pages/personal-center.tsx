@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Card, CardContent } from '@/components/ui/card'
 import { SkeletonCard } from '@/components/ui/skeleton'
 import { getConfigInfo, modifyConfigInfo } from '@/api/modules/personal-center'
-import { modifyUserPassword } from '@/api/modules/user'
+import { modifyUserPassword, findCurrentUser } from '@/api/modules/user'
 import { useAuthStore } from '@/stores'
 import { toast } from 'sonner'
 import type { ConfigurationInformationDto } from '@/types'
@@ -31,6 +31,13 @@ export default function PersonalCenter() {
     queryKey: ['jwtConfig'],
     queryFn: getConfigInfo,
   })
+
+  const { data: currentUser, isLoading: userLoading } = useQuery({
+    queryKey: ['currentUser'],
+    queryFn: findCurrentUser,
+  })
+
+  const userInfo = currentUser?.data
 
   const passwordMutation = useMutation({
     mutationFn: modifyUserPassword,
@@ -64,7 +71,29 @@ export default function PersonalCenter() {
         </div>
         <div className="flex-1 max-w-lg">
           {activeTab === 'info' && (
-            <Card><CardContent className="pt-6"><div className="flex items-center gap-4"><div className="h-16 w-16 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center"><User className="h-8 w-8 text-primary-500" /></div><div><h3 className="font-semibold">当前用户</h3><p className="text-sm text-neutral-500">管理您的个人信息</p></div></div></CardContent></Card>
+            <Card><CardContent className="pt-6">
+              {userLoading ? <SkeletonCard /> : (
+                <div className="flex items-center gap-4">
+                  <div className="h-16 w-16 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">
+                    <User className="h-8 w-8 text-primary-500" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">{userInfo?.username || userInfo?.account || '-'}</h3>
+                    <p className="text-sm text-neutral-500">{userInfo?.account || '-'}</p>
+                    {userInfo?.phone && <p className="text-xs text-neutral-400 mt-1">{userInfo.phone}</p>}
+                    {userInfo?.roles && userInfo.roles.length > 0 && (
+                      <div className="flex gap-1 mt-2">
+                        {userInfo.roles.map((role) => (
+                          <span key={role.id} className="text-xs px-2 py-0.5 rounded-full bg-primary-50 text-primary-600 dark:bg-primary-950/40 dark:text-primary-400">
+                            {role.name}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </CardContent></Card>
           )}
           {activeTab === 'password' && (
             <Card><CardContent className="pt-6"><form onSubmit={passwordForm.handleSubmit(handlePassword)} className="space-y-4"><Input label={t('user.newPassword')} type="password" {...passwordForm.register('newPassword')} error={passwordForm.formState.errors.newPassword?.message} /><Button type="submit" loading={passwordMutation.isPending}>{t('common.save')}</Button></form></CardContent></Card>
