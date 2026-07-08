@@ -136,8 +136,8 @@ export function Sidebar() {
               'flex items-center gap-3 h-9 rounded-[10px] text-sm transition-all duration-200 group relative',
               collapsed ? 'justify-center px-0 w-9 mx-auto' : 'px-3',
               isActive
-                ? 'bg-sidebar-active text-primary-700 dark:text-primary-300 font-medium shadow-sm'
-                : 'text-neutral-500 dark:text-neutral-500 hover:bg-sidebar-hover hover:text-neutral-800 dark:hover:text-neutral-200',
+                ? 'bg-sidebar-active text-primary-700 dark:text-primary-400 font-medium shadow-sm dark:shadow-[0_0_12px_rgba(124,58,237,0.12)]'
+                : 'text-neutral-500 hover:bg-sidebar-hover hover:text-neutral-800 dark:hover:text-neutral-300',
             )
           }
         >
@@ -182,7 +182,7 @@ export function Sidebar() {
       initial={false}
       animate={{ width: collapsed ? 72 : 240 }}
       transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed left-0 top-14 bottom-0 z-30 flex flex-col border-r bg-sidebar-bg border-sidebar-border/80 overflow-hidden"
+      className="fixed left-0 top-14 bottom-0 z-30 flex flex-col border-r bg-sidebar-bg border-sidebar-border/80 overflow-hidden backdrop-blur-2xl backdrop-saturate-150 dark:shadow-[inset_0_0_80px_rgba(124,58,237,0.03)]"
     >
       {/* Search */}
       {!collapsed && (
@@ -192,7 +192,7 @@ export function Sidebar() {
             <input
               type="text"
               placeholder={t('common.search') + '...'}
-              className="w-full h-8 pl-8 pr-3 rounded-[10px] border border-sidebar-border/80 bg-white dark:bg-neutral-900 text-xs focus:outline-none focus:ring-2 focus:ring-primary-500/15 focus:border-primary-400 placeholder:text-neutral-400 transition-all duration-200"
+              className="w-full h-8 pl-8 pr-3 rounded-[10px] border border-sidebar-border/80 bg-sidebar-hover text-xs focus:outline-none focus:ring-2 focus:ring-primary-500/15 focus:border-primary-400 placeholder:text-neutral-500 transition-all duration-200"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />

@@ -185,10 +185,10 @@
 
 /* Dark mode - refined sidebar */
 .dark {
-  --color-sidebar-bg: #0a0a0a;
-  --color-sidebar-hover: #1a1a1a;
-  --color-sidebar-active: #2e1065;
-  --color-sidebar-border: #1a1a1a;
+  --color-sidebar-bg: rgba(6, 6, 15, 0.7);
+  --color-sidebar-hover: rgba(124, 58, 237, 0.08);
+  --color-sidebar-active: rgba(124, 58, 237, 0.15);
+  --color-sidebar-border: rgba(255, 255, 255, 0.04);
 }
 
 /* ===================================================
@@ -224,8 +224,9 @@
     background-color: var(--color-neutral-950);
     color: var(--color-neutral-50);
     background-image:
-      radial-gradient(ellipse at 50% 0%, rgb(124 58 237 / 0.06) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 100%, rgb(6 182 212 / 0.04) 0%, transparent 50%);
+      radial-gradient(ellipse at 50% 0%, rgb(124 58 237 / 0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 100%, rgb(6 182 212 / 0.05) 0%, transparent 50%),
+      radial-gradient(ellipse at 10% 50%, rgb(167 139 250 / 0.03) 0%, transparent 40%);
   }
 
   h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.025em; line-height: 1.3; }
@@ -393,7 +394,9 @@
     border-color: rgb(255 92 138 / 0.15);
   }
 
+  /* Anime global font - playful throughout */
   [data-theme-style="anime"] body {
+    font-family: 'ZCOOL KuaiLe', var(--font-sans);
     background-color: #fff5f8;
     background-image:
       radial-gradient(ellipse at 20% 0%, rgb(255 92 138 / 0.04) 0%, transparent 50%),
@@ -403,19 +406,14 @@
   }
 
   [data-theme-style="anime"] .dark body {
+    font-family: 'ZCOOL KuaiLe', var(--font-sans);
     background-color: #0d0610;
     background-image:
       radial-gradient(ellipse at 20% 0%, rgb(255 92 138 / 0.08) 0%, transparent 50%),
       radial-gradient(ellipse at 80% 100%, rgb(14 165 233 / 0.06) 0%, transparent 50%);
   }
 
-  /* Anime headings - playful font */
-  [data-theme-style="anime"] h1,
-  [data-theme-style="anime"] h2,
-  [data-theme-style="anime"] h3,
-  [data-theme-style="anime"] h4 {
-    font-family: 'ZCOOL KuaiLe', var(--font-sans);
-  }
+  /* Anime headings - gradient text on top of the global anime font */
 
   [data-theme-style="anime"] h1 {
     background: linear-gradient(135deg, #ff5c8a, #ff9ebf);
@@ -566,6 +564,233 @@
 
 [data-theme-style="anime"] .dark .animate-pulse-glow {
   background: radial-gradient(circle at 50% 0%, rgb(255 92 138 / 0.2) 0%, transparent 60%) !important;
+}
+
+/* ===================================================
+   Shin-chan / 蜡笔小新 Theme
+   =================================================== */
+
+[data-theme-style="shinchan"] {
+  /* ---- Override Color Palette: Bold Red & Golden Yellow ---- */
+  --color-primary-50: #fff5f0;
+  --color-primary-100: #ffe8db;
+  --color-primary-200: #ffc9a8;
+  --color-primary-300: #ffa570;
+  --color-primary-400: #ff7b3d;
+  --color-primary-500: #ff5722;
+  --color-primary-600: #e64a19;
+  --color-primary-700: #bf360c;
+  --color-primary-800: #9c2a0b;
+  --color-primary-900: #7a1f08;
+  --color-primary-950: #4e0f04;
+
+  --color-accent-50: #fffde7;
+  --color-accent-100: #fff9c4;
+  --color-accent-200: #fff59d;
+  --color-accent-300: #fff176;
+  --color-accent-400: #ffee58;
+  --color-accent-500: #fdd835;
+  --color-accent-600: #f9a825;
+  --color-accent-700: #f57f17;
+  --color-accent-800: #e65100;
+  --color-accent-900: #bf360c;
+
+  --color-success-50: #e8f5e9;
+  --color-success-100: #c8e6c9;
+  --color-success-200: #a5d6a7;
+  --color-success-300: #81c784;
+  --color-success-400: #66bb6a;
+  --color-success-500: #4caf50;
+  --color-success-600: #43a047;
+  --color-success-700: #388e3c;
+  --color-success-800: #2e7d32;
+  --color-success-900: #1b5e20;
+
+  --color-danger-50: #fce4ec;
+  --color-danger-100: #f8bbd0;
+  --color-danger-200: #f48fb1;
+  --color-danger-300: #f06292;
+  --color-danger-400: #ec407a;
+  --color-danger-500: #e91e63;
+  --color-danger-600: #d81b60;
+  --color-danger-700: #c2185b;
+  --color-danger-800: #ad1457;
+  --color-danger-900: #880e4f;
+
+  /* Sidebar - warm cream + red */
+  --color-sidebar-bg: #fdf6f0;
+  --color-sidebar-hover: #ffede0;
+  --color-sidebar-active: #ffe0cc;
+  --color-sidebar-border: #ffd4b8;
+
+  /* Shin-chan shadows - bold and warm */
+  --shadow-soft: 0 1px 3px 0 rgb(255 87 34 / 0.08);
+  --shadow-card: 0 2px 10px 0 rgb(255 87 34 / 0.07), 0 1px 3px -1px rgb(253 216 53 / 0.05);
+  --shadow-dropdown: 0 4px 20px -4px rgb(255 87 34 / 0.12), 0 2px 10px -2px rgb(253 216 53 / 0.08);
+  --shadow-dialog: 0 24px 56px -12px rgb(255 87 34 / 0.2);
+  --shadow-glow: 0 0 30px rgb(255 87 34 / 0.25);
+  --shadow-glow-lg: 0 0 60px rgb(255 87 34 / 0.3);
+  --shadow-elevated: 0 8px 30px -6px rgb(255 87 34 / 0.1), 0 2px 10px -2px rgb(253 216 53 / 0.06);
+}
+
+/* Dark shinchan overrides */
+.dark[data-theme-style="shinchan"] {
+  --color-sidebar-bg: rgba(20, 10, 6, 0.7);
+  --color-sidebar-hover: rgba(255, 87, 34, 0.1);
+  --color-sidebar-active: rgba(255, 87, 34, 0.2);
+  --color-sidebar-border: rgba(255, 255, 255, 0.04);
+}
+
+[data-theme-style="shinchan"] .dark {
+  --color-sidebar-bg: rgba(20, 10, 6, 0.7);
+  --color-sidebar-hover: rgba(255, 87, 34, 0.1);
+  --color-sidebar-active: rgba(255, 87, 34, 0.2);
+  --color-sidebar-border: rgba(255, 255, 255, 0.04);
+}
+
+/* ---- Base overrides ---- */
+@layer base {
+  [data-theme-style="shinchan"] * {
+    border-color: rgb(255 87 34 / 0.12);
+  }
+
+  [data-theme-style="shinchan"] .dark * {
+    border-color: rgb(255 87 34 / 0.15);
+  }
+
+  [data-theme-style="shinchan"] body {
+    font-family: 'ZCOOL QingKe HuangYou', var(--font-sans);
+    background-color: #fdf6f0;
+    background-image:
+      radial-gradient(ellipse at 30% 0%, rgb(255 87 34 / 0.05) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 100%, rgb(253 216 53 / 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgb(255 167 38 / 0.03) 0%, transparent 80%);
+    background-attachment: fixed;
+  }
+
+  [data-theme-style="shinchan"] .dark body {
+    font-family: 'ZCOOL QingKe HuangYou', var(--font-sans);
+    background-color: #0c0704;
+    background-image:
+      radial-gradient(ellipse at 30% 0%, rgb(255 87 34 / 0.1) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 100%, rgb(253 216 53 / 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgb(255 122 61 / 0.04) 0%, transparent 60%);
+  }
+
+  [data-theme-style="shinchan"] .dark body h1 {
+    background: linear-gradient(135deg, #ff7b3d, #fdd835);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  [data-theme-style="shinchan"] h2 {
+    color: #e64a19;
+  }
+
+  [data-theme-style="shinchan"] .dark h2 {
+    color: #ffa570;
+  }
+}
+
+/* ---- Component overrides ---- */
+@layer components {
+  [data-theme-style="shinchan"] .glass {
+    background: rgb(253 246 240 / 0.7);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-bottom: 1px solid rgb(255 87 34 / 0.08);
+  }
+
+  [data-theme-style="shinchan"] .dark .glass {
+    background: rgb(12 7 4 / 0.75);
+    border-bottom: 1px solid rgb(255 87 34 / 0.1);
+  }
+
+  [data-theme-style="shinchan"] .card {
+    border-radius: 1.25rem;
+    box-shadow:
+      0 2px 10px rgb(255 87 34 / 0.06),
+      0 1px 3px rgb(255 87 34 / 0.04);
+  }
+
+  [data-theme-style="shinchan"] .dark .card {
+    background: rgb(20 12 8 / 0.9);
+  }
+
+  [data-theme-style="shinchan"] .card:hover {
+    box-shadow:
+      0 8px 30px rgb(255 87 34 / 0.1),
+      0 2px 10px rgb(253 216 53 / 0.06);
+    border-color: rgb(255 87 34 / 0.25);
+  }
+
+  [data-theme-style="shinchan"] .dark .card:hover {
+    border-color: rgb(255 87 34 / 0.25);
+  }
+
+  [data-theme-style="shinchan"] .skeleton {
+    background: linear-gradient(
+      110deg,
+      rgb(255 87 34 / 0.1) 30%,
+      rgb(255 87 34 / 0.04) 50%,
+      rgb(255 87 34 / 0.1) 70%
+    );
+    background-size: 200% 100%;
+  }
+
+  [data-theme-style="shinchan"] .dark .skeleton {
+    background: linear-gradient(
+      110deg,
+      rgb(255 87 34 / 0.2) 30%,
+      rgb(255 87 34 / 0.08) 50%,
+      rgb(255 87 34 / 0.2) 70%
+    );
+    background-size: 200% 100%;
+  }
+}
+
+/* ---- Utility overrides ---- */
+@layer utilities {
+  [data-theme-style="shinchan"] .gradient-text {
+    background: linear-gradient(135deg, #ff5722, #ff7b3d, #fdd835);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* ---- Shin-chan icon glow ---- */
+[data-theme-style="shinchan"] .bg-gradient-to-br.from-primary-500.to-accent-500 {
+  background-image: linear-gradient(to bottom right, #ff5722, #fdd835);
+}
+
+[data-theme-style="shinchan"] .shadow-\[0_0_12px_rgba\(124\,58\,237\,0\.3\)\] {
+  box-shadow: 0 0 16px rgb(255 87 34 / 0.4);
+}
+
+@layer components {
+  [data-theme-style="shinchan"] .bg-gradient-to-br.from-primary-500.to-accent-500 {
+    box-shadow: 0 0 20px rgb(255 87 34 / 0.35), 0 0 40px rgb(253 216 53 / 0.18);
+  }
+}
+
+/* ---- Shin-chan login page overrides ---- */
+[data-theme-style="shinchan"] .shadow-\[0_0_30px_rgba\(124\,58\,237\,0\.4\)\] {
+  box-shadow: 0 0 30px rgb(255 87 34 / 0.55) !important;
+}
+
+[data-theme-style="shinchan"] .animate-card-glow {
+  background: linear-gradient(135deg, rgb(255 87 34 / 0.5), rgb(253 216 53 / 0.5), rgb(255 122 61 / 0.5), rgb(255 87 34 / 0.5)) !important;
+  background-size: 300% 300% !important;
+}
+
+[data-theme-style="shinchan"] .animate-pulse-glow {
+  background: radial-gradient(circle at 50% 0%, rgb(255 87 34 / 0.18) 0%, transparent 60%) !important;
+}
+
+[data-theme-style="shinchan"] .dark .animate-pulse-glow {
+  background: radial-gradient(circle at 50% 0%, rgb(255 87 34 / 0.25) 0%, transparent 60%) !important;
 }
 
 /* ===================================================

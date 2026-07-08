@@ -15,6 +15,28 @@ const instance: AxiosInstance = axios.create({
   },
 })
 
+// ---- Mock mode ----
+let mockHandler: ((config: InternalAxiosRequestConfig) => AxiosResponse | null) | null = null
+
+export function enableMockMode(handler: (config: InternalAxiosRequestConfig) => AxiosResponse | null) {
+  mockHandler = handler
+  console.log('[Mock] Mock mode enabled')
+}
+
+// Save original adapter and override with mock-aware adapter
+const originalAdapter = (instance.defaults.adapter as (config: InternalAxiosRequestConfig) => Promise<AxiosResponse>)
+instance.defaults.adapter = (config: InternalAxiosRequestConfig) => {
+  if (mockHandler) {
+    const mockResp = mockHandler(config)
+    if (mockResp) {
+      console.log('[Mock]', config.method?.toUpperCase(), config.url, '→ 200')
+      return Promise.resolve(mockResp)
+    }
+    console.warn('[Mock] No handler for', config.method?.toUpperCase(), config.url)
+  }
+  return originalAdapter(config)
+}
+
 // Request interceptor
 instance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
@@ -28,6 +50,7 @@ instance.interceptors.request.use(
     return Promise.reject(error)
   },
 )
+
 
 // Response interceptor
 let isRefreshing = false

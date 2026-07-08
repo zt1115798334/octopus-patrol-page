@@ -1,7 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Eye, EyeOff, Bot, Sparkles, Sun, Moon, Monitor } from 'lucide-react'
@@ -53,7 +52,7 @@ export default function LoginPage() {
   }, [])
 
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormData>({
@@ -65,15 +64,19 @@ export default function LoginPage() {
       setLoading(true)
       try {
         const res = await loginApi(data)
+        console.log('[Login] res:', res)
         if (res.meta.success) {
           const token = res.data
           authLogin(token, token)
+          // Persist dark mode for a seamless transition from the login page
+          setMode('dark')
           toast.success(t('auth.loginSuccess'))
           const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/'
           navigate(from, { replace: true })
         }
-      } catch {
-        toast.error(t('auth.loginFailed'))
+    } catch (e) {
+      console.error('[Login] error:', e)
+      toast.error(t('auth.loginFailed'))
       } finally {
         setLoading(false)
       }
@@ -160,15 +163,10 @@ export default function LoginPage() {
       />
 
       {/* Main glass card with border glow */}
-      <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.97 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="relative w-full max-w-[420px] mx-4 z-10"
-      >
+      <div className="relative w-full max-w-[420px] mx-4 z-10">
         {/* Animated border glow ring */}
         <div
-          className="absolute -inset-[1px] rounded-2xl animate-card-glow opacity-70"
+          className="absolute -inset-[1px] rounded-2xl animate-card-glow opacity-70 pointer-events-none"
           style={{
             background:
               'linear-gradient(135deg, rgba(124,58,237,0.5), rgba(6,182,212,0.5), rgba(167,139,250,0.5), rgba(124,58,237,0.5))',
@@ -190,12 +188,7 @@ export default function LoginPage() {
 
           <div className="relative">
             {/* Brand header */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.3 }}
-              className="flex flex-col items-center text-center mb-8"
-            >
+            <div className="flex flex-col items-center text-center mb-8">
               <div className="relative h-14 w-14 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center mb-4 shadow-[0_0_30px_rgba(124,58,237,0.4)]">
                 <div className="absolute inset-0 rounded-2xl bg-white/20 animate-pulse-glow" />
                 <Bot className="h-7 w-7 text-white relative z-10" />
@@ -204,15 +197,10 @@ export default function LoginPage() {
                 Octopus Patrol
               </h1>
               <p className="text-sm text-neutral-400">{t('auth.platformDesc')}</p>
-            </motion.div>
+            </div>
 
             {/* Stats row */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.4 }}
-              className="grid grid-cols-3 gap-3 mb-8"
-            >
+            <div className="grid grid-cols-3 gap-3 mb-8">
               {stats.map((stat) => (
                 <div
                   key={stat.label}
@@ -222,53 +210,58 @@ export default function LoginPage() {
                   <span className="text-xs text-neutral-500 mt-0.5">{stat.label}</span>
                 </div>
               ))}
-            </motion.div>
+            </div>
 
             {/* Divider */}
-            <motion.div
-              initial={{ opacity: 0, scaleX: 0 }}
-              animate={{ opacity: 1, scaleX: 1 }}
-              transition={{ duration: 0.4, delay: 0.45 }}
-              className="h-px bg-gradient-to-r from-transparent via-neutral-700 to-transparent mb-6"
-            />
+            <div className="h-px bg-gradient-to-r from-transparent via-neutral-700 to-transparent mb-6" />
 
             {/* Login form */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.5 }}
-            >
+            <div>
               <div className="mb-6">
                 <h2 className="text-lg font-semibold text-white">{t('auth.login')}</h2>
                 <p className="text-sm text-neutral-500 mt-1">{t('auth.loginSubtitle')}</p>
               </div>
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <Input
-                  label={t('auth.username')}
-                  placeholder={t('auth.pleaseInputUsername')}
-                  {...register('username')}
-                  error={errors.username?.message}
+                <Controller
+                  name="username"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      label={t('auth.username')}
+                      placeholder={t('auth.pleaseInputUsername')}
+                      className="bg-neutral-800/80 border-neutral-700/80 text-neutral-50 placeholder:text-neutral-500"
+                      {...field}
+                      error={errors.username?.message}
+                    />
+                  )}
                 />
-                <Input
-                  label={t('auth.password')}
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder={t('auth.pleaseInputPassword')}
-                  rightIcon={
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="cursor-pointer text-neutral-500 hover:text-neutral-300 transition-colors"
-                    >
-                      {showPassword ? (
-                        <EyeOff className="h-4 w-4" />
-                      ) : (
-                        <Eye className="h-4 w-4" />
-                      )}
-                    </button>
-                  }
-                  {...register('password')}
-                  error={errors.password?.message}
+                <Controller
+                  name="password"
+                  control={control}
+                  render={({ field }) => (
+                    <Input
+                      label={t('auth.password')}
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder={t('auth.pleaseInputPassword')}
+                      className="bg-neutral-800/80 border-neutral-700/80 text-neutral-50 placeholder:text-neutral-500"
+                      rightIcon={
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="cursor-pointer text-neutral-500 hover:text-neutral-300 transition-colors"
+                        >
+                          {showPassword ? (
+                            <EyeOff className="h-4 w-4" />
+                          ) : (
+                            <Eye className="h-4 w-4" />
+                          )}
+                        </button>
+                      }
+                      {...field}
+                      error={errors.password?.message}
+                    />
+                  )}
                 />
 
                 <div className="flex items-center justify-between pt-1">
@@ -333,20 +326,15 @@ export default function LoginPage() {
                   {t('auth.login')}
                 </Button>
               </form>
-            </motion.div>
+            </div>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* Bottom copyright */}
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.8 }}
-        className="absolute bottom-6 text-xs text-neutral-600 z-10"
-      >
+      <p className="absolute bottom-6 text-xs text-neutral-600 z-10">
         &copy; {new Date().getFullYear()} Octopus Patrol. All rights reserved.
-      </motion.p>
+      </p>
     </div>
     </TooltipProvider>
   )

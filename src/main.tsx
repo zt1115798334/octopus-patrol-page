@@ -6,8 +6,13 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { Toaster } from 'sonner'
 import { router } from './router'
 import { ErrorFallback } from './components/common/error-fallback'
+import { enableMockMode } from './lib/api-client'
+import { handleMockRequest } from './mock'
 import './styles/globals.css'
 import './i18n'
+
+// Enable mock mode — all API calls return fake data
+enableMockMode(handleMockRequest)
 
 const queryClient = new QueryClient({
   defaultOptions: {

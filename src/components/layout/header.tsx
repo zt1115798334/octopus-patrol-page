@@ -16,6 +16,7 @@ import {
   Sparkles,
 } from 'lucide-react'
 import { useSidebarStore, useThemeStore, useNotificationStore, useAuthStore, useSettingStore } from '@/stores'
+import type { ThemeStyle } from '@/stores/setting'
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import {
@@ -63,7 +64,7 @@ export function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-40 h-14 glass flex items-center justify-between px-4">
+      <header className="fixed top-0 left-0 right-0 z-40 h-14 glass flex items-center justify-between px-4 dark:shadow-[0_1px_0_rgba(124,58,237,0.06)]">
         {/* Left */}
         <div className="flex items-center gap-3">
           <Tooltip>
@@ -119,7 +120,7 @@ export function Header() {
             <TooltipContent>{i18n.language === 'zh' ? 'English' : '中文'}</TooltipContent>
           </Tooltip>
 
-          {/* Anime theme toggle */}
+          {/* Theme style cycle: default → anime → shinchan */}
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
@@ -127,14 +128,18 @@ export function Header() {
                 size="icon"
                 className={cn(
                   'h-9 w-9 relative',
-                  themeStyle === 'anime' && 'text-primary-500',
+                  themeStyle !== 'default' && 'text-primary-500',
                 )}
-                onClick={() => setThemeStyle(themeStyle === 'anime' ? 'default' : 'anime')}
+                onClick={() => {
+                  const styles: ThemeStyle[] = ['default', 'anime', 'shinchan']
+                  const idx = styles.indexOf(themeStyle)
+                  setThemeStyle(styles[(idx + 1) % styles.length])
+                }}
               >
-                <Sparkles className={cn('h-4 w-4 transition-all duration-300', themeStyle === 'anime' && 'scale-110')} />
+                <Sparkles className={cn('h-4 w-4 transition-all duration-300', themeStyle !== 'default' && 'scale-110')} />
               </Button>
             </TooltipTrigger>
-            <TooltipContent>{t('theme.anime')}</TooltipContent>
+            <TooltipContent>{t(`theme.${themeStyle}`)}</TooltipContent>
           </Tooltip>
 
           {/* Theme toggle */}

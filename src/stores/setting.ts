@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 export type ColorMode = 'default' | 'emerald' | 'orange' | 'rose' | 'sky'
-export type ThemeStyle = 'default' | 'anime'
+export type ThemeStyle = 'default' | 'anime' | 'shinchan'
 export type TableDensity = 'compact' | 'normal' | 'comfortable'
 
 export interface SettingState {
