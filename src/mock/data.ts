@@ -136,39 +136,26 @@ export const mockRunLogs: PlatformSchemeRunLogDto[] = [
 
 // ---- Menus ----
 export const mockMenus: MenuDto[] = [
-  { id: 1, parentId: 0, path: '/', name: '首页', sort: 1, children: [], meta: { icon: 'Home', title: '首页' } },
+  { id: 1, parentId: 0, path: '/', name: '仪表盘', sort: 1, children: [], meta: { icon: 'LayoutDashboard', title: '仪表盘' } },
   {
-    id: 2, parentId: 0, path: '/dashboard', name: '仪表盘', sort: 2, children: [
-      { id: 3, parentId: 2, path: '/dashboard', name: '数据概览', sort: 1, children: [], meta: { icon: 'BarChart', title: '数据概览' } },
+    id: 2, parentId: 0, path: '/system', name: '系统管理', sort: 2, children: [
+      { id: 3, parentId: 2, path: '/user', name: '用户管理', sort: 1, children: [] },
+      { id: 4, parentId: 2, path: '/pricing-plan', name: '套餐管理', sort: 2, children: [] },
+      { id: 5, parentId: 2, path: '/menu', name: '菜单管理', sort: 3, children: [] },
+      { id: 6, parentId: 2, path: '/log', name: '日志', sort: 4, children: [] },
     ],
   },
   {
-    id: 4, parentId: 0, path: '/system', name: '系统管理', sort: 3, children: [
-      { id: 5, parentId: 4, path: '/user', name: '用户管理', sort: 1, children: [] },
-      { id: 6, parentId: 4, path: '/role', name: '角色管理', sort: 2, children: [] },
-      { id: 7, parentId: 4, path: '/menu', name: '菜单管理', sort: 3, children: [] },
-      { id: 8, parentId: 4, path: '/permission', name: '权限管理', sort: 4, children: [] },
-      { id: 9, parentId: 4, path: '/tenant', name: '租户管理', sort: 5, children: [] },
+    id: 7, parentId: 0, path: '/platform', name: '平台管理', sort: 3, children: [
+      { id: 8, parentId: 7, path: '/platform', name: '平台列表', sort: 1, children: [] },
+      { id: 9, parentId: 7, path: '/platform-account', name: '平台账号', sort: 2, children: [] },
+      { id: 10, parentId: 7, path: '/run-plan', name: '运行方案', sort: 3, children: [] },
     ],
   },
   {
-    id: 10, parentId: 0, path: '/platform', name: '平台管理', sort: 4, children: [
-      { id: 11, parentId: 10, path: '/platform', name: '平台列表', sort: 1, children: [] },
-      { id: 12, parentId: 10, path: '/platform-account', name: '平台账号', sort: 2, children: [] },
-      { id: 13, parentId: 10, path: '/platform-permission', name: '平台权限', sort: 3, children: [] },
-    ],
-  },
-  {
-    id: 14, parentId: 0, path: '/monitor', name: '监控管理', sort: 5, children: [
-      { id: 15, parentId: 14, path: '/log', name: '操作日志', sort: 1, children: [] },
-      { id: 16, parentId: 14, path: '/job', name: '定时任务', sort: 2, children: [] },
-    ],
-  },
-  {
-    id: 17, parentId: 0, path: '/business', name: '业务管理', sort: 6, children: [
-      { id: 18, parentId: 17, path: '/ai-config', name: 'AI配置', sort: 1, children: [] },
-      { id: 19, parentId: 17, path: '/article', name: '文章管理', sort: 2, children: [] },
-      { id: 20, parentId: 17, path: '/comment-keyword', name: '评论关键词', sort: 3, children: [] },
+    id: 11, parentId: 0, path: '/ai', name: 'AI管理', sort: 4, children: [
+      { id: 12, parentId: 11, path: '/ai-config', name: 'AI配置', sort: 1, children: [] },
+      { id: 13, parentId: 11, path: '/ai-usage', name: 'AI使用记录', sort: 2, children: [] },
     ],
   },
 ]

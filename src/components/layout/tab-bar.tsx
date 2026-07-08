@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, ChevronDown } from 'lucide-react'
@@ -46,16 +46,23 @@ export function TabBar() {
   const { t } = useTranslation()
   const { tabs, activeTab, addTab, removeTab, setActiveTab, closeOtherTabs, closeAllTabs, closeRightTabs } = useTabsStore()
   const { showTabs } = useSettingStore()
+  const isSyncingRef = useRef(false)
 
   // Auto-add tab on navigation
   useEffect(() => {
     const path = location.pathname
     const label = getTabLabel(path, t)
+    isSyncingRef.current = true
     addTab({ id: path, path, label, closable: path !== '/' })
   }, [location.pathname, t, addTab])
 
-  // Navigate when active tab changes
+  // Navigate when active tab changes (from external source, not from addTab)
   useEffect(() => {
+    // Skip if addTab just synced — it will set activeTab to the current path
+    if (isSyncingRef.current) {
+      isSyncingRef.current = false
+      return
+    }
     if (activeTab && activeTab !== location.pathname) {
       navigate(activeTab)
     }

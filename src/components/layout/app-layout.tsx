@@ -43,7 +43,7 @@ export function AppLayout() {
 
         <motion.main
           initial={false}
-          animate={{ marginLeft: collapsed ? 72 : 240 }}
+          animate={{ marginLeft: collapsed ? 72 : 260 }}
           transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="pt-14 min-h-screen"
         >

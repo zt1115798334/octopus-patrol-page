@@ -37,7 +37,7 @@ export const useSettingStore = create<SettingState>()(
       showBreadcrumb: true,
       showTabs: true,
       animatePageTransition: true,
-      sidebarWidth: 240,
+      sidebarWidth: 260,
 
       setColorMode: (colorMode) => set({ colorMode }),
       setThemeStyle: (themeStyle) => {

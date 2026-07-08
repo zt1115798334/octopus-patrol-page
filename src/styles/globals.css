@@ -659,7 +659,7 @@
   }
 
   [data-theme-style="shinchan"] body {
-    font-family: 'ZCOOL QingKe HuangYou', var(--font-sans);
+    font-family: 'ZCOOL XiaoWei', var(--font-sans);
     background-color: #fdf6f0;
     background-image:
       radial-gradient(ellipse at 30% 0%, rgb(255 87 34 / 0.05) 0%, transparent 50%),
@@ -669,7 +669,7 @@
   }
 
   [data-theme-style="shinchan"] .dark body {
-    font-family: 'ZCOOL QingKe HuangYou', var(--font-sans);
+    font-family: 'ZCOOL XiaoWei', var(--font-sans);
     background-color: #0c0704;
     background-image:
       radial-gradient(ellipse at 30% 0%, rgb(255 87 34 / 0.1) 0%, transparent 50%),

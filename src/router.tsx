@@ -14,6 +14,7 @@ const PlatformAccount = lazy(() => import('@/pages/platform-account'))
 const RunPlan = lazy(() => import('@/pages/run-plan'))
 const AiConfig = lazy(() => import('@/pages/ai-config'))
 const AiUsage = lazy(() => import('@/pages/ai-usage'))
+const PersonalCenter = lazy(() => import('@/pages/personal-center'))
 
 export const router = createBrowserRouter([
   {
@@ -38,6 +39,7 @@ export const router = createBrowserRouter([
       { path: 'run-plan', element: <RunPlan /> },
       { path: 'ai-config', element: <AiConfig /> },
       { path: 'ai-usage', element: <AiUsage /> },
+      { path: 'personal-center', element: <PersonalCenter /> },
     ],
   },
   {
