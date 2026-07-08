@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Header } from './header'
@@ -27,7 +27,12 @@ function PageLoading() {
 
 export function AppLayout() {
   const { collapsed } = useSidebarStore()
-  const { showBreadcrumb, showTabs } = useSettingStore()
+  const { showBreadcrumb, showTabs, themeStyle } = useSettingStore()
+
+  // Apply theme style attribute on mount
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme-style', themeStyle)
+  }, [themeStyle])
 
   return (
     <TooltipProvider delayDuration={300}>

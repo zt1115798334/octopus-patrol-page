@@ -4,14 +4,22 @@ import { motion } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Eye, EyeOff, Bot } from 'lucide-react'
+import { Eye, EyeOff, Bot, Sparkles, Sun, Moon, Monitor } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { login as loginApi } from '@/api/modules/auth'
-import { useAuthStore } from '@/stores'
+import { useAuthStore, useThemeStore, useSettingStore } from '@/stores'
 import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
 import { Switch } from '@/components/ui/switch'
+import { cn } from '@/lib/utils'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip'
 
 const loginSchema = z.object({
   username: z.string().min(1, '请输入用户名'),
@@ -29,6 +37,8 @@ export default function LoginPage() {
   const authLogin = useAuthStore((s) => s.login)
   const { t, i18n } = useTranslation()
   const hadDarkRef = useRef(false)
+  const { mode, setMode } = useThemeStore()
+  const { themeStyle, setThemeStyle } = useSettingStore()
 
   // Force dark mode for the login page effect
   useEffect(() => {
@@ -78,6 +88,7 @@ export default function LoginPage() {
   ]
 
   return (
+    <TooltipProvider delayDuration={300}>
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-neutral-950">
       {/* Background flowing light beams */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -274,6 +285,50 @@ export default function LoginPage() {
                   </button>
                 </div>
 
+                {/* Theme & Style toggles */}
+                <div className="flex items-center justify-center gap-3 pt-1">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button
+                        type="button"
+                        onClick={() => setThemeStyle(themeStyle === 'anime' ? 'default' : 'anime')}
+                        className={cn(
+                          'p-1.5 rounded-lg text-neutral-400 hover:text-white hover:bg-white/10 transition-all duration-200',
+                          themeStyle === 'anime' && 'text-primary-400 bg-white/10',
+                        )}
+                      >
+                        <Sparkles className={cn('h-4 w-4 transition-all duration-300', themeStyle === 'anime' && 'scale-110')} />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent>{t('theme.anime')}</TooltipContent>
+                  </Tooltip>
+
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button
+                        type="button"
+                        className="p-1.5 rounded-lg text-neutral-400 hover:text-white hover:bg-white/10 transition-all duration-200"
+                      >
+                        {mode === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="center">
+                      <DropdownMenuItem onClick={() => setMode('light')}>
+                        <Sun className="mr-2 h-4 w-4" />
+                        {t('theme.light')}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setMode('dark')}>
+                        <Moon className="mr-2 h-4 w-4" />
+                        {t('theme.dark')}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setMode('system')}>
+                        <Monitor className="mr-2 h-4 w-4" />
+                        {t('theme.system')}
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+
                 <Button type="submit" className="w-full" loading={loading} size="lg">
                   {t('auth.login')}
                 </Button>
@@ -293,5 +348,6 @@ export default function LoginPage() {
         &copy; {new Date().getFullYear()} Octopus Patrol. All rights reserved.
       </motion.p>
     </div>
+    </TooltipProvider>
   )
 }

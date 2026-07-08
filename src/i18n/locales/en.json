@@ -185,7 +185,8 @@
   "theme": {
     "light": "Light",
     "dark": "Dark",
-    "system": "System"
+    "system": "System",
+    "anime": "Anime Style"
   },
   "setting": {
     "title": "Settings",

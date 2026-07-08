@@ -13,8 +13,9 @@ import {
   Command,
   Languages,
   Monitor,
+  Sparkles,
 } from 'lucide-react'
-import { useSidebarStore, useThemeStore, useNotificationStore, useAuthStore } from '@/stores'
+import { useSidebarStore, useThemeStore, useNotificationStore, useAuthStore, useSettingStore } from '@/stores'
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import {
@@ -37,6 +38,7 @@ export function Header() {
   const { mode, setMode, toggle: toggleTheme } = useThemeStore()
   const { unreadCount } = useNotificationStore()
   const { username, logout, account } = useAuthStore()
+  const { themeStyle, setThemeStyle } = useSettingStore()
   const { t, i18n } = useTranslation()
   const [notificationOpen, setNotificationOpen] = useState(false)
 
@@ -115,6 +117,24 @@ export function Header() {
               </Button>
             </TooltipTrigger>
             <TooltipContent>{i18n.language === 'zh' ? 'English' : '中文'}</TooltipContent>
+          </Tooltip>
+
+          {/* Anime theme toggle */}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className={cn(
+                  'h-9 w-9 relative',
+                  themeStyle === 'anime' && 'text-primary-500',
+                )}
+                onClick={() => setThemeStyle(themeStyle === 'anime' ? 'default' : 'anime')}
+              >
+                <Sparkles className={cn('h-4 w-4 transition-all duration-300', themeStyle === 'anime' && 'scale-110')} />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>{t('theme.anime')}</TooltipContent>
           </Tooltip>
 
           {/* Theme toggle */}

@@ -2,16 +2,19 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 export type ColorMode = 'default' | 'emerald' | 'orange' | 'rose' | 'sky'
+export type ThemeStyle = 'default' | 'anime'
 export type TableDensity = 'compact' | 'normal' | 'comfortable'
 
 export interface SettingState {
   colorMode: ColorMode
+  themeStyle: ThemeStyle
   tableDensity: TableDensity
   showBreadcrumb: boolean
   showTabs: boolean
   animatePageTransition: boolean
   sidebarWidth: number
   setColorMode: (mode: ColorMode) => void
+  setThemeStyle: (style: ThemeStyle) => void
   setTableDensity: (density: TableDensity) => void
   setShowBreadcrumb: (show: boolean) => void
   setShowTabs: (show: boolean) => void
@@ -19,10 +22,17 @@ export interface SettingState {
   setSidebarWidth: (width: number) => void
 }
 
+function applyThemeStyle(style: ThemeStyle) {
+  if (typeof document !== 'undefined') {
+    document.documentElement.setAttribute('data-theme-style', style)
+  }
+}
+
 export const useSettingStore = create<SettingState>()(
   persist(
     (set) => ({
       colorMode: 'default',
+      themeStyle: 'default',
       tableDensity: 'normal',
       showBreadcrumb: true,
       showTabs: true,
@@ -30,6 +40,10 @@ export const useSettingStore = create<SettingState>()(
       sidebarWidth: 240,
 
       setColorMode: (colorMode) => set({ colorMode }),
+      setThemeStyle: (themeStyle) => {
+        applyThemeStyle(themeStyle)
+        set({ themeStyle })
+      },
       setTableDensity: (tableDensity) => set({ tableDensity }),
       setShowBreadcrumb: (showBreadcrumb) => set({ showBreadcrumb }),
       setShowTabs: (showTabs) => set({ showTabs }),
@@ -38,6 +52,13 @@ export const useSettingStore = create<SettingState>()(
     }),
     {
       name: 'setting-storage',
+      onRehydrateStorage: () => {
+        return (state) => {
+          if (state) {
+            applyThemeStyle(state.themeStyle)
+          }
+        }
+      },
     },
   ),
 )

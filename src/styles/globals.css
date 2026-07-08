@@ -302,6 +302,273 @@
 }
 
 /* ===================================================
+   Anime / 二次元 Theme
+   =================================================== */
+
+[data-theme-style="anime"] {
+  /* ---- Override Color Palette: Sakura & Sky ---- */
+  --color-primary-50: #fff0f5;
+  --color-primary-100: #ffe0eb;
+  --color-primary-200: #ffc2d6;
+  --color-primary-300: #ff9ebf;
+  --color-primary-400: #ff7aa6;
+  --color-primary-500: #ff5c8a;
+  --color-primary-600: #e64978;
+  --color-primary-700: #cc3366;
+  --color-primary-800: #a82852;
+  --color-primary-900: #8a1e42;
+  --color-primary-950: #5c0d28;
+
+  --color-accent-50: #f0f9ff;
+  --color-accent-100: #e0f2fe;
+  --color-accent-200: #bae6fd;
+  --color-accent-300: #7dd3fc;
+  --color-accent-400: #38bdf8;
+  --color-accent-500: #0ea5e9;
+  --color-accent-600: #0284c7;
+  --color-accent-700: #0369a1;
+  --color-accent-800: #075985;
+  --color-accent-900: #0c4a6e;
+
+  --color-success-50: #f0fdf4;
+  --color-success-100: #dcfce7;
+  --color-success-200: #bbf7d0;
+  --color-success-300: #86efac;
+  --color-success-400: #4ade80;
+  --color-success-500: #22c55e;
+  --color-success-600: #16a34a;
+  --color-success-700: #15803d;
+  --color-success-800: #166534;
+  --color-success-900: #14532d;
+
+  --color-danger-50: #fff1f2;
+  --color-danger-100: #ffe4e6;
+  --color-danger-200: #fecdd3;
+  --color-danger-300: #fda4af;
+  --color-danger-400: #fb7185;
+  --color-danger-500: #f43f5e;
+  --color-danger-600: #e11d48;
+  --color-danger-700: #be123c;
+  --color-danger-800: #9f1239;
+  --color-danger-900: #881337;
+
+  /* Sidebar anime */
+  --color-sidebar-bg: #fff5f8;
+  --color-sidebar-hover: #ffe4ec;
+  --color-sidebar-active: #ffd6e4;
+  --color-sidebar-border: #ffd0e0;
+
+  /* Anime shadows - softer, pink-tinted */
+  --shadow-soft: 0 1px 3px 0 rgb(255 92 138 / 0.06);
+  --shadow-card: 0 2px 8px 0 rgb(255 92 138 / 0.06), 0 1px 3px -1px rgb(255 92 138 / 0.04);
+  --shadow-dropdown: 0 4px 20px -4px rgb(255 92 138 / 0.1), 0 2px 10px -2px rgb(14 165 233 / 0.06);
+  --shadow-dialog: 0 24px 56px -12px rgb(255 92 138 / 0.18);
+  --shadow-glow: 0 0 30px rgb(255 92 138 / 0.2);
+  --shadow-glow-lg: 0 0 60px rgb(255 92 138 / 0.25);
+  --shadow-elevated: 0 8px 30px -6px rgb(255 92 138 / 0.08), 0 2px 10px -2px rgb(14 165 233 / 0.04);
+}
+
+/* Dark anime overrides */
+.dark[data-theme-style="anime"] {
+  --color-sidebar-bg: #1a0a12;
+  --color-sidebar-hover: #2a1520;
+  --color-sidebar-active: #3d1a2a;
+  --color-sidebar-border: #2a1520;
+}
+
+[data-theme-style="anime"] .dark {
+  --color-sidebar-bg: #1a0a12;
+  --color-sidebar-hover: #2a1520;
+  --color-sidebar-active: #3d1a2a;
+  --color-sidebar-border: #2a1520;
+}
+
+/* ---- Base overrides ---- */
+@layer base {
+  [data-theme-style="anime"] * {
+    border-color: rgb(255 92 138 / 0.12);
+  }
+
+  [data-theme-style="anime"] .dark * {
+    border-color: rgb(255 92 138 / 0.15);
+  }
+
+  [data-theme-style="anime"] body {
+    background-color: #fff5f8;
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgb(255 92 138 / 0.04) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgb(14 165 233 / 0.04) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgb(255 192 203 / 0.03) 0%, transparent 80%);
+    background-attachment: fixed;
+  }
+
+  [data-theme-style="anime"] .dark body {
+    background-color: #0d0610;
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgb(255 92 138 / 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgb(14 165 233 / 0.06) 0%, transparent 50%);
+  }
+
+  /* Anime headings - playful font */
+  [data-theme-style="anime"] h1,
+  [data-theme-style="anime"] h2,
+  [data-theme-style="anime"] h3,
+  [data-theme-style="anime"] h4 {
+    font-family: 'ZCOOL KuaiLe', var(--font-sans);
+  }
+
+  [data-theme-style="anime"] h1 {
+    background: linear-gradient(135deg, #ff5c8a, #ff9ebf);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  [data-theme-style="anime"] .dark h1 {
+    background: linear-gradient(135deg, #ff7aa6, #ffb3c6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  [data-theme-style="anime"] h2 {
+    color: #e64978;
+  }
+
+  [data-theme-style="anime"] .dark h2 {
+    color: #ff9ebf;
+  }
+}
+
+/* ---- Component overrides ---- */
+@layer components {
+  [data-theme-style="anime"] .glass {
+    background: rgb(255 245 248 / 0.7);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-bottom: 1px solid rgb(255 92 138 / 0.08);
+  }
+
+  [data-theme-style="anime"] .dark .glass {
+    background: rgb(13 6 16 / 0.75);
+    border-bottom: 1px solid rgb(255 92 138 / 0.1);
+  }
+
+  [data-theme-style="anime"] .card {
+    border-radius: 1.5rem;
+    box-shadow:
+      0 2px 10px rgb(255 92 138 / 0.05),
+      0 1px 3px rgb(255 92 138 / 0.03);
+  }
+
+  [data-theme-style="anime"] .dark .card {
+    background: rgb(20 12 18 / 0.9);
+  }
+
+  [data-theme-style="anime"] .card:hover {
+    box-shadow:
+      0 8px 30px rgb(255 92 138 / 0.08),
+      0 2px 10px rgb(14 165 233 / 0.04);
+    border-color: rgb(255 92 138 / 0.25);
+  }
+
+  [data-theme-style="anime"] .dark .card:hover {
+    border-color: rgb(255 92 138 / 0.25);
+  }
+
+  [data-theme-style="anime"] .skeleton {
+    background: linear-gradient(
+      110deg,
+      rgb(255 92 138 / 0.1) 30%,
+      rgb(255 92 138 / 0.04) 50%,
+      rgb(255 92 138 / 0.1) 70%
+    );
+    background-size: 200% 100%;
+  }
+
+  [data-theme-style="anime"] .dark .skeleton {
+    background: linear-gradient(
+      110deg,
+      rgb(255 92 138 / 0.2) 30%,
+      rgb(255 92 138 / 0.08) 50%,
+      rgb(255 92 138 / 0.2) 70%
+    );
+    background-size: 200% 100%;
+  }
+}
+
+/* ---- Utility overrides ---- */
+@layer utilities {
+  [data-theme-style="anime"] .gradient-text {
+    background: linear-gradient(135deg, #ff5c8a, #ff9ebf, #7dd3fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* ---- Anime-specific button adjustments ---- */
+[data-theme-style="anime"] .bg-gradient-to-br.from-primary-600.to-primary-500 {
+  background-image: linear-gradient(to bottom right, #ff5c8a, #ff7aa6);
+}
+
+[data-theme-style="anime"] .bg-primary-50\/80 {
+  background-color: rgb(255 92 138 / 0.08);
+}
+
+[data-theme-style="anime"] .dark .bg-primary-950\/20 {
+  background-color: rgb(92 13 40 / 0.2);
+}
+
+[data-theme-style="anime"] .text-primary-600 {
+  color: #e64978;
+}
+
+[data-theme-style="anime"] .dark .text-primary-400 {
+  color: #ff9ebf;
+}
+
+[data-theme-style="anime"] .border-primary-200\/80 {
+  border-color: rgb(255 92 138 / 0.2);
+}
+
+[data-theme-style="anime"] .dark .border-primary-800\/80 {
+  border-color: rgb(255 92 138 / 0.25);
+}
+
+[data-theme-style="anime"] .shadow-\[0_0_12px_rgba\(124\,58\,237\,0\.3\)\] {
+  box-shadow: 0 0 16px rgb(255 92 138 / 0.35);
+}
+
+/* ---- Anime decorative ornaments ---- */
+@layer components {
+  [data-theme-style="anime"] .animate-pulse-glow,
+  [data-theme-style="anime"] .bg-gradient-to-br.from-primary-500.to-accent-500 {
+    box-shadow: 0 0 20px rgb(255 92 138 / 0.3), 0 0 40px rgb(14 165 233 / 0.15);
+  }
+}
+
+/* ---- Anime login page overrides ---- */
+[data-theme-style="anime"] .shadow-\[0_0_30px_rgba\(124\,58\,237\,0\.4\)\] {
+  box-shadow: 0 0 30px rgb(255 92 138 / 0.5) !important;
+}
+
+/* Login card border glow animation - anime colors */
+[data-theme-style="anime"] .animate-card-glow {
+  background: linear-gradient(135deg, rgb(255 92 138 / 0.5), rgb(14 165 233 / 0.5), rgb(255 158 191 / 0.5), rgb(255 92 138 / 0.5)) !important;
+  background-size: 300% 300% !important;
+}
+
+/* Login card inner glow */
+[data-theme-style="anime"] .animate-pulse-glow {
+  background: radial-gradient(circle at 50% 0%, rgb(255 92 138 / 0.15) 0%, transparent 60%) !important;
+}
+
+[data-theme-style="anime"] .dark .animate-pulse-glow {
+  background: radial-gradient(circle at 50% 0%, rgb(255 92 138 / 0.2) 0%, transparent 60%) !important;
+}
+
+/* ===================================================
    Utilities Layer
    =================================================== */
 
