@@ -548,6 +548,32 @@ export interface QueryPlatformSchemeRunLogDto extends PageDto {
   keywords?: string
 }
 
+// ==================== AI Usage Record Types ====================
+
+export interface AiUsageRecordDto {
+  id?: number
+  userId?: number
+  username?: string
+  aiConfigId?: number
+  configName?: string
+  vendor?: AiVendor
+  model?: string
+  prompt?: string
+  response?: string
+  tokenUsed?: number
+  cost?: number
+  createdTime?: string
+}
+
+export interface QueryAiUsageRecordDto extends PageDto {
+  userId?: number
+  aiConfigId?: number
+  vendor?: AiVendor
+  startDateTime?: string
+  endDateTime?: string
+  keywords?: string
+}
+
 // ==================== File Upload Types ====================
 
 export interface FileUploadInfoDto {
