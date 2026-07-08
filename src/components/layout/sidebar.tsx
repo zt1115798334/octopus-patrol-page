@@ -185,7 +185,7 @@ export function Sidebar() {
       initial={false}
       animate={{ width: collapsed ? 72 : 260 }}
       transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed left-0 top-14 bottom-0 z-30 flex flex-col border-r bg-sidebar-bg border-sidebar-border/80 overflow-hidden backdrop-blur-2xl backdrop-saturate-150 dark:shadow-[inset_0_0_80px_rgba(124,58,237,0.03)]"
+      className="fixed left-0 top-14 bottom-0 z-30 flex flex-col border-r border-sidebar-border bg-sidebar-bg overflow-hidden"
     >
       {/* Search */}
       {!collapsed && (
@@ -259,7 +259,7 @@ export function Sidebar() {
                 <div key={group.label} className={cn(isFirst ? 'pt-2' : 'pt-3')}>
                   {/* Group separator line - visible between groups */}
                   {!isFirst && !collapsed && (
-                    <div className="mx-4 mb-2 border-t border-sidebar-border/60" />
+                    <div className="mx-4 mb-2 border-t border-neutral-200 dark:border-neutral-800" />
                   )}
                   {!isFirst && collapsed && (
                     <div className="flex justify-center py-1">

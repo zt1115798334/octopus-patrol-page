@@ -45,11 +45,11 @@ export function AppLayout() {
           initial={false}
           animate={{ marginLeft: collapsed ? 72 : 260 }}
           transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="pt-14 min-h-screen"
+          className="pt-14 min-h-screen border-l border-neutral-200 dark:border-neutral-800/80"
         >
           {/* Breadcrumb */}
           {showBreadcrumb && (
-            <div className="px-6 py-2">
+            <div className="px-6 py-2 border-b border-neutral-100 dark:border-neutral-800/60">
               <BreadcrumbNav />
             </div>
           )}
