@@ -86,7 +86,7 @@ export default function LoginPage() {
           className="absolute top-0 left-1/2 w-[800px] h-[600px] animate-light-flow-1 opacity-30"
           style={{
             background:
-              'radial-gradient(ellipse at center, rgba(99,102,241,0.4) 0%, rgba(14,165,233,0.15) 30%, transparent 70%)',
+              'radial-gradient(ellipse at center, rgba(124,58,237,0.4) 0%, rgba(6,182,212,0.15) 30%, transparent 70%)',
             filter: 'blur(60px)',
           }}
         />
@@ -95,7 +95,7 @@ export default function LoginPage() {
           className="absolute bottom-0 right-1/4 w-[600px] h-[500px] animate-light-flow-2 opacity-25"
           style={{
             background:
-              'radial-gradient(ellipse at center, rgba(14,165,233,0.35) 0%, rgba(99,102,241,0.1) 35%, transparent 70%)',
+              'radial-gradient(ellipse at center, rgba(6,182,212,0.35) 0%, rgba(124,58,237,0.1) 35%, transparent 70%)',
             filter: 'blur(80px)',
           }}
         />
@@ -104,7 +104,7 @@ export default function LoginPage() {
           className="absolute top-1/3 right-1/3 w-[400px] h-[400px] animate-light-flow-3 opacity-20"
           style={{
             background:
-              'radial-gradient(ellipse at center, rgba(139,92,246,0.3) 0%, rgba(99,102,241,0.1) 40%, transparent 70%)',
+              'radial-gradient(ellipse at center, rgba(167,139,250,0.3) 0%, rgba(124,58,237,0.1) 40%, transparent 70%)',
             filter: 'blur(50px)',
           }}
         />
@@ -116,7 +116,7 @@ export default function LoginPage() {
           className="absolute top-[15%] left-[10%] w-72 h-72 rounded-full animate-float-orb-1"
           style={{
             background:
-              'radial-gradient(circle, rgba(99,102,241,0.25) 0%, rgba(99,102,241,0.05) 40%, transparent 70%)',
+              'radial-gradient(circle, rgba(124,58,237,0.25) 0%, rgba(124,58,237,0.05) 40%, transparent 70%)',
             filter: 'blur(40px)',
           }}
         />
@@ -124,7 +124,7 @@ export default function LoginPage() {
           className="absolute bottom-[10%] right-[15%] w-80 h-80 rounded-full animate-float-orb-2"
           style={{
             background:
-              'radial-gradient(circle, rgba(14,165,233,0.2) 0%, rgba(14,165,233,0.05) 40%, transparent 70%)',
+              'radial-gradient(circle, rgba(6,182,212,0.2) 0%, rgba(6,182,212,0.05) 40%, transparent 70%)',
             filter: 'blur(50px)',
           }}
         />
@@ -132,7 +132,7 @@ export default function LoginPage() {
           className="absolute top-[40%] right-[5%] w-48 h-48 rounded-full animate-float-orb-3"
           style={{
             background:
-              'radial-gradient(circle, rgba(139,92,246,0.2) 0%, rgba(139,92,246,0.03) 40%, transparent 70%)',
+              'radial-gradient(circle, rgba(167,139,250,0.2) 0%, rgba(167,139,250,0.03) 40%, transparent 70%)',
             filter: 'blur(35px)',
           }}
         />
@@ -160,7 +160,7 @@ export default function LoginPage() {
           className="absolute -inset-[1px] rounded-2xl animate-card-glow opacity-70"
           style={{
             background:
-              'linear-gradient(135deg, rgba(99,102,241,0.5), rgba(14,165,233,0.5), rgba(139,92,246,0.5), rgba(99,102,241,0.5))',
+              'linear-gradient(135deg, rgba(124,58,237,0.5), rgba(6,182,212,0.5), rgba(167,139,250,0.5), rgba(124,58,237,0.5))',
             backgroundSize: '300% 300%',
             filter: 'blur(8px)',
           }}
@@ -173,7 +173,7 @@ export default function LoginPage() {
             className="absolute inset-0 rounded-2xl opacity-30 animate-pulse-glow pointer-events-none"
             style={{
               background:
-                'radial-gradient(circle at 50% 0%, rgba(99,102,241,0.15) 0%, transparent 60%)',
+                'radial-gradient(circle at 50% 0%, rgba(124,58,237,0.15) 0%, transparent 60%)',
             }}
           />
 
@@ -185,7 +185,7 @@ export default function LoginPage() {
               transition={{ duration: 0.4, delay: 0.3 }}
               className="flex flex-col items-center text-center mb-8"
             >
-              <div className="relative h-14 w-14 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center mb-4 shadow-[0_0_30px_rgba(99,102,241,0.4)]">
+              <div className="relative h-14 w-14 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center mb-4 shadow-[0_0_30px_rgba(124,58,237,0.4)]">
                 <div className="absolute inset-0 rounded-2xl bg-white/20 animate-pulse-glow" />
                 <Bot className="h-7 w-7 text-white relative z-10" />
               </div>

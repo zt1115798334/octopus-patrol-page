@@ -17,9 +17,9 @@ const ContextMenuSubTrigger = forwardRef<
   <ContextMenuPrimitive.SubTrigger
     ref={ref}
     className={cn(
-      'flex cursor-default select-none items-center rounded-md px-2 py-1.5 text-sm outline-none',
-      'focus:bg-neutral-100 dark:focus:bg-neutral-800 focus:text-neutral-900 dark:focus:text-neutral-50',
-      'data-[state=open]:bg-neutral-100 dark:data-[state=open]:bg-neutral-800',
+      'flex cursor-default select-none items-center rounded-[10px] px-2 py-1.5 text-sm outline-none',
+      'focus:bg-neutral-100/80 dark:focus:bg-neutral-800/80 focus:text-neutral-900 dark:focus:text-neutral-50',
+      'data-[state=open]:bg-neutral-100/80 dark:data-[state=open]:bg-neutral-800/80',
       inset && 'pl-8',
       className,
     )}
@@ -38,8 +38,8 @@ const ContextMenuSubContent = forwardRef<
   <ContextMenuPrimitive.SubContent
     ref={ref}
     className={cn(
-      'z-50 min-w-[8rem] overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700',
-      'bg-white dark:bg-neutral-900 p-1 shadow-lg',
+      'z-50 min-w-[8rem] overflow-hidden rounded-xl border border-neutral-200/80 dark:border-neutral-700/80',
+      'bg-white dark:bg-neutral-900 p-1 shadow-[0_4px_16px_-4px_rgba(0,0,0,0.08),0_2px_8px_-2px_rgba(0,0,0,0.04)]',
       'data-[state=open]:animate-in data-[state=closed]:animate-out',
       'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
       'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
@@ -58,8 +58,8 @@ const ContextMenuContent = forwardRef<
     <ContextMenuPrimitive.Content
       ref={ref}
       className={cn(
-        'z-50 min-w-[8rem] overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700',
-        'bg-white dark:bg-neutral-900 p-1 shadow-lg',
+      'z-50 min-w-[8rem] overflow-hidden rounded-xl border border-neutral-200/80 dark:border-neutral-700/80',
+      'bg-white dark:bg-neutral-900 p-1 shadow-[0_4px_16px_-4px_rgba(0,0,0,0.08),0_2px_8px_-2px_rgba(0,0,0,0.04)]',
         'data-[state=open]:animate-in data-[state=closed]:animate-out',
         'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
         'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
@@ -78,9 +78,9 @@ const ContextMenuItem = forwardRef<
   <ContextMenuPrimitive.Item
     ref={ref}
     className={cn(
-      'relative flex cursor-default select-none items-center rounded-md px-2 py-1.5 text-sm outline-none',
-      'focus:bg-neutral-100 dark:focus:bg-neutral-800 focus:text-neutral-900 dark:focus:text-neutral-50',
-      'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'relative flex cursor-default select-none items-center rounded-[10px] px-2 py-1.5 text-sm outline-none',
+      'focus:bg-neutral-100/80 dark:focus:bg-neutral-800/80 focus:text-neutral-900 dark:focus:text-neutral-50',
+      'data-[disabled]:pointer-events-none data-[disabled]:opacity-40',
       inset && 'pl-8',
       className,
     )}
@@ -96,9 +96,9 @@ const ContextMenuCheckboxItem = forwardRef<
   <ContextMenuPrimitive.CheckboxItem
     ref={ref}
     className={cn(
-      'relative flex cursor-default select-none items-center rounded-md py-1.5 pl-8 pr-2 text-sm outline-none',
-      'focus:bg-neutral-100 dark:focus:bg-neutral-800 focus:text-neutral-900 dark:focus:text-neutral-50',
-      'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'relative flex cursor-default select-none items-center rounded-[10px] py-1.5 pl-8 pr-2 text-sm outline-none',
+      'focus:bg-neutral-100/80 dark:focus:bg-neutral-800/80 focus:text-neutral-900 dark:focus:text-neutral-50',
+      'data-[disabled]:pointer-events-none data-[disabled]:opacity-40',
       className,
     )}
     checked={checked}
@@ -121,9 +121,9 @@ const ContextMenuRadioItem = forwardRef<
   <ContextMenuPrimitive.RadioItem
     ref={ref}
     className={cn(
-      'relative flex cursor-default select-none items-center rounded-md py-1.5 pl-8 pr-2 text-sm outline-none',
-      'focus:bg-neutral-100 dark:focus:bg-neutral-800 focus:text-neutral-900 dark:focus:text-neutral-50',
-      'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'relative flex cursor-default select-none items-center rounded-[10px] py-1.5 pl-8 pr-2 text-sm outline-none',
+      'focus:bg-neutral-100/80 dark:focus:bg-neutral-800/80 focus:text-neutral-900 dark:focus:text-neutral-50',
+      'data-[disabled]:pointer-events-none data-[disabled]:opacity-40',
       className,
     )}
     {...props}
@@ -160,7 +160,7 @@ const ContextMenuSeparator = forwardRef<
 >(({ className, ...props }, ref) => (
   <ContextMenuPrimitive.Separator
     ref={ref}
-    className={cn('-mx-1 my-1 h-px bg-neutral-200 dark:bg-neutral-700', className)}
+    className={cn('-mx-1 my-1 h-px bg-neutral-200/80 dark:bg-neutral-700/80', className)}
     {...props}
   />
 ))

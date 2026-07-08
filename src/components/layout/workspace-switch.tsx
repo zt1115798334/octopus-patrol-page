@@ -74,7 +74,7 @@ export function WorkspaceSwitch({
               transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
               className="absolute left-0 top-full mt-1 z-50 w-56"
             >
-              <div className="rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 shadow-lg p-1.5">
+              <div className="rounded-xl border border-neutral-200/80 dark:border-neutral-700/80 bg-white dark:bg-neutral-900 shadow-[0_4px_16px_-4px_rgba(0,0,0,0.08),0_2px_8px_-2px_rgba(0,0,0,0.04)] p-1.5">
                 <div className="px-2 py-1.5">
                   <p className="text-[11px] font-semibold uppercase tracking-wider text-neutral-400">
                     Workspaces
@@ -85,10 +85,10 @@ export function WorkspaceSwitch({
                     key={workspace.id}
                     onClick={() => handleSwitch(workspace)}
                     className={cn(
-                      'flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-sm transition-colors',
+                      'flex w-full items-center gap-2.5 rounded-[10px] px-2 py-1.5 text-sm transition-colors duration-150',
                       active.id === workspace.id
-                        ? 'bg-primary-50 dark:bg-primary-950/30 text-primary-700 dark:text-primary-300'
-                        : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800',
+                        ? 'bg-primary-50/80 dark:bg-primary-950/20 text-primary-700 dark:text-primary-300'
+                        : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100/80 dark:hover:bg-neutral-800/80',
                     )}
                   >
                     <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-primary-500 to-accent-500 text-white text-[10px] font-bold">
@@ -105,9 +105,9 @@ export function WorkspaceSwitch({
                     )}
                   </button>
                 ))}
-                <div className="mt-1 border-t border-neutral-100 dark:border-neutral-800 pt-1">
+                <div className="mt-1 border-t border-neutral-100/80 dark:border-neutral-800/80 pt-1">
                   <button
-                    className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                    className="flex w-full items-center gap-2 rounded-[10px] px-2 py-1.5 text-sm text-neutral-500 hover:bg-neutral-100/80 dark:hover:bg-neutral-800/80 transition-colors duration-150"
                   >
                     <Plus className="h-4 w-4" />
                     Create Workspace

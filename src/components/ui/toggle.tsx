@@ -17,7 +17,7 @@ const toggleVariants = cva(
         default:
           'bg-transparent data-[state=on]:bg-neutral-100 dark:data-[state=on]:bg-neutral-800 data-[state=on]:text-neutral-900 dark:data-[state=on]:text-neutral-50',
         outline:
-          'border border-neutral-200 dark:border-neutral-700 bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800 data-[state=on]:bg-primary-50 dark:data-[state=on]:bg-primary-950/30 data-[state=on]:border-primary-200 dark:data-[state=on]:border-primary-800 data-[state=on]:text-primary-600 dark:data-[state=on]:text-primary-400',
+          'border border-neutral-200/80 dark:border-neutral-700/80 bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800 data-[state=on]:bg-primary-50/80 dark:data-[state=on]:bg-primary-950/20 data-[state=on]:border-primary-200/80 dark:data-[state=on]:border-primary-800/80 data-[state=on]:text-primary-600 dark:data-[state=on]:text-primary-400',
       },
       size: {
         default: 'h-9 px-3',

@@ -40,7 +40,7 @@ export function TableToolbar({
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
-          className="flex items-center justify-between rounded-xl bg-primary-50 dark:bg-primary-950/30 border border-primary-200 dark:border-primary-800 px-4 py-2.5"
+          className="flex items-center justify-between rounded-xl bg-primary-50/80 dark:bg-primary-950/20 border border-primary-200/80 dark:border-primary-800/80 px-4 py-2.5"
         >
           <span className="text-sm font-medium text-primary-700 dark:text-primary-300">
             {selectedCount} item{selectedCount > 1 ? 's' : ''} selected

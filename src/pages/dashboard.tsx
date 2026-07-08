@@ -64,7 +64,7 @@ function StatCard({
         <div className="flex items-start justify-between">
           <div className="space-y-2">
             <p className="text-sm text-neutral-500 dark:text-neutral-400">{title}</p>
-            <p className="text-2xl font-bold text-neutral-900 dark:text-neutral-50">{value}</p>
+            <p className="text-[1.75rem] font-bold tracking-tight text-neutral-900 dark:text-neutral-50">{value}</p>
             {trend !== undefined && (
               <div className="flex items-center gap-1">
                 {trend >= 0 ? (
@@ -280,15 +280,15 @@ export default function DashboardPage() {
               { icon: <Wifi className="h-4 w-4" />, label: t('dashboard.network'), value: 60, color: 'bg-accent-500' },
             ].map((item) => (
               <div key={item.label} className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-neutral-100 dark:bg-neutral-800">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-neutral-100 dark:bg-neutral-800">
                   {item.icon}
                 </div>
                 <div className="flex-1">
-                  <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center justify-between mb-1.5">
                     <span className="text-sm text-neutral-700 dark:text-neutral-300">{item.label}</span>
                     <span className="text-sm font-medium">{item.value}%</span>
                   </div>
-                  <div className="h-1.5 rounded-full bg-neutral-200 dark:bg-neutral-700 overflow-hidden">
+                  <div className="h-1.5 rounded-full bg-neutral-100 dark:bg-neutral-800 overflow-hidden">
                     <div
                       className={`h-full rounded-full ${item.color} transition-all duration-500`}
                       style={{ width: `${item.value}%` }}
@@ -316,9 +316,9 @@ export default function DashboardPage() {
                 <a
                   key={action.label}
                   href={action.href}
-                  className="flex flex-col items-center gap-2 p-4 rounded-xl border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-all hover:shadow-md group"
+                  className="flex flex-col items-center gap-2 p-4 rounded-2xl border border-neutral-200/80 dark:border-neutral-700/80 hover:bg-neutral-50/80 dark:hover:bg-neutral-800/50 hover:shadow-[0_4px_12px_-2px_rgba(0,0,0,0.05)] transition-all duration-200 group"
                 >
-                  <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${action.color} group-hover:scale-110 transition-transform`}>
+                  <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${action.color} group-hover:scale-110 transition-transform duration-200`}>
                     {action.icon}
                   </div>
                   <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">{action.label}</span>

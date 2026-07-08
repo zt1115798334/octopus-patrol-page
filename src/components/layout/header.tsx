@@ -61,7 +61,7 @@ export function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-40 h-14 glass border-b border-black/[0.06] dark:border-white/[0.06] flex items-center justify-between px-4">
+      <header className="fixed top-0 left-0 right-0 z-40 h-14 glass flex items-center justify-between px-4">
         {/* Left */}
         <div className="flex items-center gap-3">
           <Tooltip>
@@ -74,7 +74,7 @@ export function Header() {
           </Tooltip>
 
           <Link to="/" className="flex items-center gap-2 select-none">
-            <div className="h-7 w-7 rounded-lg bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center">
+            <div className="h-7 w-7 rounded-[10px] bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-[0_0_12px_rgba(124,58,237,0.3)]">
               <span className="text-white text-xs font-bold">O</span>
             </div>
             <span className="font-bold text-sm gradient-text hidden sm:block">
@@ -95,7 +95,7 @@ export function Header() {
             <TooltipTrigger asChild>
               <button
                 onClick={() => window.dispatchEvent(new CustomEvent('open-command-palette'))}
-                className="hidden sm:flex items-center gap-2 h-8 px-3 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-xs text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
+                className="hidden sm:flex items-center gap-2 h-8 px-3 rounded-[10px] border border-neutral-200/80 dark:border-neutral-700/80 bg-neutral-50/80 dark:bg-neutral-800/80 text-xs text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-all duration-200"
               >
                 <Search className="h-3 w-3" />
                 <span className="mr-4">{t('common.search')}...</span>

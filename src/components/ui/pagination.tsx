@@ -134,7 +134,7 @@ function PageSizeSelector({
       <select
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="h-8 rounded-md border border-neutral-200 dark:border-neutral-700 bg-transparent px-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-500"
+        className="h-8 rounded-lg border border-neutral-200/80 dark:border-neutral-700/80 bg-transparent px-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/15 focus:border-primary-400 transition-all duration-200"
       >
         {options.map((opt) => (
           <option key={opt} value={opt}>

@@ -66,7 +66,7 @@ export function TabBar() {
   const currentIndex = tabs.findIndex((t) => t.id === activeTab)
 
   return (
-    <div className="flex items-center h-9 border-b border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-950/50 backdrop-blur-sm overflow-hidden">
+    <div className="flex items-center h-9 border-b border-neutral-200/80 dark:border-neutral-800/80 bg-neutral-50/50 dark:bg-neutral-950/50 backdrop-blur-sm overflow-hidden">
       <div className="flex-1 flex items-center overflow-x-auto scrollbar-thin">
         <AnimatePresence mode="popLayout">
           {tabs.map((tab) => {
@@ -86,7 +86,7 @@ export function TabBar() {
                     navigate(tab.id)
                   }}
                   className={cn(
-                    'group flex items-center gap-1.5 h-9 px-3 text-xs font-medium transition-all relative border-r border-neutral-200 dark:border-neutral-800',
+                    'group flex items-center gap-1.5 h-9 px-3 text-xs font-medium transition-all relative border-r border-neutral-200/80 dark:border-neutral-800/80',
                     isActive
                       ? 'bg-white dark:bg-neutral-900 text-primary-600 dark:text-primary-400'
                       : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800/50',

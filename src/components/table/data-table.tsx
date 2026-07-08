@@ -193,7 +193,7 @@ export function DataTable<TData, TValue>({
   // Loading skeleton
   if (isLoading) {
     return (
-      <div className={cn('rounded-xl border border-neutral-200 dark:border-neutral-700 overflow-hidden', className)}>
+      <div className={cn('rounded-xl border border-neutral-200/80 dark:border-neutral-700/80 overflow-hidden', className)}>
         <Table>
           <TableHeader>
             <TableRow>
@@ -233,7 +233,7 @@ export function DataTable<TData, TValue>({
   // Empty state
   if (data.length === 0) {
     return (
-      <div className={cn('rounded-xl border border-neutral-200 dark:border-neutral-700 overflow-hidden', className)}>
+      <div className={cn('rounded-xl border border-neutral-200/80 dark:border-neutral-700/80 overflow-hidden', className)}>
         <Table>
           <TableHeader>
             <TableRow>
@@ -257,7 +257,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className={cn('space-y-4', className)}>
-      <div className="rounded-xl border border-neutral-200 dark:border-neutral-700 overflow-hidden">
+      <div className="rounded-xl border border-neutral-200/80 dark:border-neutral-700/80 overflow-hidden">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

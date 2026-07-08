@@ -153,11 +153,11 @@ export function NotificationPanel({ open, onClose }: NotificationPanelProps) {
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="fixed right-4 top-14 z-50 w-full max-w-sm"
           >
-            <div className="rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 shadow-xl overflow-hidden">
+            <div className="rounded-2xl border border-neutral-200/80 dark:border-neutral-700/80 bg-white dark:bg-neutral-900 shadow-[0_12px_32px_-8px_rgba(0,0,0,0.12)] overflow-hidden">
               {/* Header */}
-              <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-100 dark:border-neutral-800">
+              <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-100/80 dark:border-neutral-800/80">
                 <div className="flex items-center gap-2">
-                  <Bell className="h-4 w-4" />
+                  <Bell className="h-4 w-4 text-neutral-700 dark:text-neutral-300" />
                   <h3 className="text-sm font-semibold">Notifications</h3>
                   {unreadCount > 0 && (
                     <Badge variant="danger" size="sm" className="text-[10px]">

@@ -100,7 +100,7 @@ export function CommandPalette() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-[2px]"
             onClick={() => { setOpen(false); setQuery('') }}
           />
           <motion.div
@@ -110,8 +110,8 @@ export function CommandPalette() {
             transition={{ duration: 0.15 }}
             className="fixed left-1/2 top-[20%] z-50 w-full max-w-lg -translate-x-1/2"
           >
-            <div className="rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 shadow-2xl overflow-hidden">
-              <div className="flex items-center gap-2 px-4 py-3 border-b border-neutral-200 dark:border-neutral-700">
+            <div className="rounded-2xl border border-neutral-200/80 dark:border-neutral-700/80 bg-white dark:bg-neutral-900 shadow-[0_24px_48px_-12px_rgba(0,0,0,0.15)] overflow-hidden">
+              <div className="flex items-center gap-2 px-4 py-3 border-b border-neutral-200/80 dark:border-neutral-700/80">
                 <Search className="h-4 w-4 text-neutral-400 flex-shrink-0" />
                 <input
                   autoFocus
@@ -132,10 +132,10 @@ export function CommandPalette() {
                     <button
                       key={item.id}
                       className={cn(
-                        'flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors text-left',
+                        'flex w-full items-center gap-3 rounded-[10px] px-3 py-2.5 text-sm transition-colors duration-150 text-left',
                         index === selectedIndex
-                          ? 'bg-primary-50 text-primary-700 dark:bg-primary-950/30 dark:text-primary-300'
-                          : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800',
+                          ? 'bg-primary-50/80 text-primary-700 dark:bg-primary-950/20 dark:text-primary-300'
+                          : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100/80 dark:hover:bg-neutral-800/80',
                       )}
                       onClick={() => execute(item)}
                       onMouseEnter={() => setSelectedIndex(index)}
