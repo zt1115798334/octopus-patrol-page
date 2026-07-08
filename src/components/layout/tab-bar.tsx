@@ -96,7 +96,7 @@ export function TabBar() {
                     'group flex items-center gap-1.5 h-9 px-3 text-xs font-medium transition-all relative border-r border-neutral-200 dark:border-neutral-800',
                     isActive
                       ? 'bg-white dark:bg-neutral-900/90 text-primary-600 dark:text-primary-400'
-                      : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-white/[0.03]',
+                      : 'text-neutral-600 hover:text-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-white/[0.03]',
                   )}
                 >
                   {tab.label}

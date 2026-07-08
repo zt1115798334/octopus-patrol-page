@@ -19,7 +19,7 @@ function SkeletonText({ className, lines = 1, ...props }: React.HTMLAttributes<H
 
 function SkeletonCard({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn('space-y-4 p-6 rounded-2xl border border-neutral-200/80 dark:border-neutral-800/80', className)} {...props}>
+    <div className={cn('space-y-4 p-6 rounded-2xl border border-neutral-200/80 dark:border-neutral-800/80 bg-white dark:bg-neutral-900', className)} {...props}>
       <Skeleton className="h-5 w-1/3" />
       <Skeleton className="h-10 w-1/2" />
       <SkeletonText lines={2} />

@@ -195,7 +195,7 @@ export function Sidebar() {
             <input
               type="text"
               placeholder={t('common.search') + '...'}
-              className="w-full h-8 pl-8 pr-3 rounded-[10px] border border-sidebar-border/80 bg-sidebar-hover text-xs focus:outline-none focus:ring-2 focus:ring-primary-500/15 focus:border-primary-400 placeholder:text-neutral-500 transition-all duration-200"
+              className="w-full h-8 pl-8 pr-3 rounded-[10px] border border-sidebar-border/80 bg-sidebar-hover text-xs text-neutral-700 dark:text-neutral-300 focus:outline-none focus:ring-2 focus:ring-primary-500/15 focus:border-primary-400 placeholder:text-neutral-500 transition-all duration-200"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -215,8 +215,8 @@ export function Sidebar() {
               <div className="pt-3 pb-1">
                 {!collapsed && (
                   <div className="flex items-center gap-2 px-4 py-1.5">
-                    <Star className="h-3.5 w-3.5 text-warning-500" />
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-neutral-400 dark:text-neutral-500">
+                    <Star className="h-4 w-4 text-warning-500" />
+                    <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">
                       {t('nav.favorites')}
                     </span>
                   </div>
@@ -237,8 +237,8 @@ export function Sidebar() {
             {recentItems.length > 0 && !collapsed && (
               <div className="pt-1 pb-1">
                 <div className="flex items-center gap-2 px-4 py-1.5">
-                  <Clock4 className="h-3.5 w-3.5 text-neutral-400" />
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-neutral-400 dark:text-neutral-500">
+                  <Clock4 className="h-4 w-4 text-neutral-600 dark:text-neutral-400" />
+                  <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">
                     {t('nav.recent')}
                   </span>
                 </div>
@@ -277,15 +277,15 @@ export function Sidebar() {
                       )}
                     >
                       {group.icon && (
-                        <span className="flex-shrink-0 text-neutral-400">{group.icon}</span>
+                        <span className="flex-shrink-0 text-neutral-600 dark:text-neutral-400">{group.icon}</span>
                       )}
-                      <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-neutral-400 dark:text-neutral-500 flex-1">
+                      <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400 flex-1">
                         {group.label}
                       </span>
                       {hasChevron && (
                         <ChevronDown
                           className={cn(
-                            'h-3.5 w-3.5 text-neutral-400 transition-transform duration-200 flex-shrink-0',
+                            'h-3.5 w-3.5 text-neutral-500 dark:text-neutral-400 transition-transform duration-200 flex-shrink-0',
                             isExpanded && 'rotate-180',
                           )}
                         />

@@ -257,6 +257,76 @@
 }
 
 /* ===================================================
+   Dark Mode Global Text Fixes - Default Theme
+   =================================================== */
+
+/* Base text color */
+.dark { color: var(--color-neutral-50); }
+.dark h1, .dark h2, .dark h3, .dark h4 { color: var(--color-neutral-50); }
+
+/* Neutral text color mappings: light → dark */
+.dark .text-neutral-950 { color: var(--color-neutral-50) !important; }
+.dark .text-neutral-900 { color: var(--color-neutral-50) !important; }
+.dark .text-neutral-800 { color: var(--color-neutral-100) !important; }
+.dark .text-neutral-700 { color: var(--color-neutral-200) !important; }
+.dark .text-neutral-600 { color: var(--color-neutral-300) !important; }
+.dark .text-neutral-500 { color: var(--color-neutral-400) !important; }
+.dark .text-neutral-400 { color: var(--color-neutral-500) !important; }
+.dark .text-neutral-300 { color: var(--color-neutral-600) !important; }
+.dark .text-neutral-200 { color: var(--color-neutral-700) !important; }
+.dark .text-neutral-100 { color: var(--color-neutral-800) !important; }
+.dark .text-neutral-50  { color: var(--color-neutral-900) !important; }
+
+/* Primary text color mappings */
+.dark .text-primary-900 { color: var(--color-primary-100) !important; }
+.dark .text-primary-800 { color: var(--color-primary-200) !important; }
+.dark .text-primary-700 { color: var(--color-primary-300) !important; }
+.dark .text-primary-600 { color: var(--color-primary-400) !important; }
+.dark .text-primary-500 { color: var(--color-primary-400) !important; }
+.dark .text-primary-400 { color: var(--color-primary-300) !important; }
+.dark .text-primary-300 { color: var(--color-primary-200) !important; }
+
+/* Accent text color mappings */
+.dark .text-accent-700 { color: var(--color-accent-300) !important; }
+.dark .text-accent-600 { color: var(--color-accent-400) !important; }
+.dark .text-accent-500 { color: var(--color-accent-400) !important; }
+.dark .text-accent-400 { color: var(--color-accent-300) !important; }
+
+/* Success text color mappings */
+.dark .text-success-700 { color: var(--color-success-300) !important; }
+.dark .text-success-600 { color: var(--color-success-400) !important; }
+.dark .text-success-500 { color: var(--color-success-400) !important; }
+
+/* Warning text color mappings */
+.dark .text-warning-700 { color: var(--color-warning-300) !important; }
+.dark .text-warning-600 { color: var(--color-warning-400) !important; }
+.dark .text-warning-500 { color: var(--color-warning-400) !important; }
+
+/* Danger text color mappings */
+.dark .text-danger-700 { color: var(--color-danger-300) !important; }
+.dark .text-danger-600 { color: var(--color-danger-400) !important; }
+.dark .text-danger-500 { color: var(--color-danger-400) !important; }
+
+/* Surface & background text */
+.dark .bg-white { background-color: var(--color-neutral-900) !important; color: var(--color-neutral-50); }
+.dark .bg-neutral-50 { background-color: var(--color-neutral-950) !important; }
+.dark .bg-neutral-100 { background-color: var(--color-neutral-800) !important; }
+
+/* Input text */
+.dark input, .dark textarea, .dark select { color: var(--color-neutral-50); background-color: var(--color-neutral-900); border-color: var(--color-neutral-700); }
+.dark input::placeholder, .dark textarea::placeholder { color: var(--color-neutral-500); }
+
+/* Table text */
+.dark table { color: var(--color-neutral-50); }
+.dark th { color: var(--color-neutral-400); }
+.dark td { color: var(--color-neutral-50); }
+.dark thead { background-color: var(--color-neutral-900) !important; }
+
+/* Dialog & dropdown */
+.dark [role="dialog"], .dark [data-state="open"] { color: var(--color-neutral-50); }
+.dark [role="listbox"], .dark [role="menu"], .dark [data-radix-popper-content-wrapper] { background-color: var(--color-neutral-900) !important; color: var(--color-neutral-50); }
+
+/* ===================================================
    Base Layer
    =================================================== */
 
@@ -451,6 +521,77 @@
   --color-sidebar-border: #2a1520;
 }
 
+/* Anime dark mode text color overrides */
+[data-theme-style="anime"] .dark body { color: #ffe0eb; }
+[data-theme-style="anime"] .dark h1 { background: linear-gradient(135deg, #ff7aa6, #ffb3c6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+[data-theme-style="anime"] .dark h2 { color: #ff9ebf; }
+[data-theme-style="anime"] .dark h3, [data-theme-style="anime"] .dark h4 { color: #ffc2d6; }
+
+/* Anime dark mode neutral text: light → dark complementary */
+[data-theme-style="anime"] .dark .text-neutral-950 { color: #ffe0eb !important; }
+[data-theme-style="anime"] .dark .text-neutral-900 { color: #ffe0eb !important; }
+[data-theme-style="anime"] .dark .text-neutral-800 { color: #ffd6e4 !important; }
+[data-theme-style="anime"] .dark .text-neutral-700 { color: #ffc2d6 !important; }
+[data-theme-style="anime"] .dark .text-neutral-600 { color: #ffb3c6 !important; }
+[data-theme-style="anime"] .dark .text-neutral-500 { color: #ff9ebf !important; }
+[data-theme-style="anime"] .dark .text-neutral-400 { color: #e0a0b8 !important; }
+[data-theme-style="anime"] .dark .text-neutral-300 { color: #c8909f !important; }
+[data-theme-style="anime"] .dark .text-neutral-200 { color: #a07080 !important; }
+[data-theme-style="anime"] .dark .text-neutral-100 { color: #806070 !important; }
+[data-theme-style="anime"] .dark .text-neutral-50  { color: #605060 !important; }
+
+/* Anime dark mode primary text */
+[data-theme-style="anime"] .dark .text-primary-900 { color: #ffb3c6 !important; }
+[data-theme-style="anime"] .dark .text-primary-800 { color: #ffc2d6 !important; }
+[data-theme-style="anime"] .dark .text-primary-700 { color: #ff9ebf !important; }
+[data-theme-style="anime"] .dark .text-primary-600 { color: #ff7aa6 !important; }
+[data-theme-style="anime"] .dark .text-primary-500 { color: #ff5c8a !important; }
+[data-theme-style="anime"] .dark .text-primary-400 { color: #ff9ebf !important; }
+[data-theme-style="anime"] .dark .text-primary-300 { color: #ffc2d6 !important; }
+
+/* Anime dark mode accent text */
+[data-theme-style="anime"] .dark .text-accent-700 { color: #7dd3fc !important; }
+[data-theme-style="anime"] .dark .text-accent-600 { color: #38bdf8 !important; }
+[data-theme-style="anime"] .dark .text-accent-500 { color: #22d3ee !important; }
+[data-theme-style="anime"] .dark .text-accent-400 { color: #67e8f9 !important; }
+
+/* Anime dark mode success/warning/danger text */
+[data-theme-style="anime"] .dark .text-success-700 { color: #86efac !important; }
+[data-theme-style="anime"] .dark .text-success-600 { color: #4ade80 !important; }
+[data-theme-style="anime"] .dark .text-success-500 { color: #22c55e !important; }
+[data-theme-style="anime"] .dark .text-warning-700 { color: #fcd34d !important; }
+[data-theme-style="anime"] .dark .text-warning-600 { color: #fbbf24 !important; }
+[data-theme-style="anime"] .dark .text-warning-500 { color: #f59e0b !important; }
+[data-theme-style="anime"] .dark .text-danger-700 { color: #fda4af !important; }
+[data-theme-style="anime"] .dark .text-danger-600 { color: #fb7185 !important; }
+[data-theme-style="anime"] .dark .text-danger-500 { color: #f43f5e !important; }
+
+/* Anime dark mode card & surface */
+[data-theme-style="anime"] .dark .card { background: rgb(20 12 18 / 0.9); color: #ffe0eb; }
+[data-theme-style="anime"] .dark .bg-white { background-color: rgb(20 12 18 / 0.95) !important; color: #ffe0eb; }
+[data-theme-style="anime"] .dark .bg-neutral-50 { background-color: #0d0610 !important; }
+[data-theme-style="anime"] .dark .bg-neutral-100 { background-color: #1a0a12 !important; }
+[data-theme-style="anime"] .dark .border-neutral-200 { border-color: rgba(255, 92, 138, 0.15) !important; }
+
+/* Anime dark mode input */
+[data-theme-style="anime"] .dark input, [data-theme-style="anime"] .dark textarea, [data-theme-style="anime"] .dark select { color: #ffe0eb; background-color: rgba(26, 10, 18, 0.8); border-color: rgba(255, 92, 138, 0.2); }
+[data-theme-style="anime"] .dark input::placeholder, [data-theme-style="anime"] .dark textarea::placeholder { color: rgba(255, 224, 235, 0.4); }
+
+/* Anime dark mode table */
+[data-theme-style="anime"] .dark table { color: #ffe0eb; }
+[data-theme-style="anime"] .dark th { color: #ffb3c6; }
+[data-theme-style="anime"] .dark td { color: #ffe0eb; }
+[data-theme-style="anime"] .dark thead { background-color: rgba(26, 10, 18, 0.6) !important; }
+
+/* Anime dark mode dialog */
+[data-theme-style="anime"] .dark [role="dialog"], [data-theme-style="anime"] .dark .fixed[class*="bg-white"], [data-theme-style="anime"] .dark [data-state="open"] { background-color: rgb(20 12 18 / 0.95) !important; color: #ffe0eb; }
+
+/* Anime dark mode dropdown */
+[data-theme-style="anime"] .dark [role="listbox"], [data-theme-style="anime"] .dark [role="menu"], [data-theme-style="anime"] .dark [data-radix-popper-content-wrapper] { background-color: rgb(20 12 18 / 0.95) !important; }
+
+/* Anime dark mode scrollbar */
+[data-theme-style="anime"] .dark ::-webkit-scrollbar-thumb { background-color: rgba(255, 92, 138, 0.3); }
+
 /* ---- Base overrides ---- */
 @layer base {
   [data-theme-style="anime"] * {
@@ -489,19 +630,8 @@
     background-clip: text;
   }
 
-  [data-theme-style="anime"] .dark h1 {
-    background: linear-gradient(135deg, #ff7aa6, #ffb3c6);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
   [data-theme-style="anime"] h2 {
     color: #e64978;
-  }
-
-  [data-theme-style="anime"] .dark h2 {
-    color: #ff9ebf;
   }
 }
 
@@ -717,6 +847,77 @@
   --color-sidebar-border: rgba(255, 255, 255, 0.08);
 }
 
+/* Shin-chan dark mode text color overrides */
+[data-theme-style="shinchan"] .dark body { color: #ffe8db; }
+[data-theme-style="shinchan"] .dark h1 { background: linear-gradient(135deg, #ff7b3d, #fdd835); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+[data-theme-style="shinchan"] .dark h2 { color: #ffa570; }
+[data-theme-style="shinchan"] .dark h3, [data-theme-style="shinchan"] .dark h4 { color: #ffc9a8; }
+
+/* Shin-chan dark mode neutral text: light → dark complementary */
+[data-theme-style="shinchan"] .dark .text-neutral-950 { color: #ffe8db !important; }
+[data-theme-style="shinchan"] .dark .text-neutral-900 { color: #ffe8db !important; }
+[data-theme-style="shinchan"] .dark .text-neutral-800 { color: #ffd6c0 !important; }
+[data-theme-style="shinchan"] .dark .text-neutral-700 { color: #ffc9a8 !important; }
+[data-theme-style="shinchan"] .dark .text-neutral-600 { color: #ffa570 !important; }
+[data-theme-style="shinchan"] .dark .text-neutral-500 { color: #ff9a5c !important; }
+[data-theme-style="shinchan"] .dark .text-neutral-400 { color: #e0a080 !important; }
+[data-theme-style="shinchan"] .dark .text-neutral-300 { color: #c89070 !important; }
+[data-theme-style="shinchan"] .dark .text-neutral-200 { color: #a07060 !important; }
+[data-theme-style="shinchan"] .dark .text-neutral-100 { color: #806050 !important; }
+[data-theme-style="shinchan"] .dark .text-neutral-50  { color: #604838 !important; }
+
+/* Shin-chan dark mode primary text */
+[data-theme-style="shinchan"] .dark .text-primary-900 { color: #ffa570 !important; }
+[data-theme-style="shinchan"] .dark .text-primary-800 { color: #ffc9a8 !important; }
+[data-theme-style="shinchan"] .dark .text-primary-700 { color: #ff9a5c !important; }
+[data-theme-style="shinchan"] .dark .text-primary-600 { color: #ff7b3d !important; }
+[data-theme-style="shinchan"] .dark .text-primary-500 { color: #ff5722 !important; }
+[data-theme-style="shinchan"] .dark .text-primary-400 { color: #ffa570 !important; }
+[data-theme-style="shinchan"] .dark .text-primary-300 { color: #ffc9a8 !important; }
+
+/* Shin-chan dark mode accent text */
+[data-theme-style="shinchan"] .dark .text-accent-700 { color: #fff176 !important; }
+[data-theme-style="shinchan"] .dark .text-accent-600 { color: #ffee58 !important; }
+[data-theme-style="shinchan"] .dark .text-accent-500 { color: #fdd835 !important; }
+[data-theme-style="shinchan"] .dark .text-accent-400 { color: #fff59d !important; }
+
+/* Shin-chan dark mode success/warning/danger text */
+[data-theme-style="shinchan"] .dark .text-success-700 { color: #a5d6a7 !important; }
+[data-theme-style="shinchan"] .dark .text-success-600 { color: #66bb6a !important; }
+[data-theme-style="shinchan"] .dark .text-success-500 { color: #4caf50 !important; }
+[data-theme-style="shinchan"] .dark .text-warning-700 { color: #fff176 !important; }
+[data-theme-style="shinchan"] .dark .text-warning-600 { color: #ffee58 !important; }
+[data-theme-style="shinchan"] .dark .text-warning-500 { color: #fdd835 !important; }
+[data-theme-style="shinchan"] .dark .text-danger-700 { color: #f48fb1 !important; }
+[data-theme-style="shinchan"] .dark .text-danger-600 { color: #ec407a !important; }
+[data-theme-style="shinchan"] .dark .text-danger-500 { color: #e91e63 !important; }
+
+/* Shin-chan dark mode card & surface */
+[data-theme-style="shinchan"] .dark .card { background: rgb(20 12 8 / 0.9); color: #ffe8db; }
+[data-theme-style="shinchan"] .dark .bg-white { background-color: rgb(20 12 8 / 0.95) !important; color: #ffe8db; }
+[data-theme-style="shinchan"] .dark .bg-neutral-50 { background-color: #0c0704 !important; }
+[data-theme-style="shinchan"] .dark .bg-neutral-100 { background-color: #1a0e08 !important; }
+[data-theme-style="shinchan"] .dark .border-neutral-200 { border-color: rgba(255, 87, 34, 0.15) !important; }
+
+/* Shin-chan dark mode input */
+[data-theme-style="shinchan"] .dark input, [data-theme-style="shinchan"] .dark textarea, [data-theme-style="shinchan"] .dark select { color: #ffe8db; background-color: rgba(26, 14, 8, 0.8); border-color: rgba(255, 87, 34, 0.2); }
+[data-theme-style="shinchan"] .dark input::placeholder, [data-theme-style="shinchan"] .dark textarea::placeholder { color: rgba(255, 232, 219, 0.4); }
+
+/* Shin-chan dark mode table */
+[data-theme-style="shinchan"] .dark table { color: #ffe8db; }
+[data-theme-style="shinchan"] .dark th { color: #ffa570; }
+[data-theme-style="shinchan"] .dark td { color: #ffe8db; }
+[data-theme-style="shinchan"] .dark thead { background-color: rgba(26, 14, 8, 0.6) !important; }
+
+/* Shin-chan dark mode dialog */
+[data-theme-style="shinchan"] .dark [role="dialog"], [data-theme-style="shinchan"] .dark .fixed[class*="bg-white"], [data-theme-style="shinchan"] .dark [data-state="open"] { background-color: rgb(20 12 8 / 0.95) !important; color: #ffe8db; }
+
+/* Shin-chan dark mode dropdown */
+[data-theme-style="shinchan"] .dark [role="listbox"], [data-theme-style="shinchan"] .dark [role="menu"], [data-theme-style="shinchan"] .dark [data-radix-popper-content-wrapper] { background-color: rgb(20 12 8 / 0.95) !important; }
+
+/* Shin-chan dark mode scrollbar */
+[data-theme-style="shinchan"] .dark ::-webkit-scrollbar-thumb { background-color: rgba(255, 87, 34, 0.3); }
+
 /* ---- Base overrides ---- */
 @layer base {
   [data-theme-style="shinchan"] * {
@@ -746,19 +947,8 @@
       radial-gradient(ellipse at 50% 50%, rgb(255 122 61 / 0.04) 0%, transparent 60%);
   }
 
-  [data-theme-style="shinchan"] .dark body h1 {
-    background: linear-gradient(135deg, #ff7b3d, #fdd835);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
   [data-theme-style="shinchan"] h2 {
     color: #e64a19;
-  }
-
-  [data-theme-style="shinchan"] .dark h2 {
-    color: #ffa570;
   }
 }
 

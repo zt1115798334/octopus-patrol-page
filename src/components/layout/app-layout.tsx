@@ -36,7 +36,7 @@ export function AppLayout() {
 
   return (
     <TooltipProvider delayDuration={300}>
-      <div className="min-h-screen">
+      <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
         <Header />
         <Sidebar />
         <CommandPalette />
@@ -45,7 +45,7 @@ export function AppLayout() {
           initial={false}
           animate={{ marginLeft: collapsed ? 72 : 260 }}
           transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="pt-14 min-h-screen border-l border-neutral-200 dark:border-neutral-800/80"
+          className="pt-14 min-h-screen border-l border-neutral-200 dark:border-neutral-800/80 bg-neutral-50 dark:bg-neutral-950"
         >
           {/* Breadcrumb */}
           {showBreadcrumb && (

@@ -214,7 +214,9 @@ export default function DashboardPage() {
                       borderRadius: '12px',
                       border: '1px solid var(--color-neutral-200)',
                       background: 'white',
+                      color: 'var(--color-neutral-900)',
                     }}
+                    wrapperStyle={{ outline: 'none' }}
                   />
                   <Area type="monotone" dataKey="value" stroke="var(--color-primary-500)" fillOpacity={1} fill="url(#colorVisit)" strokeWidth={2} />
                 </AreaChart>
@@ -256,7 +258,9 @@ export default function DashboardPage() {
                       borderRadius: '12px',
                       border: '1px solid var(--color-neutral-200)',
                       background: 'white',
+                      color: 'var(--color-neutral-900)',
                     }}
+                    wrapperStyle={{ outline: 'none' }}
                   />
                   <Legend />
                 </PieChart>

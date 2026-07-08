@@ -109,7 +109,7 @@ PaginationEllipsis.displayName = 'PaginationEllipsis'
 
 function PaginationSummary({ className, ...props }: ComponentProps<'div'>) {
   return (
-    <div className={cn('text-sm text-neutral-500 whitespace-nowrap', className)} {...props} />
+    <div className={cn('text-sm text-neutral-500 dark:text-neutral-400 whitespace-nowrap', className)} {...props} />
   )
 }
 PaginationSummary.displayName = 'PaginationSummary'
@@ -129,12 +129,12 @@ function PageSizeSelector({
   className,
 }: PageSizeSelectorProps) {
   return (
-    <div className={cn('flex items-center gap-2 text-sm text-neutral-500', className)}>
+    <div className={cn('flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400', className)}>
       <span>Rows per page</span>
       <select
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="h-8 rounded-lg border border-neutral-200/80 dark:border-neutral-700/80 bg-transparent px-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/15 focus:border-primary-400 transition-all duration-200"
+        className="h-8 rounded-lg border border-neutral-200/80 dark:border-neutral-700/80 bg-transparent dark:text-neutral-300 px-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/15 focus:border-primary-400 transition-all duration-200"
       >
         {options.map((opt) => (
           <option key={opt} value={opt}>

@@ -36,7 +36,7 @@ const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
             {title}
           </h1>
           {description && (
-            <p className="text-sm text-neutral-500">{description}</p>
+            <p className="text-sm text-neutral-500 dark:text-neutral-400">{description}</p>
           )}
           {children}
         </div>

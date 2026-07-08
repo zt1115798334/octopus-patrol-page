@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -35,17 +35,16 @@ export default function LoginPage() {
   const location = useLocation()
   const authLogin = useAuthStore((s) => s.login)
   const { t, i18n } = useTranslation()
-  const hadDarkRef = useRef(false)
   const { mode, setMode } = useThemeStore()
   const { themeStyle, setThemeStyle } = useSettingStore()
 
-  // Force dark mode for the login page effect
+  // Force dark mode only for the login page visual effect
   useEffect(() => {
     const root = document.documentElement
-    hadDarkRef.current = root.classList.contains('dark')
+    const wasDark = root.classList.contains('dark')
     root.classList.add('dark')
     return () => {
-      if (!hadDarkRef.current) {
+      if (!wasDark) {
         root.classList.remove('dark')
       }
     }
@@ -68,8 +67,6 @@ export default function LoginPage() {
         if (res.meta.success) {
           const token = res.data
           authLogin(token, token)
-          // Persist dark mode for a seamless transition from the login page
-          setMode('dark')
           toast.success(t('auth.loginSuccess'))
           const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/'
           navigate(from, { replace: true })

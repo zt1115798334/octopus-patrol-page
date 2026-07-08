@@ -10,7 +10,7 @@ const badgeVariants = cva(
         default: 'bg-primary-100/80 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300',
         success: 'bg-success-100/80 text-success-700 dark:bg-success-900/30 dark:text-success-300',
         warning: 'bg-warning-100/80 text-warning-700 dark:bg-warning-900/30 dark:text-warning-300',
-        danger: 'bg-danger-100/80 text-danger-700 dark:bg-danger-900/30 dark:text-danger-300',
+        danger: 'bg-danger-100/80 text-danger-700 dark:bg-cyan-900/30 dark:text-cyan-300',
         info: 'bg-accent-100/80 text-accent-700 dark:bg-accent-900/30 dark:text-accent-300',
         outline: 'border border-neutral-200/80 text-neutral-600 dark:border-neutral-700/80 dark:text-neutral-300',
       },
@@ -30,7 +30,15 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement>, Varia
 function Badge({ className, variant, size, dot, children, ...props }: BadgeProps) {
   return (
     <span className={cn(badgeVariants({ variant, size }), className)} {...props}>
-      {dot && <span className={cn('mr-1.5 h-1.5 w-1.5 rounded-full', variant === 'success' && 'bg-success-500', variant === 'warning' && 'bg-warning-500', variant === 'danger' && 'bg-danger-500', variant === 'info' && 'bg-accent-500', (!variant || variant === 'default') && 'bg-primary-500', variant === 'outline' && 'bg-neutral-400')} />}
+      {dot && <span className={cn(
+        'mr-1.5 h-1.5 w-1.5 rounded-full',
+        variant === 'success' && 'bg-success-500',
+        variant === 'warning' && 'bg-warning-500',
+        variant === 'danger' && 'bg-danger-500 dark:bg-cyan-400',
+        variant === 'info' && 'bg-accent-500',
+        (!variant || variant === 'default') && 'bg-primary-500',
+        variant === 'outline' && 'bg-neutral-400'
+      )} />}
       {children}
     </span>
   )
