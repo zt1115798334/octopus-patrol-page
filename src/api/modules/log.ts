@@ -1,5 +1,9 @@
 import { get, post } from '@/lib/api-client'
-import type { ResultMessage, Page, LogDtoComplex, LogStatisticsDto, QueryLogDto } from '@/types'
+import type { ResultMessage, Page, LogDto, LogDtoComplex, LogStatisticsDto, QueryLogDto } from '@/types'
+
+export function saveLog(data: LogDto): Promise<ResultMessage<LogDto>> {
+  return post<ResultMessage<LogDto>>('/log/saveLog', data)
+}
 
 export function findLogPage(data: QueryLogDto): Promise<ResultMessage<Page<LogDtoComplex>>> {
   return post<ResultMessage<Page<LogDtoComplex>>>('/log/findLogPage', data)

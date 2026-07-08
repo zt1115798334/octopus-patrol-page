@@ -19,7 +19,6 @@ import { Switch } from '@/components/ui/switch'
 import { toast } from 'sonner'
 import { findRolePage, saveRole, deleteRole, deleteRoles, changeRoleEnabledState } from '@/api/modules/role'
 import type { RoleDto, QueryRoleDto, EnabledState } from '@/types'
-import { MoreHorizontal } from 'lucide-react'
 
 const formSchema = z.object({ name: z.string().min(1, '请输入角色名称'), sort: z.number().optional(), enabledState: z.string().optional() })
 type FormData = z.infer<typeof formSchema>

@@ -494,6 +494,60 @@ export interface ArticleCommentRecordDto {
   updatedTime?: string
 }
 
+// ==================== Platform Scheme Types ====================
+
+export interface PlatformSchemeDto {
+  id?: number
+  userId?: number
+  platformCode?: PlatformCode
+  platformAccountId?: number
+  requestParams?: string
+  description?: string
+  enabledState?: EnabledState
+  createdTime?: string
+  updatedTime?: string
+}
+
+export interface QueryPlatformSchemeDto extends PageDto {
+  platformCode?: PlatformCode
+  platformAccountId?: number
+  enabledState?: EnabledState
+  startDateTime?: string
+  endDateTime?: string
+  keywords?: string
+}
+
+// ==================== Platform Scheme Run Log Types ====================
+
+export type RunStatus = 'RUNNING' | 'SUCCESS' | 'FAILED'
+
+export interface PlatformSchemeRunLogDto {
+  id?: number
+  userId?: number
+  platformSchemeId?: number
+  platformCode?: PlatformCode
+  platformAccountId?: number
+  runStatus?: RunStatus
+  startTime?: string
+  endTime?: string
+  duration?: number
+  attemptCount?: number
+  resultMessage?: string
+  errorMessage?: string
+  requestParams?: string
+  createdTime?: string
+  updatedTime?: string
+}
+
+export interface QueryPlatformSchemeRunLogDto extends PageDto {
+  platformSchemeId?: number
+  platformCode?: PlatformCode
+  runStatus?: RunStatus
+  startDateTime?: string
+  endDateTime?: string
+  keywords?: string
+}
+
 // ==================== File Upload Types ====================
 
 export interface FileUploadInfoDto {
