@@ -23,7 +23,9 @@
     "personalCenter": "Personal",
     "favorites": "Favorites",
     "recent": "Recent",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "pricingPlan": "Pricing Plans",
+    "job": "Scheduler"
   },
   "common": {
     "search": "Search",

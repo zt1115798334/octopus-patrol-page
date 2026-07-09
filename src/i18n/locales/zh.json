@@ -23,7 +23,9 @@
     "personalCenter": "个人中心",
     "favorites": "收藏",
     "recent": "最近访问",
-    "notifications": "通知"
+    "notifications": "通知",
+    "pricingPlan": "套餐管理",
+    "job": "定时器管理"
   },
   "common": {
     "search": "搜索",

@@ -4,7 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   LayoutDashboard,
   Users,
+  Shield,
   Menu as MenuIcon,
+  Key,
   FileText,
   CreditCard,
   Globe,
@@ -12,6 +14,7 @@ import {
   Play,
   Bot,
   History,
+  Timer,
   Search,
   Star,
   Clock4,
@@ -60,9 +63,12 @@ export function Sidebar() {
       label: t('nav.system'),
       items: [
         { id: 'user', label: t('nav.user'), path: '/user', icon: <Users className="h-4 w-4" /> },
+        { id: 'log', label: t('nav.log'), path: '/log', icon: <FileText className="h-4 w-4" /> },
         { id: 'pricing-plan', label: t('nav.pricingPlan'), path: '/pricing-plan', icon: <CreditCard className="h-4 w-4" /> },
         { id: 'menu', label: t('nav.menu'), path: '/menu', icon: <MenuIcon className="h-4 w-4" /> },
-        { id: 'log', label: t('nav.log'), path: '/log', icon: <FileText className="h-4 w-4" /> },
+        { id: 'role', label: t('nav.role'), path: '/role', icon: <Shield className="h-4 w-4" /> },
+        { id: 'permission', label: t('nav.permission'), path: '/permission', icon: <Key className="h-4 w-4" /> },
+        { id: 'job', label: t('nav.job'), path: '/job', icon: <Timer className="h-4 w-4" /> },
       ],
     },
     {
