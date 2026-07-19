@@ -24,9 +24,9 @@ export default function LogManagement() {
   const { data, isLoading } = useQuery({ queryKey: ['logs', logQuery], queryFn: () => findLogPage(logQuery) })
   const { data: statsData, isLoading: statsLoading } = useQuery({ queryKey: ['logStats'], queryFn: getLogStatistics })
 
-  const stats = statsData?.data
-  const items = data?.data?.content || []
-  const total = data?.data?.totalElements || 0
+  const stats = statsData?.obj
+  const items = data?.page?.list || []
+  const total = data?.page?.total || 0
 
   return (
     <div className="space-y-4">

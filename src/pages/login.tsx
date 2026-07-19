@@ -3,10 +3,11 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import JSEncrypt from 'jsencrypt'
 import { Eye, EyeOff, Bot, Sparkles, Sun, Moon, Monitor } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { login as loginApi } from '@/api/modules/auth'
+import { login as loginApi, getPublicKey } from '@/api/modules/auth'
 import { useAuthStore, useThemeStore, useSettingStore } from '@/stores'
 import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
@@ -31,6 +32,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [rememberMe, setRememberMe] = useState(false)
+  const [publicKey, setPublicKey] = useState<string>('')
   const navigate = useNavigate()
   const location = useLocation()
   const authLogin = useAuthStore((s) => s.login)
@@ -50,6 +52,20 @@ export default function LoginPage() {
     }
   }, [])
 
+  // Fetch RSA public key on mount for password encryption
+  useEffect(() => {
+    getPublicKey()
+      .then((res) => {
+        if (res.meta.success && res.obj) {
+          setPublicKey(res.obj)
+          console.log('[Login] Public key loaded')
+        }
+      })
+      .catch((err) => {
+        console.error('[Login] Failed to fetch public key:', err)
+      })
+  }, [])
+
   const {
     control,
     handleSubmit,
@@ -62,10 +78,23 @@ export default function LoginPage() {
     async (data: LoginFormData) => {
       setLoading(true)
       try {
-        const res = await loginApi(data)
+        // Encrypt account + password with RSA public key
+        if (!publicKey) {
+          toast.error('加密公钥未加载，请刷新页面重试')
+          return
+        }
+        const encryptor = new JSEncrypt()
+        encryptor.setPublicKey(publicKey)
+        const encryptedPassword = encryptor.encrypt(data.username + data.password)
+        if (!encryptedPassword) {
+          toast.error('密码加密失败，请重试')
+          return
+        }
+
+        const res = await loginApi({ username: data.username, password: encryptedPassword })
         console.log('[Login] res:', res)
         if (res.meta.success) {
-          const token = res.data
+          const token = res.obj
           authLogin(token, token)
           toast.success(t('auth.loginSuccess'))
           const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/'
@@ -78,7 +107,7 @@ export default function LoginPage() {
         setLoading(false)
       }
     },
-    [authLogin, navigate, location, t],
+    [authLogin, navigate, location, t, publicKey],
   )
 
   const stats = [
@@ -97,7 +126,7 @@ export default function LoginPage() {
           className="absolute top-0 left-1/2 w-[800px] h-[600px] animate-light-flow-1 opacity-30"
           style={{
             background:
-              'radial-gradient(ellipse at center, rgba(124,58,237,0.4) 0%, rgba(6,182,212,0.15) 30%, transparent 70%)',
+              'radial-gradient(ellipse at center, rgba(91,116,176,0.4) 0%, rgba(91,116,176,0.15) 30%, transparent 70%)',
             filter: 'blur(60px)',
           }}
         />
@@ -106,7 +135,7 @@ export default function LoginPage() {
           className="absolute bottom-0 right-1/4 w-[600px] h-[500px] animate-light-flow-2 opacity-25"
           style={{
             background:
-              'radial-gradient(ellipse at center, rgba(6,182,212,0.35) 0%, rgba(124,58,237,0.1) 35%, transparent 70%)',
+              'radial-gradient(ellipse at center, rgba(91,116,176,0.35) 0%, rgba(91,116,176,0.1) 35%, transparent 70%)',
             filter: 'blur(80px)',
           }}
         />
@@ -115,7 +144,7 @@ export default function LoginPage() {
           className="absolute top-1/3 right-1/3 w-[400px] h-[400px] animate-light-flow-3 opacity-20"
           style={{
             background:
-              'radial-gradient(ellipse at center, rgba(167,139,250,0.3) 0%, rgba(124,58,237,0.1) 40%, transparent 70%)',
+              'radial-gradient(ellipse at center, rgba(123,145,196,0.3) 0%, rgba(91,116,176,0.1) 40%, transparent 70%)',
             filter: 'blur(50px)',
           }}
         />
@@ -127,7 +156,7 @@ export default function LoginPage() {
           className="absolute top-[15%] left-[10%] w-72 h-72 rounded-full animate-float-orb-1"
           style={{
             background:
-              'radial-gradient(circle, rgba(124,58,237,0.25) 0%, rgba(124,58,237,0.05) 40%, transparent 70%)',
+              'radial-gradient(circle, rgba(91,116,176,0.25) 0%, rgba(91,116,176,0.05) 40%, transparent 70%)',
             filter: 'blur(40px)',
           }}
         />
@@ -135,7 +164,7 @@ export default function LoginPage() {
           className="absolute bottom-[10%] right-[15%] w-80 h-80 rounded-full animate-float-orb-2"
           style={{
             background:
-              'radial-gradient(circle, rgba(6,182,212,0.2) 0%, rgba(6,182,212,0.05) 40%, transparent 70%)',
+              'radial-gradient(circle, rgba(91,116,176,0.2) 0%, rgba(91,116,176,0.05) 40%, transparent 70%)',
             filter: 'blur(50px)',
           }}
         />
@@ -143,7 +172,7 @@ export default function LoginPage() {
           className="absolute top-[40%] right-[5%] w-48 h-48 rounded-full animate-float-orb-3"
           style={{
             background:
-              'radial-gradient(circle, rgba(167,139,250,0.2) 0%, rgba(167,139,250,0.03) 40%, transparent 70%)',
+              'radial-gradient(circle, rgba(123,145,196,0.2) 0%, rgba(123,145,196,0.03) 40%, transparent 70%)',
             filter: 'blur(35px)',
           }}
         />
@@ -166,7 +195,7 @@ export default function LoginPage() {
           className="absolute -inset-[1px] rounded-2xl animate-card-glow opacity-70 pointer-events-none"
           style={{
             background:
-              'linear-gradient(135deg, rgba(124,58,237,0.5), rgba(6,182,212,0.5), rgba(167,139,250,0.5), rgba(124,58,237,0.5))',
+              'linear-gradient(135deg, rgba(91,116,176,0.5), rgba(91,116,176,0.3), rgba(123,145,196,0.5), rgba(91,116,176,0.5))',
             backgroundSize: '300% 300%',
             filter: 'blur(8px)',
           }}
@@ -179,14 +208,14 @@ export default function LoginPage() {
             className="absolute inset-0 rounded-2xl opacity-30 animate-pulse-glow pointer-events-none"
             style={{
               background:
-                'radial-gradient(circle at 50% 0%, rgba(124,58,237,0.15) 0%, transparent 60%)',
+                'radial-gradient(circle at 50% 0%, rgba(91,116,176,0.15) 0%, transparent 60%)',
             }}
           />
 
           <div className="relative">
             {/* Brand header */}
             <div className="flex flex-col items-center text-center mb-8">
-              <div className="relative h-14 w-14 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center mb-4 shadow-[0_0_30px_rgba(124,58,237,0.4)]">
+              <div className="relative h-14 w-14 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center mb-4 shadow-[0_0_30px_rgba(91,116,176,0.4)]">
                 <div className="absolute inset-0 rounded-2xl bg-white/20 animate-pulse-glow" />
                 <Bot className="h-7 w-7 text-white relative z-10" />
               </div>

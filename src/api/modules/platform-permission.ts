@@ -1,5 +1,5 @@
 import { get, post, put, del } from '@/lib/api-client'
-import type { ResultMessage, Page, PlatformPermissionDto, QueryPlatformPermissionDto, EnabledState } from '@/types'
+import type { ResultMessage, PlatformPermissionDto, QueryPlatformPermissionDto, EnabledState } from '@/types'
 
 export function savePlatformPermission(data: PlatformPermissionDto): Promise<ResultMessage<PlatformPermissionDto>> {
   return post<ResultMessage<PlatformPermissionDto>>('/platformPermission/savePlatformPermission', data)
@@ -17,8 +17,8 @@ export function changePlatformPermissionEnabledState(data: { id: number; enabled
   return put<ResultMessage<void>>('/platformPermission/changeEnabledState', data)
 }
 
-export function findPlatformPermissionPage(data: QueryPlatformPermissionDto): Promise<ResultMessage<Page<PlatformPermissionDto>>> {
-  return post<ResultMessage<Page<PlatformPermissionDto>>>('/platformPermission/findPlatformPermissionPage', data)
+export function findPlatformPermissionPage(data: QueryPlatformPermissionDto): Promise<ResultMessage<PlatformPermissionDto>> {
+  return post<ResultMessage<PlatformPermissionDto>>('/platformPermission/findPlatformPermissionPage', data)
 }
 
 export function findPlatformPermissionList(): Promise<ResultMessage<PlatformPermissionDto[]>> {

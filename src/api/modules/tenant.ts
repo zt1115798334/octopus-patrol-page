@@ -1,5 +1,5 @@
 import { get, post, put, del } from '@/lib/api-client'
-import type { ResultMessage, Page, TenantDto, QueryTenantDto, EnabledState } from '@/types'
+import type { ResultMessage, TenantDto, QueryTenantDto, EnabledState } from '@/types'
 
 export function saveTenant(data: TenantDto): Promise<ResultMessage<TenantDto>> {
   return post<ResultMessage<TenantDto>>('/tenant/saveTenant', data)
@@ -17,8 +17,8 @@ export function changeTenantEnabledState(data: { id: number; enabledState: Enabl
   return put<ResultMessage<void>>('/tenant/changeEnabledState', data)
 }
 
-export function findTenantPage(data: QueryTenantDto): Promise<ResultMessage<Page<TenantDto>>> {
-  return post<ResultMessage<Page<TenantDto>>>('/tenant/findTenantPage', data)
+export function findTenantPage(data: QueryTenantDto): Promise<ResultMessage<TenantDto>> {
+  return post<ResultMessage<TenantDto>>('/tenant/findTenantPage', data)
 }
 
 export function findTenantList(): Promise<ResultMessage<TenantDto[]>> {

@@ -1,5 +1,5 @@
 import { get, post, put, del } from '@/lib/api-client'
-import type { ResultMessage, Page, UserDto, QueryUserDto, UserStatisticsDto, EnabledState } from '@/types'
+import type { ResultMessage, UserDto, QueryUserDto, UserStatisticsDto, EnabledState } from '@/types'
 
 export function saveUser(data: UserDto): Promise<ResultMessage<UserDto>> {
   return post<ResultMessage<UserDto>>('/user/saveUser', data)
@@ -7,10 +7,6 @@ export function saveUser(data: UserDto): Promise<ResultMessage<UserDto>> {
 
 export function modifyUserPassword(data: { id: number; newPassword: string }): Promise<ResultMessage<void>> {
   return put<ResultMessage<void>>('/user/modifyUserPassword', data)
-}
-
-export function modifyUserAvatar(data: { avatarId: number }): Promise<ResultMessage<void>> {
-  return put<ResultMessage<void>>('/user/modifyUserAvatar', data)
 }
 
 export function modifyUserPhone(data: { phone: string }): Promise<ResultMessage<void>> {
@@ -29,16 +25,12 @@ export function changeUserEnabledState(data: { id: number; enabledState: Enabled
   return put<ResultMessage<void>>('/user/changeEnabledState', data)
 }
 
-export function findUserPage(data: QueryUserDto): Promise<ResultMessage<Page<UserDto>>> {
-  return post<ResultMessage<Page<UserDto>>>('/user/findUserPage', data)
+export function findUserPage(data: QueryUserDto): Promise<ResultMessage<UserDto>> {
+  return post<ResultMessage<UserDto>>('/user/findUserPage', data)
 }
 
 export function findUser(id: number): Promise<ResultMessage<UserDto>> {
   return get<ResultMessage<UserDto>>(`/user/findUser/${id}`)
-}
-
-export function findCurrentUser(): Promise<ResultMessage<UserDto>> {
-  return get<ResultMessage<UserDto>>('/user/findCurrentUser')
 }
 
 export function getUserStatistics(): Promise<ResultMessage<UserStatisticsDto>> {

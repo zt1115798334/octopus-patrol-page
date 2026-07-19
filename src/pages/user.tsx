@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, type ChangeEvent } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
@@ -23,9 +23,11 @@ import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Switch } from '@/components/ui/switch'
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { toast } from 'sonner'
 import { findUserPage, saveUser, deleteUser, deleteUsers, changeUserEnabledState } from '@/api/modules/user'
+import { uploadFile } from '@/api/modules/file'
 import { formatDate } from '@/lib/utils'
 import type { UserDto, QueryUserDto, EnabledState } from '@/types'
 
@@ -34,7 +36,12 @@ const userFormSchema = z.object({
   username: z.string().min(1, '请输入用户名'),
   phone: z.string().optional(),
   password: z.string().optional(),
+  confirmPassword: z.string().optional(),
   enabledState: z.string().optional(),
+  avatarId: z.number().optional(),
+}).refine((data) => !data.password || data.password === data.confirmPassword, {
+  message: '两次输入的密码不一致',
+  path: ['confirmPassword'],
 })
 
 type UserFormData = z.infer<typeof userFormSchema>
@@ -49,6 +56,8 @@ export default function UserManagement() {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editingUser, setEditingUser] = useState<UserDto | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<number | null>(null)
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
+  const [avatarUploading, setAvatarUploading] = useState(false)
 
   const query: QueryUserDto = { pageNumber: page, pageSize, keywords }
 
@@ -107,7 +116,9 @@ export default function UserManagement() {
       username: user.username || '',
       phone: user.phone || '',
       enabledState: user.enabledState || 'ON',
+      avatarId: user.avatarId,
     })
+    setAvatarPreview(null)
     setDialogOpen(true)
   }, [form])
 
@@ -118,14 +129,41 @@ export default function UserManagement() {
   }, [form])
 
   const handleSubmit = useCallback((formData: UserFormData) => {
-    saveMutation.mutate({
+    const payload: UserDto = {
       id: editingUser?.id,
-      ...formData,
-    })
+      account: formData.account,
+      username: formData.username,
+      phone: formData.phone,
+      password: formData.password,
+      enabledState: formData.enabledState,
+      avatarId: formData.avatarId,
+    }
+    saveMutation.mutate(payload)
   }, [editingUser, saveMutation])
 
-  const users = data?.data?.content || []
-  const total = data?.data?.totalElements || 0
+  const handleAvatarChange = useCallback(async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setAvatarPreview(URL.createObjectURL(file))
+    setAvatarUploading(true)
+    try {
+      const res = await uploadFile(file)
+      const info = res.obj ?? (res as unknown as { data?: { id?: number } }).data
+      if (info?.id != null) {
+        form.setValue('avatarId', info.id)
+        toast.success(t('common.operationSuccess'))
+      } else {
+        toast.error(t('common.operationFailed'))
+      }
+    } catch {
+      toast.error(t('common.operationFailed'))
+    } finally {
+      setAvatarUploading(false)
+    }
+  }, [form, t])
+
+  const users = data?.page?.list || []
+  const total = data?.page?.total || 0
 
   return (
     <div className="space-y-4">
@@ -268,7 +306,38 @@ export default function UserManagement() {
             <Input label={t('user.account')} {...form.register('account')} error={form.formState.errors.account?.message} />
             <Input label={t('user.username')} {...form.register('username')} error={form.formState.errors.username?.message} />
             <Input label={t('user.phone')} {...form.register('phone')} />
-            {!editingUser && <Input label={t('auth.password')} type="password" {...form.register('password')} />}
+            {!editingUser && (
+              <>
+                <Input label={t('auth.password')} type="password" {...form.register('password')} error={form.formState.errors.password?.message} />
+                <Input label={t('user.confirmPassword')} type="password" {...form.register('confirmPassword')} error={form.formState.errors.confirmPassword?.message} />
+              </>
+            )}
+            <div className="flex items-center justify-between rounded-lg border border-neutral-200 px-3 py-2 dark:border-neutral-700">
+              <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">{t('user.enabledState')}</span>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-neutral-500">
+                  {form.watch('enabledState') === 'ON' ? t('common.enabled') : t('common.disabled')}
+                </span>
+                <Switch
+                  checked={form.watch('enabledState') === 'ON'}
+                  onCheckedChange={(checked) => form.setValue('enabledState', checked ? 'ON' : 'OFF')}
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">{t('user.uploadAvatar')}</label>
+              <div className="flex items-center gap-3">
+                <Avatar className="h-14 w-14">
+                  {avatarPreview ? (
+                    <AvatarImage src={avatarPreview} alt="avatar" />
+                  ) : (
+                    <AvatarFallback>{(form.watch('username') || '?').charAt(0)}</AvatarFallback>
+                  )}
+                </Avatar>
+                <Input type="file" accept="image/*" onChange={handleAvatarChange} wrapperClassName="flex-1" />
+              </div>
+              {avatarUploading && <p className="text-xs text-neutral-500">{t('common.loading')}</p>}
+            </div>
             <DialogFooter>
               <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>{t('common.cancel')}</Button>
               <Button type="submit" loading={saveMutation.isPending}>{t('common.save')}</Button>

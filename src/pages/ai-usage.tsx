@@ -24,7 +24,7 @@ export default function AiUsageManagement() {
   const query: QueryAiUsageRecordDto = { pageNumber: page, pageSize, keywords: keywords || undefined }
   const { data, isLoading } = useQuery({ queryKey: ['aiUsage', query], queryFn: () => findAiUsageRecordPage(query) })
 
-  const items = data?.data?.content || []; const total = data?.data?.totalElements || 0
+  const items = data?.page?.list || []; const total = data?.page?.total || 0
 
   return (
     <div className="space-y-4"><div className="flex items-center justify-between"><div><h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-50">AI使用记录</h1><p className="text-sm text-neutral-500 mt-1">{t('common.total', { total })}</p></div></div>

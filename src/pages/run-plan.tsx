@@ -51,7 +51,7 @@ export default function RunPlanManagement() {
   const handleCreate = useCallback(() => { setEditing(null); form.reset({ platformCode: '', platformAccountId: undefined, requestParams: '', description: '', enabledState: 'ON' }); setDialogOpen(true) }, [form])
   const handleSubmit = useCallback((d: FormData) => { saveMutation.mutate({ id: editing?.id, ...d } as PlatformSchemeDto) }, [editing, saveMutation])
 
-  const items = data?.data?.content || []; const total = data?.data?.totalElements || 0
+  const items = data?.page?.list || []; const total = data?.page?.total || 0
 
   return (
     <div className="space-y-4"><div className="flex items-center justify-between"><div><h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-50">运行方案</h1><p className="text-sm text-neutral-500 mt-1">{t('common.total', { total })}</p></div><Button onClick={handleCreate}><Plus className="h-4 w-4" />{t('common.create')}</Button></div>

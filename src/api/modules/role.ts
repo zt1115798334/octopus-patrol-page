@@ -1,5 +1,5 @@
 import { get, post, put, del } from '@/lib/api-client'
-import type { ResultMessage, Page, RoleDto, QueryRoleDto, EnabledState } from '@/types'
+import type { ResultMessage, RoleDto, QueryRoleDto, EnabledState } from '@/types'
 
 export function saveRole(data: RoleDto): Promise<ResultMessage<RoleDto>> {
   return post<ResultMessage<RoleDto>>('/role/saveRole', data)
@@ -17,8 +17,8 @@ export function changeRoleEnabledState(data: { id: number; enabledState: Enabled
   return put<ResultMessage<void>>('/role/changeEnabledState', data)
 }
 
-export function findRolePage(data: QueryRoleDto): Promise<ResultMessage<Page<RoleDto>>> {
-  return post<ResultMessage<Page<RoleDto>>>('/role/findRolePage', data)
+export function findRolePage(data: QueryRoleDto): Promise<ResultMessage<RoleDto>> {
+  return post<ResultMessage<RoleDto>>('/role/findRolePage', data)
 }
 
 export function findRoleList(): Promise<ResultMessage<RoleDto[]>> {

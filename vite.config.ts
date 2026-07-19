@@ -13,8 +13,8 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      '/api': {
-        target: 'http://localhost:8080',
+      '/patrol': {
+        target: 'http://localhost:7794',
         changeOrigin: true,
       },
     },

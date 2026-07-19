@@ -86,7 +86,7 @@ on('GET', /\/user\/findUser\/(\d+)/, (url) => {
   const id = Number(url.split('/').pop())
   return success(users.find((u) => u.id === id) ?? null)
 })
-on('GET', /\/user\/findCurrentUser/, () => success(users[0]))
+on('GET', /\/personalCenter\/findCurrentUser/, () => success(users[0]))
 on('GET', /\/user\/getUserStatistics/, () => success(data.mockUserStats))
 on('POST', /\/user\/saveUser/, (_, __, body) => {
   if (body?.id) {
@@ -114,7 +114,7 @@ on('PUT', /\/user\/changeEnabledState/, (_, __, body) => {
   return ok()
 })
 on('PUT', /\/user\/modifyUserPassword/, () => ok())
-on('PUT', /\/user\/modifyUserAvatar/, () => ok())
+on('PUT', /\/personalCenter\/modifyCurrentAvatarId/, () => ok())
 on('PUT', /\/user\/modifyUserPhone/, () => ok())
 
 // ---- Role ----
@@ -217,25 +217,26 @@ on('PUT', /\/tenant\/changeEnabledState/, (_, __, body) => {
 })
 
 // ---- Log ----
-on('POST', /\/log\/saveLog/, () => ok())
-on('POST', /\/log\/findLogPage/, (_, __, body) => {
+on('POST', /\/log\/findPage/, (_, __, body) => {
   return success(paginate(logs, body?.pageNumber ?? 0, body?.pageSize ?? 10))
 })
-on('GET', /\/log\/getLogStatistics/, () => success(data.mockLogStats))
-on('POST', /\/log\/countLog/, (_, __, body) => {
-  const start = body?.startDateTime ? new Date(body.startDateTime) : null
-  const end = body?.endDateTime ? new Date(body.endDateTime) : null
-  let filtered = logs
-  if (start) filtered = filtered.filter((l) => l.createdTime && new Date(l.createdTime) >= start)
-  if (end) filtered = filtered.filter((l) => l.createdTime && new Date(l.createdTime) <= end)
-  return success([{ type: 'LOGIN', count: filtered.filter((l) => l.type === 'SYSTEM').length }])
+on('GET', /\/log\/statistics/, () => success(data.mockLogStats))
+on('GET', /\/log\/findById\/(\d+)/, (url) => {
+  const id = Number(url.split('/').pop())
+  return success(logs.find((l) => l.id === id) ?? null)
 })
-on('POST', /\/log\/countLoginLog/, () => success([{ date: new Date().toISOString().slice(0, 10), count: 5 }]))
 
 // ---- Dashboard ----
-on('POST', /\/dashboard\/getVisitStats/, () => success(data.mockVisitStats))
-on('POST', /\/dashboard\/getVisitTrend/, () => success(data.mockVisitTrend))
-on('POST', /\/dashboard\/getTimeConsuming/, () => success(data.mockTimeConsuming))
+on('POST', /\/dashboard\/findVisitStats/, () => success(data.mockVisitStats))
+on('POST', /\/dashboard\/findVisitTrend/, () => success(data.mockVisitTrend))
+on('POST', /\/dashboard\/findTimeConsumingStats/, () => success(data.mockTimeConsuming))
+on('POST', /\/dashboard\/findHotEndpoints/, () => success(data.mockHotEndpoints))
+on('POST', /\/dashboard\/findModuleDistribution/, () => success(data.mockModuleDistribution))
+on('POST', /\/dashboard\/findSlowEndpoints/, () => success(data.mockSlowEndpoints))
+on('POST', /\/dashboard\/findHourlyVisitDistribution/, () => success(data.mockHourlyVisit))
+on('POST', /\/dashboard\/findActiveUsers/, () => success(data.mockActiveUsers))
+on('POST', /\/dashboard\/findOperateRatio/, () => success(data.mockOperateRatio))
+on('POST', /\/dashboard\/findWeeklyCompare/, () => success(data.mockWeeklyCompare))
 
 // ---- Pricing Plan ----
 on('POST', /\/pricingPlan\/findPricingPlanPage/, (_, __, body) => {
