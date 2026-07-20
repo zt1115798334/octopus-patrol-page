@@ -5,7 +5,10 @@ import axios, {
   type AxiosResponse,
 } from 'axios'
 
-const BASE_URL = '/api'
+const BASE_URL = '/patrol/general/api'
+
+// 路径前缀：patrol-web 模块的接口统一走此 base（对应后端 patrol-web 的 controller）
+export const WEB_BASE_URL = '/patrol/web/api'
 
 const instance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -16,25 +19,26 @@ const instance: AxiosInstance = axios.create({
 })
 
 // ---- Mock mode ----
-let mockHandler: ((config: InternalAxiosRequestConfig) => AxiosResponse | null) | null = null
 
 export function enableMockMode(handler: (config: InternalAxiosRequestConfig) => AxiosResponse | null) {
-  mockHandler = handler
-  console.log('[Mock] Mock mode enabled')
-}
+  console.log('[Mock] Mock mode enabled — intercepting API calls')
 
-// Save original adapter and override with mock-aware adapter
-const originalAdapter = (instance.defaults.adapter as (config: InternalAxiosRequestConfig) => Promise<AxiosResponse>)
-instance.defaults.adapter = (config: InternalAxiosRequestConfig) => {
-  if (mockHandler) {
-    const mockResp = mockHandler(config)
+  // Override adapter only when mock mode is explicitly enabled.
+  // When mock is disabled, axios uses its default adapter (xhr/fetch) as normal.
+  const mockAdapter = (config: InternalAxiosRequestConfig) => {
+    const mockResp = handler(config)
     if (mockResp) {
       console.log('[Mock]', config.method?.toUpperCase(), config.url, '→ 200')
       return Promise.resolve(mockResp)
     }
     console.warn('[Mock] No handler for', config.method?.toUpperCase(), config.url)
+    // Fallback: temporarily remove mock adapter so the real request goes through
+    delete instance.defaults.adapter
+    return instance(config).finally(() => {
+      instance.defaults.adapter = mockAdapter
+    })
   }
-  return originalAdapter(config)
+  instance.defaults.adapter = mockAdapter
 }
 
 // Request interceptor
@@ -104,7 +108,7 @@ instance.interceptors.response.use(
         const response = await axios.post(`${BASE_URL}/login/refresh`, {
           refreshToken,
         })
-        const newToken = response.data.data
+        const newToken = response.data.obj
         localStorage.setItem('accessToken', newToken)
         processQueue(null, newToken)
         originalRequest.headers.Authorization = `Bearer ${newToken}`
@@ -125,25 +129,25 @@ instance.interceptors.response.use(
 )
 
 // Generic request helpers
-export async function request<T>(config: AxiosRequestConfig): Promise<T> {
-  const response = await instance.request<T>(config)
+export async function request<T>(config: AxiosRequestConfig, baseURL: string = BASE_URL): Promise<T> {
+  const response = await instance.request<T>({ ...config, baseURL })
   return response.data
 }
 
-export async function get<T>(url: string, params?: Record<string, unknown>): Promise<T> {
-  return request<T>({ method: 'GET', url, params })
+export async function get<T>(url: string, params?: Record<string, unknown>, baseURL?: string): Promise<T> {
+  return request<T>({ method: 'GET', url, params }, baseURL)
 }
 
-export async function post<T>(url: string, data?: unknown): Promise<T> {
-  return request<T>({ method: 'POST', url, data })
+export async function post<T>(url: string, data?: unknown, baseURL?: string): Promise<T> {
+  return request<T>({ method: 'POST', url, data }, baseURL)
 }
 
-export async function put<T>(url: string, data?: unknown): Promise<T> {
-  return request<T>({ method: 'PUT', url, data })
+export async function put<T>(url: string, data?: unknown, baseURL?: string): Promise<T> {
+  return request<T>({ method: 'PUT', url, data }, baseURL)
 }
 
-export async function del<T>(url: string, data?: unknown): Promise<T> {
-  return request<T>({ method: 'DELETE', url, data })
+export async function del<T>(url: string, data?: unknown, baseURL?: string): Promise<T> {
+  return request<T>({ method: 'DELETE', url, data }, baseURL)
 }
 
 export async function upload<T>(
@@ -153,11 +157,13 @@ export async function upload<T>(
 ): Promise<T> {
   const formData = new FormData()
   formData.append('file', file)
+  // 必须显式将 Content-Type 设为 undefined，覆盖 axios 实例默认的 application/json，
+  // 让浏览器自动从 FormData 生成 multipart/form-data + boundary
   return request<T>({
     method: 'POST',
     url,
     data: formData,
-    headers: { 'Content-Type': 'multipart/form-data' },
+    headers: { 'Content-Type': undefined },
     onUploadProgress: (progressEvent) => {
       if (progressEvent.total && onProgress) {
         const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total)

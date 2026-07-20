@@ -11,8 +11,10 @@ import { handleMockRequest } from './mock'
 import './styles/globals.css'
 import './i18n'
 
-// Enable mock mode — all API calls return fake data
-enableMockMode(handleMockRequest)
+// Enable mock mode only when VITE_ENABLE_MOCK=true — defaults to real API calls
+if (import.meta.env.VITE_ENABLE_MOCK === 'true') {
+  enableMockMode(handleMockRequest)
+}
 
 const queryClient = new QueryClient({
   defaultOptions: {

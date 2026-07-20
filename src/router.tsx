@@ -18,6 +18,7 @@ const AiConfig = lazy(() => import('@/pages/ai-config'))
 const AiUsage = lazy(() => import('@/pages/ai-usage'))
 const JobManagement = lazy(() => import('@/pages/job'))
 const PersonalCenter = lazy(() => import('@/pages/personal-center'))
+const Settings = lazy(() => import('@/pages/settings'))
 
 export const router = createBrowserRouter([
   {
@@ -46,6 +47,7 @@ export const router = createBrowserRouter([
       { path: 'ai-usage', element: <AiUsage /> },
       { path: 'job', element: <JobManagement /> },
       { path: 'personal-center', element: <PersonalCenter /> },
+      { path: 'settings', element: <Settings /> },
     ],
   },
   {

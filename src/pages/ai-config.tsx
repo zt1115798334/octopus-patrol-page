@@ -42,7 +42,7 @@ export default function AiConfigManagement() {
   const handleCreate = useCallback(() => { setEditing(null); form.reset({ name: '', vendor: 'OPENAI', apiKey: '', apiUrl: '', model: '', isDefault: false, enabledState: 'ON' }); setDialogOpen(true) }, [form])
   const handleSubmit = useCallback((d: FormData) => { saveMutation.mutate({ id: editing?.id, ...d }) }, [editing, saveMutation])
 
-  const items = data?.data?.content || []; const total = data?.data?.totalElements || 0
+  const items = data?.page?.list || []; const total = data?.page?.total || 0
   const vendorLabels: Record<string, string> = { OPENAI: 'OpenAI', DEEPSEEK: 'DeepSeek', ZHIPU: '智谱', TONGYI: '通义', CUSTOM: '自定义' }
 
   return (

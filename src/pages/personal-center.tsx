@@ -9,8 +9,10 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent } from '@/components/ui/card'
 import { SkeletonCard } from '@/components/ui/skeleton'
-import { getConfigInfo, modifyConfigInfo } from '@/api/modules/personal-center'
-import { modifyUserPassword, findCurrentUser } from '@/api/modules/user'
+import { getConfigInfo, modifyConfigInfo, findCurrentUser } from '@/api/modules/personal-center'
+import { modifyUserPassword } from '@/api/modules/user'
+import { useShowFileUrl } from '@/hooks'
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { useAuthStore } from '@/stores'
 import { toast } from 'sonner'
 import type { ConfigurationInformationDto } from '@/types'
@@ -37,7 +39,8 @@ export default function PersonalCenter() {
     queryFn: findCurrentUser,
   })
 
-  const userInfo = currentUser?.data
+  const userInfo = currentUser?.obj
+  const avatarUrl = useShowFileUrl(userInfo?.avatarId)
 
   const passwordMutation = useMutation({
     mutationFn: modifyUserPassword,
@@ -74,9 +77,12 @@ export default function PersonalCenter() {
             <Card><CardContent className="pt-6">
               {userLoading ? <SkeletonCard /> : (
                 <div className="flex items-center gap-4">
-                  <div className="h-16 w-16 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">
-                    <User className="h-8 w-8 text-primary-500" />
-                  </div>
+                  <Avatar className="h-16 w-16">
+                    {avatarUrl && <AvatarImage src={avatarUrl} alt={userInfo?.username || ''} />}
+                    <AvatarFallback className="text-xl">
+                      {userInfo?.username?.charAt(0)?.toUpperCase() || <User className="h-8 w-8" />}
+                    </AvatarFallback>
+                  </Avatar>
                   <div>
                     <h3 className="font-semibold">{userInfo?.username || userInfo?.account || '-'}</h3>
                     <p className="text-sm text-neutral-500">{userInfo?.account || '-'}</p>
@@ -100,7 +106,7 @@ export default function PersonalCenter() {
           )}
           {activeTab === 'config' && (
             <Card><CardContent className="pt-6">
-              {configLoading ? <SkeletonCard /> : <form onSubmit={configForm.handleSubmit(handleConfig)} className="space-y-4"><Input label="Access Token 过期时长" type="number" {...configForm.register('accessExpiration', { valueAsNumber: true })} defaultValue={configData?.data?.accessExpiration} /><Input label="Refresh Token 过期时长" type="number" {...configForm.register('refreshExpiration', { valueAsNumber: true })} defaultValue={configData?.data?.refreshExpiration} /><Button type="submit" loading={configMutation.isPending}>{t('common.save')}</Button></form>}
+              {configLoading ? <SkeletonCard /> : <form onSubmit={configForm.handleSubmit(handleConfig)} className="space-y-4"><Input label="Access Token 过期时长" type="number" {...configForm.register('accessExpiration', { valueAsNumber: true })} defaultValue={configData?.obj?.accessExpiration} /><Input label="Refresh Token 过期时长" type="number" {...configForm.register('refreshExpiration', { valueAsNumber: true })} defaultValue={configData?.obj?.refreshExpiration} /><Button type="submit" loading={configMutation.isPending}>{t('common.save')}</Button></form>}
             </CardContent></Card>
           )}
         </div>

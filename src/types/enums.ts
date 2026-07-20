@@ -43,6 +43,7 @@ export enum PlanLevel {
 
 export enum PlatformCode {
   XHS = 'XHS',
+  XIE_HE = 'XIE_HE',
 }
 
 export enum BasedType {

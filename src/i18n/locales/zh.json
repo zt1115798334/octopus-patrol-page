@@ -130,7 +130,10 @@
     "modifyPassword": "修改密码",
     "newPassword": "新密码",
     "modifyPhone": "修改手机号",
-    "modifyAvatar": "修改头像"
+    "modifyAvatar": "修改头像",
+    "confirmPassword": "确认密码",
+    "uploadAvatar": "上传头像",
+    "enabledState": "开启状态"
   },
   "role": {
     "title": "角色管理",
@@ -174,6 +177,7 @@
   },
   "setting": {
     "title": "设置",
+    "description": "设置您的头像和修改密码",
     "theme": "主题设置",
     "colorMode": "品牌色",
     "tableDensity": "表格密度",
@@ -207,8 +211,10 @@
     "title": "平台管理",
     "name": "平台名称",
     "code": "平台编码",
+    "selectCode": "请选择平台编码",
     "description": "描述",
-    "createdTime": "创建时间"
+    "enabledState": "开启状态",
+    "selectEnabledState": "请选择开启状态"
   },
   "schedule": {
     "title": "任务调度",

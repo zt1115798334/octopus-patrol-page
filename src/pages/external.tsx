@@ -21,8 +21,8 @@ export default function ExternalPage() {
     mutationFn: searchXhs,
     onSuccess: (res) => {
       if (res.meta.success) {
-        setResults(res.data.data || [])
-        setTotalCount(res.data.count || 0)
+        setResults(res.obj.data || [])
+        setTotalCount(res.obj.count || 0)
         toast.success(`${t('common.search')}完成`)
       }
     },

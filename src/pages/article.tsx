@@ -41,7 +41,7 @@ export default function ArticleManagement() {
   const handleCreate = useCallback(() => { setEditing(null); form.reset({ title: '', content: '', url: '', publishTime: '' }); setDialogOpen(true) }, [form])
   const handleSubmit = useCallback((d: FormData) => { saveMutation.mutate({ id: editing?.id, ...d }) }, [editing, saveMutation])
 
-  const items = data?.data?.content || []; const total = data?.data?.totalElements || 0
+  const items = data?.page?.list || []; const total = data?.page?.total || 0
 
   return (
     <div className="space-y-4"><div className="flex items-center justify-between"><div><h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-50">{t('nav.article')}</h1><p className="text-sm text-neutral-500 mt-1">{t('common.total', { total })}</p></div><div className="flex gap-2"><Button variant="outline" size="sm" onClick={() => crawlMutation.mutate({ pageNumber: 1, pageSize: 100 })} loading={crawlMutation.isPending}>爬取文章</Button><Button onClick={handleCreate}><Plus className="h-4 w-4" />{t('common.create')}</Button></div></div>

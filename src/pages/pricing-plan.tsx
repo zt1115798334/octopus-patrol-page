@@ -41,7 +41,7 @@ export default function PricingPlanManagement() {
   const handleCreate = useCallback(() => { setEditing(null); form.reset({ planName: '', planLevel: 'FREE', originalPrice: 0, discountPrice: 0, keywordLimit: 0, dailyCommentLimit: 0, aiConfigLimit: 0, tokenLimit: 0, enabledState: 'ON' }); setDialogOpen(true) }, [form])
   const handleSubmit = useCallback((d: FormData) => { saveMutation.mutate({ id: editing?.id, ...d }) }, [editing, saveMutation])
 
-  const items = data?.data?.content || []; const total = data?.data?.totalElements || 0
+  const items = data?.page?.list || []; const total = data?.page?.total || 0
   const levelLabels: Record<string, string> = { FREE: '免费', MONTHLY: '月付', YEARLY: '年付' }
 
   return (

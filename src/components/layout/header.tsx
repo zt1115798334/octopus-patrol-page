@@ -27,12 +27,15 @@ import {
   DropdownMenuTrigger,
   DropdownMenuLabel,
 } from '@/components/ui/dropdown-menu'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { Button } from '@/components/ui/button'
 import { NotificationPanel } from './notification-panel'
 import { WorkspaceSwitch } from './workspace-switch'
+import { useQuery } from '@tanstack/react-query'
+import { findCurrentUser } from '@/api/modules/personal-center'
+import { useShowFileUrl } from '@/hooks'
 
 export function Header() {
   const { collapsed, toggle } = useSidebarStore()
@@ -42,6 +45,15 @@ export function Header() {
   const { themeStyle, setThemeStyle } = useSettingStore()
   const { t, i18n } = useTranslation()
   const [notificationOpen, setNotificationOpen] = useState(false)
+
+  // Fetch current user (avatarId, username) for display
+  const { data: currentUser } = useQuery({
+    queryKey: ['currentUser'],
+    queryFn: findCurrentUser,
+    staleTime: 5 * 60 * 1000,
+  })
+  const avatarId = currentUser?.obj?.avatarId
+  const avatarUrl = useShowFileUrl(avatarId)
 
   // Command palette shortcut
   useEffect(() => {
@@ -64,7 +76,7 @@ export function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-40 h-14 glass flex items-center justify-between px-4 dark:shadow-[0_1px_0_rgba(124,58,237,0.06)]">
+      <header className="fixed top-0 left-0 right-0 z-40 h-14 glass flex items-center justify-between px-4 dark:shadow-[0_1px_0_rgba(91,116,176,0.06)]">
         {/* Left */}
         <div className="flex items-center gap-3">
           <Tooltip>
@@ -77,7 +89,7 @@ export function Header() {
           </Tooltip>
 
           <Link to="/" className="flex items-center gap-2 select-none">
-            <div className="h-7 w-7 rounded-[10px] bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-[0_0_12px_rgba(124,58,237,0.3)]">
+            <div className="h-7 w-7 rounded-[10px] bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-[0_0_12px_rgba(91,116,176,0.3)]">
               <span className="text-white text-xs font-bold">O</span>
             </div>
             <span className="font-bold text-sm gradient-text hidden sm:block">
@@ -197,6 +209,7 @@ export function Header() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-9 gap-2 px-2">
                 <Avatar className="h-7 w-7">
+                  {avatarUrl && <AvatarImage src={avatarUrl} alt={username || ''} />}
                   <AvatarFallback className="text-xs">{username?.charAt(0)?.toUpperCase() || 'U'}</AvatarFallback>
                 </Avatar>
                 <span className="text-sm font-medium hidden sm:inline">{username || 'User'}</span>
@@ -205,9 +218,15 @@ export function Header() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel>
-                <div className="flex flex-col">
-                  <span className="font-medium">{username}</span>
-                  <span className="text-xs text-neutral-500">{account}</span>
+                <div className="flex items-center gap-3">
+                  <Avatar className="h-10 w-10">
+                    {avatarUrl && <AvatarImage src={avatarUrl} alt={username || ''} />}
+                    <AvatarFallback>{username?.charAt(0)?.toUpperCase() || 'U'}</AvatarFallback>
+                  </Avatar>
+                  <div className="flex flex-col">
+                    <span className="font-medium">{username}</span>
+                    <span className="text-xs text-neutral-500">{account}</span>
+                  </div>
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
@@ -218,7 +237,7 @@ export function Header() {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link to="/personal-center" className="cursor-pointer">
+                <Link to="/settings" className="cursor-pointer">
                   <Settings className="mr-2 h-4 w-4" />
                   {t('setting.title')}
                 </Link>

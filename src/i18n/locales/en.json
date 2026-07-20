@@ -130,7 +130,10 @@
     "modifyPassword": "Change Password",
     "newPassword": "New Password",
     "modifyPhone": "Change Phone",
-    "modifyAvatar": "Change Avatar"
+    "modifyAvatar": "Change Avatar",
+    "confirmPassword": "Confirm Password",
+    "uploadAvatar": "Upload Avatar",
+    "enabledState": "Enabled"
   },
   "role": {
     "title": "Role Management",
@@ -174,6 +177,7 @@
   },
   "setting": {
     "title": "Settings",
+    "description": "Set your avatar and change password",
     "theme": "Theme",
     "colorMode": "Accent Color",
     "tableDensity": "Table Density",
@@ -207,8 +211,10 @@
     "title": "Platforms",
     "name": "Name",
     "code": "Code",
+    "selectCode": "Please select platform code",
     "description": "Description",
-    "createdTime": "Created"
+    "enabledState": "Enabled State",
+    "selectEnabledState": "Please select enabled state"
   },
   "schedule": {
     "title": "Job Schedule",

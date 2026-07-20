@@ -35,7 +35,7 @@ export default function JobManagement() {
 
   const handleSubmit = useCallback((d: FormData) => { addMutation.mutate(d) }, [addMutation])
 
-  const jobs = (data?.data || []) as Array<Record<string, unknown>>
+  const jobs = (data?.list || []) as Array<Record<string, unknown>>
 
   return (
     <div className="space-y-4"><div className="flex items-center justify-between"><div><h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-50">{t('schedule.title')}</h1><p className="text-sm text-neutral-500 mt-1">{t('common.total', { total: jobs.length })}</p></div><Button onClick={() => { form.reset({ jobName: '', jobGroup: 'DEFAULT', jobClassName: '', cronExpression: '', description: '' }); setDialogOpen(true) }}><Plus className="h-4 w-4" />{t('common.create')}</Button></div>

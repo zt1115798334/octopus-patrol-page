@@ -73,8 +73,8 @@ export default function RoleManagement() {
   const handleCreate = useCallback(() => { setEditing(null); form.reset({ name: '', sort: 0, enabledState: 'ON' }); setDialogOpen(true) }, [form])
   const handleSubmit = useCallback((d: FormData) => { saveMutation.mutate({ id: editing?.id, ...d }) }, [editing, saveMutation])
 
-  const items = data?.data?.content || []
-  const total = data?.data?.totalElements || 0
+  const items = data?.page?.list || []
+  const total = data?.page?.total || 0
 
   return (
     <div className="space-y-4">

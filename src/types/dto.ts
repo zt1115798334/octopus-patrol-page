@@ -11,23 +11,43 @@ import type {
   VisitStatsType,
 } from './enums'
 
+// ==================== Enum Types ====================
+
+export interface EnumValueDto {
+  code?: number
+  desc?: string
+  name?: string
+}
+
+/** findAllEnumPairs 返回的 Map 结构: key=枚举类名, value=枚举值列表 */
+export type EnumPairsData = Record<string, EnumValueDto[]>
+
 // ==================== Common Types ====================
 
-export interface ResultMessage<T> {
+export interface ResultMessage<T = unknown> {
   meta: {
     success: boolean
     code: number
-    message: string
+    timestamp: string
+    message: string | null
   }
-  data: T
+  obj: T | null
+  list: T[] | null
+  page: PageData<T> | null
+  scroll: ScrollData<T> | null
+  value: string | null
 }
 
-export interface Page<T> {
-  content: T[]
-  totalElements: number
-  totalPages: number
-  number: number
-  size: number
+export interface PageData<T> {
+  pageNumber: number | null
+  pageSize: number | null
+  total: number | null
+  list: T[] | null
+}
+
+export interface ScrollData<T> {
+  scrollId: string | null
+  list: T[] | null
 }
 
 // ==================== Page / Query DTOs ====================
@@ -244,9 +264,16 @@ export interface QueryVisitTrendDto {
   endDateTime?: string
 }
 
+export interface QueryRankDto {
+  limit?: number
+}
+
+export interface QueryHourlyVisitDto {
+  date?: string
+}
+
 export interface VisitStatsDto {
   type?: VisitStatsType
-  title?: string
   todayCount?: number
   totalCount?: number
   growthRate?: number
@@ -259,10 +286,53 @@ export interface DateVisitStatsDto {
 
 export interface TimeConsumingDto {
   type?: VisitStatsType
-  title?: string
   yesterdayCount?: number
   todayCount?: number
   totalCount?: number
+}
+
+export interface HotEndpointDto {
+  name?: string
+  count?: number
+}
+
+export interface SlowEndpointDto {
+  name?: string
+  avgTimeConsuming?: number
+  maxTimeConsuming?: number
+  count?: number
+}
+
+export interface ModuleDistributionDto {
+  module?: string
+  count?: number
+  percentage?: number
+}
+
+export interface HourlyVisitDto {
+  hour?: number
+  count?: number
+}
+
+export interface ActiveUserDto {
+  userId?: number
+  userName?: string
+  count?: number
+}
+
+export interface OperateRatioDto {
+  operate?: string
+  count?: number
+  percentage?: number
+}
+
+export interface WeeklyCompareDto {
+  thisWeekPv?: number
+  lastWeekPv?: number
+  pvGrowthRate?: number
+  thisWeekIp?: number
+  lastWeekIp?: number
+  ipGrowthRate?: number
 }
 
 // ==================== Configuration Types ====================
@@ -353,6 +423,15 @@ export interface QueryPlatformDto extends PageDto {
   endDateTime?: string
   platformIds?: number[]
   keywords?: string
+}
+
+/** 保存平台请求体（仅业务字段，createdTime/updatedTime 由服务端维护） */
+export interface SavePlatformDto {
+  id?: number
+  platformName?: string
+  platformCode?: PlatformCode
+  description?: string
+  enabledState?: EnabledState
 }
 
 // ==================== Platform Account Types ====================
@@ -560,4 +639,25 @@ export interface FileUploadInfoDto {
   id?: number
   fileName?: string
   fileSize?: number
+}
+
+/** 文件状态 -- UN_UPLOADED:0,UPLOADED:1,UPLOADING:2 */
+export enum FileStatus {
+  UN_UPLOADED = 0,
+  UPLOADED = 1,
+  UPLOADING = 2,
+}
+
+/** 文件操作结果（秒传/合并 返回） */
+export interface FileOperationResult {
+  fileId?: number
+  fileStatus?: FileStatus
+  chunkUploadedList?: number[]
+}
+
+/** 分片初始化上传信息 */
+export interface UploadInfo {
+  uploadId?: string
+  expiryTime?: string
+  part?: number[]
 }

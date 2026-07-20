@@ -11,7 +11,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-gradient-to-br from-primary-600 to-primary-500 text-white shadow-[0_1px_3px_0_rgba(124,58,237,0.25)] hover:from-primary-700 hover:to-primary-600 hover:shadow-[0_4px_12px_-2px_rgba(124,58,237,0.35)] active:scale-[0.98]',
+          'bg-gradient-to-br from-primary-600 to-primary-500 text-white shadow-[0_1px_3px_0_rgba(91,116,176,0.25)] hover:from-primary-700 hover:to-primary-600 hover:shadow-[0_4px_12px_-2px_rgba(91,116,176,0.35)] active:scale-[0.98]',
         secondary:
           'bg-neutral-100 text-neutral-700 border border-neutral-200/80 hover:bg-neutral-200/80 dark:bg-neutral-800 dark:text-neutral-300 dark:border-neutral-700/80 dark:hover:bg-neutral-700/80',
         outline:

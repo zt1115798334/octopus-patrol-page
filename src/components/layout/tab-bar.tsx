@@ -53,13 +53,20 @@ export function TabBar() {
     const label = getTabLabel(path, t)
     isSyncingRef.current = true
     addTab({ id: path, path, label, closable: path !== '/' })
+    // Reset syncing flag after a microtask to ensure zustand has flushed
+    const timer = setTimeout(() => {
+      isSyncingRef.current = false
+    }, 0)
+    return () => {
+      clearTimeout(timer)
+      isSyncingRef.current = false
+    }
   }, [location.pathname, t, addTab])
 
   // Navigate when active tab changes (from external source, not from addTab)
   useEffect(() => {
     // Skip if addTab just synced — it will set activeTab to the current path
     if (isSyncingRef.current) {
-      isSyncingRef.current = false
       return
     }
     if (activeTab && activeTab !== location.pathname) {

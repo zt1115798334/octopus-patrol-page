@@ -22,10 +22,18 @@ import type {
   VisitStatsDto,
   DateVisitStatsDto,
   TimeConsumingDto,
+  HotEndpointDto,
+  SlowEndpointDto,
+  ModuleDistributionDto,
+  HourlyVisitDto,
+  ActiveUserDto,
+  OperateRatioDto,
+  WeeklyCompareDto,
   LogStatisticsDto,
   UserStatisticsDto,
   ConfigurationInformationDto,
 } from '@/types'
+import { VisitStatsType } from '@/types'
 
 // ---- Helpers ----
 let _id = 100
@@ -254,50 +262,45 @@ export const mockJobs: JobDto[] = [
 
 // ---- Dashboard Stats ----
 export const mockVisitStats: VisitStatsDto[] = [
-  { type: 'TOTAL_VISIT' as any, title: '总访问量', todayCount: 1523, totalCount: 125000, growthRate: 12.5 },
-  { type: 'ACTIVE_USER' as any, title: '活跃用户', todayCount: 89, totalCount: 3200, growthRate: 8.3 },
-  { type: 'SCHEME_RUN' as any, title: '方案执行', todayCount: 47, totalCount: 18600, growthRate: -2.1 },
-  { type: 'COMMENT_GENERATED' as any, title: '评论生成', todayCount: 356, totalCount: 89000, growthRate: 15.7 },
+  { type: VisitStatsType.PV, todayCount: 1523, totalCount: 125000, growthRate: 12.5 },
+  { type: VisitStatsType.IP, todayCount: 89, totalCount: 3200, growthRate: 8.3 },
+  { type: VisitStatsType.SAVE, todayCount: 47, totalCount: 18600, growthRate: -2.1 },
+  { type: VisitStatsType.FIND, todayCount: 356, totalCount: 89000, growthRate: 15.7 },
+  { type: VisitStatsType.DELETE, todayCount: 23, totalCount: 5600, growthRate: 3.1 },
+  { type: VisitStatsType.LOGIN, todayCount: 68, totalCount: 21200, growthRate: 5.8 },
+  { type: VisitStatsType.LOGOUT, todayCount: 42, totalCount: 19800, growthRate: -1.5 },
+  { type: VisitStatsType.SEND, todayCount: 96, totalCount: 34500, growthRate: 9.3 },
+  { type: VisitStatsType.SIGN_IN, todayCount: 18, totalCount: 7800, growthRate: 2.3 },
 ]
 
-export const mockVisitTrend: DateVisitStatsDto[] = [
-  { date: daysAgo(29).slice(0, 10), value: 120 },
-  { date: daysAgo(28).slice(0, 10), value: 135 },
-  { date: daysAgo(27).slice(0, 10), value: 148 },
-  { date: daysAgo(26).slice(0, 10), value: 132 },
-  { date: daysAgo(25).slice(0, 10), value: 160 },
-  { date: daysAgo(24).slice(0, 10), value: 155 },
-  { date: daysAgo(23).slice(0, 10), value: 170 },
-  { date: daysAgo(22).slice(0, 10), value: 165 },
-  { date: daysAgo(21).slice(0, 10), value: 190 },
-  { date: daysAgo(20).slice(0, 10), value: 178 },
-  { date: daysAgo(19).slice(0, 10), value: 195 },
-  { date: daysAgo(18).slice(0, 10), value: 210 },
-  { date: daysAgo(17).slice(0, 10), value: 188 },
-  { date: daysAgo(16).slice(0, 10), value: 220 },
-  { date: daysAgo(15).slice(0, 10), value: 205 },
-  { date: daysAgo(14).slice(0, 10), value: 230 },
-  { date: daysAgo(13).slice(0, 10), value: 245 },
-  { date: daysAgo(12).slice(0, 10), value: 238 },
-  { date: daysAgo(11).slice(0, 10), value: 260 },
-  { date: daysAgo(10).slice(0, 10), value: 250 },
-  { date: daysAgo(9).slice(0, 10), value: 275 },
-  { date: daysAgo(8).slice(0, 10), value: 268 },
-  { date: daysAgo(7).slice(0, 10), value: 290 },
-  { date: daysAgo(6).slice(0, 10), value: 285 },
-  { date: daysAgo(5).slice(0, 10), value: 310 },
-  { date: daysAgo(4).slice(0, 10), value: 295 },
-  { date: daysAgo(3).slice(0, 10), value: 320 },
-  { date: daysAgo(2).slice(0, 10), value: 305 },
-  { date: daysAgo(1).slice(0, 10), value: 340 },
-  { date: daysAgo(0).slice(0, 10), value: 350 },
-]
+export const mockVisitTrend: Record<string, string[]> = (() => {
+  const dates = Array.from({ length: 8 }, (_, i) => daysAgo(7 - i).slice(0, 10))
+  const pv = Array.from({ length: 8 }, () => String(Math.floor(Math.random() * 200 + 100)))
+  const ip = Array.from({ length: 8 }, () => String(Math.floor(Math.random() * 120 + 50)))
+  return {
+    PV: pv,
+    IP: ip,
+    SAVE: Array.from({ length: 8 }, () => String(Math.floor(Math.random() * 30 + 5))),
+    FIND: Array.from({ length: 8 }, () => String(Math.floor(Math.random() * 80 + 30))),
+    DELETE: Array.from({ length: 8 }, () => String(Math.floor(Math.random() * 10 + 1))),
+    LOGIN: Array.from({ length: 8 }, () => String(Math.floor(Math.random() * 40 + 10))),
+    LOGOUT: Array.from({ length: 8 }, () => String(Math.floor(Math.random() * 20 + 5))),
+    SEND: Array.from({ length: 8 }, () => String(Math.floor(Math.random() * 15 + 3))),
+    SIGN_IN: Array.from({ length: 8 }, () => String(Math.floor(Math.random() * 25 + 8))),
+    date: dates,
+  }
+})()
 
 export const mockTimeConsuming: TimeConsumingDto[] = [
-  { type: 'AVG_RESPONSE' as any, title: '平均响应时间', yesterdayCount: 120, todayCount: 105, totalCount: 115 },
-  { type: 'SLOW_REQUEST' as any, title: '慢请求数', yesterdayCount: 25, todayCount: 18, totalCount: 22 },
-  { type: 'ERROR_COUNT' as any, title: '错误数', yesterdayCount: 12, todayCount: 8, totalCount: 10 },
-  { type: 'TIMEOUT_COUNT' as any, title: '超时数', yesterdayCount: 5, todayCount: 3, totalCount: 4 },
+  { type: VisitStatsType.PV, yesterdayCount: 120, todayCount: 105, totalCount: 115 },
+  { type: VisitStatsType.IP, yesterdayCount: 25, todayCount: 18, totalCount: 22 },
+  { type: VisitStatsType.SAVE, yesterdayCount: 12, todayCount: 8, totalCount: 10 },
+  { type: VisitStatsType.FIND, yesterdayCount: 5, todayCount: 3, totalCount: 4 },
+  { type: VisitStatsType.DELETE, yesterdayCount: 8, todayCount: 6, totalCount: 7 },
+  { type: VisitStatsType.LOGIN, yesterdayCount: 15, todayCount: 12, totalCount: 14 },
+  { type: VisitStatsType.LOGOUT, yesterdayCount: 10, todayCount: 9, totalCount: 9 },
+  { type: VisitStatsType.SEND, yesterdayCount: 30, todayCount: 22, totalCount: 26 },
+  { type: VisitStatsType.SIGN_IN, yesterdayCount: 6, todayCount: 4, totalCount: 5 },
 ]
 
 export const mockLogStats: LogStatisticsDto = {
@@ -313,6 +316,19 @@ export const mockUserStats: UserStatisticsDto = {
   disabledCount: 2,
   todayNewCount: 1,
 }
+
+export const mockActiveUsers: ActiveUserDto[] = [
+  { userId: 1, userName: '张三', count: 286 },
+  { userId: 2, userName: '李四', count: 254 },
+  { userId: 3, userName: '王五', count: 211 },
+  { userId: 4, userName: '赵六', count: 187 },
+  { userId: 5, userName: '钱七', count: 163 },
+  { userId: 6, userName: '孙八', count: 142 },
+  { userId: 7, userName: '周九', count: 118 },
+  { userId: 8, userName: '吴十', count: 96 },
+  { userId: 9, userName: '郑十一', count: 73 },
+  { userId: 10, userName: '冯十二', count: 52 },
+]
 
 export const mockConfigInfo: ConfigurationInformationDto = {
   basedType: 'JWT' as any,

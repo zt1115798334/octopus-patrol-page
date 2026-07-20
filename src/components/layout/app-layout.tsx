@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Header } from './header'
@@ -16,6 +16,7 @@ export function AppLayout() {
   const location = useLocation()
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [displayPath, setDisplayPath] = useState(location.pathname)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Apply theme style attribute on mount
   useEffect(() => {
@@ -26,11 +27,21 @@ export function AppLayout() {
   useEffect(() => {
     if (location.pathname !== displayPath) {
       setIsTransitioning(true)
-      const timer = setTimeout(() => {
+      // Clear any pending timer
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+      }
+      timerRef.current = setTimeout(() => {
         setDisplayPath(location.pathname)
         setIsTransitioning(false)
+        timerRef.current = null
       }, 800)
-      return () => clearTimeout(timer)
+    }
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+        timerRef.current = null
+      }
     }
   }, [location.pathname, displayPath])
 
