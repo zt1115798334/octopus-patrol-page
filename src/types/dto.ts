@@ -95,7 +95,6 @@ export interface RoleDto {
 
 export interface UserDto {
   id?: number
-  tenantId?: number
   account?: string
   password?: string
   username?: string
@@ -196,26 +195,7 @@ export interface QueryPermissionDto extends PageDto {
   keywords?: string
 }
 
-// ==================== Tenant Types ====================
 
-export interface TenantDto {
-  id?: number
-  tenantName?: string
-  tenantCode?: string
-  contactName?: string
-  contactPhone?: string
-  contactEmail?: string
-  enabledState?: EnabledState
-  expireTime?: string
-  createdTime?: string
-}
-
-export interface QueryTenantDto extends PageDto {
-  tenantName?: string
-  tenantCode?: string
-  enabledState?: EnabledState
-  keywords?: string
-}
 
 // ==================== Pricing Plan Types ====================
 

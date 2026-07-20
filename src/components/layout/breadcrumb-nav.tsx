@@ -9,7 +9,6 @@ const pathLabelMap: Record<string, string> = {
   '/role': 'role',
   '/menu': 'menu',
   '/permission': 'permission',
-  '/tenant': 'tenant',
   '/log': 'log',
   '/ai-config': 'aiConfig',
   '/article': 'article',

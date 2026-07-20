@@ -41,7 +41,6 @@ function clone<T>(v: T): T {
 // ---- In-memory stores (clone so handlers can mutate) ----
 let users = clone(data.mockUsers)
 let roles = clone(data.mockRoles)
-let tenants = clone(data.mockTenants)
 let platforms = clone(data.mockPlatforms)
 let platformAccounts = clone(data.mockPlatformAccounts)
 let platformPermissions = clone(data.mockPlatformPermissions)
@@ -187,35 +186,6 @@ on('DELETE', /\/permission\/deletePermissions/, (_, __, body) => {
   return ok()
 })
 
-// ---- Tenant ----
-on('POST', /\/tenant\/findTenantPage/, (_, __, body) => {
-  return success(paginate(tenants, body?.pageNumber ?? 0, body?.pageSize ?? 10))
-})
-on('GET', /\/tenant\/findTenantList/, () => success(tenants))
-on('POST', /\/tenant\/saveTenant/, (_, __, body) => {
-  if (body?.id) {
-    const idx = tenants.findIndex((t) => t.id === body.id)
-    if (idx >= 0) tenants[idx] = { ...tenants[idx], ...body }
-  } else {
-    tenants.unshift({ ...body, id: nextId(), createdTime: new Date().toISOString() })
-  }
-  return ok()
-})
-on('DELETE', /\/tenant\/deleteTenant\/(\d+)/, (url) => {
-  tenants = tenants.filter((t) => t.id !== Number(url.split('/').pop()))
-  return ok()
-})
-on('DELETE', /\/tenant\/deleteTenants/, (_, __, body) => {
-  const ids: number[] = body ?? []
-  tenants = tenants.filter((t) => t.id !== undefined && !ids.includes(t.id))
-  return ok()
-})
-on('PUT', /\/tenant\/changeEnabledState/, (_, __, body) => {
-  const t = tenants.find((x) => x.id === body?.id)
-  if (t) t.enabledState = body?.enabledState
-  return ok()
-})
-
 // ---- Log ----
 on('POST', /\/log\/saveLog/, () => ok())
 on('POST', /\/log\/findLogPage/, (_, __, body) => {
@@ -294,7 +264,7 @@ on('DELETE', /\/aiConfig\/deleteAiConfigs/, (_, __, body) => {
   aiConfigs = aiConfigs.filter((c) => c.id !== undefined && !ids.includes(c.id))
   return ok()
 })
-on('PUT', /\/aiConfig\/changeEnabledState/, (_, __, body) => {
+on('PUT', /\/aiConfig\/changeAiConfigEnabledState/, (_, __, body) => {
   const c = aiConfigs.find((x) => x.id === body?.id)
   if (c) c.enabledState = body?.enabledState
   return ok()
@@ -406,7 +376,7 @@ on('DELETE', /\/platformAccount\/deletePlatformAccounts/, (_, __, body) => {
   platformAccounts = platformAccounts.filter((a) => a.id !== undefined && !ids.includes(a.id))
   return ok()
 })
-on('PUT', /\/platformAccount\/changeEnabledState/, (_, __, body) => {
+on('PUT', /\/platformAccount\/changePlatformAccountEnabledState/, (_, __, body) => {
   const a = platformAccounts.find((x) => x.id === body?.id)
   if (a) a.enabledState = body?.enabledState
   return ok()

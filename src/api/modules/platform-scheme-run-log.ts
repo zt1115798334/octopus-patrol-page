@@ -10,7 +10,7 @@ export function findPlatformSchemeRunLog(
   id: number,
 ): Promise<ResultMessage<PlatformSchemeRunLogDto>> {
   return get<ResultMessage<PlatformSchemeRunLogDto>>(
-    `/platformSchemeRunLog/findPlatformSchemeRunLog/${id}`,
+    `/platformSchemeRunLog/findPlatformSchemeRunLogById/${id}`,
   )
 }
 
