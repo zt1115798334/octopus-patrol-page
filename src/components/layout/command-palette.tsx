@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, LayoutDashboard, Users, Shield, Key, Building2, FileText, Bot, Newspaper, Hash, Globe, UserCheck, Lock, Clock, CreditCard, History, Send, Settings, Monitor } from 'lucide-react'
+import { Search, LayoutDashboard, Users, Shield, Key, FileText, Bot, Newspaper, Hash, Globe, UserCheck, Lock, Clock, CreditCard, History, Send, Settings, Monitor } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 
@@ -26,7 +26,7 @@ export function CommandPalette() {
     { id: 'role', label: t('nav.role'), icon: <Shield className="h-4 w-4" />, path: '/role', keywords: ['roles', 'group'] },
     { id: 'menu', label: t('nav.menu'), icon: <Monitor className="h-4 w-4" />, path: '/menu', keywords: ['menus', 'navigation'] },
     { id: 'permission', label: t('nav.permission'), icon: <Key className="h-4 w-4" />, path: '/permission', keywords: ['permissions', 'auth'] },
-    { id: 'tenant', label: t('nav.tenant'), icon: <Building2 className="h-4 w-4" />, path: '/tenant', keywords: ['tenants', 'workspace'] },
+
     { id: 'log', label: t('nav.log'), icon: <FileText className="h-4 w-4" />, path: '/log', keywords: ['logs', 'audit'] },
     { id: 'ai-config', label: t('nav.aiConfig'), icon: <Bot className="h-4 w-4" />, path: '/ai-config', keywords: ['ai', 'config'] },
     { id: 'article', label: t('nav.article'), icon: <Newspaper className="h-4 w-4" />, path: '/article', keywords: ['articles', 'post'] },

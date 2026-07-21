@@ -10,7 +10,6 @@
     "role": "Roles",
     "menu": "Menus",
     "permission": "Permissions",
-    "tenant": "Tenants",
     "log": "Logs",
     "platform": "Platform",
     "aiManagement": "AI Management",
@@ -125,7 +124,6 @@
     "username": "Username",
     "phone": "Phone",
     "role": "Role",
-    "tenant": "Tenant",
     "plan": "Plan",
     "lastLogin": "Last Login",
     "createdTime": "Created",
@@ -159,15 +157,6 @@
     "parentMenu": "Parent",
     "sort": "Sort",
     "redirect": "Redirect"
-  },
-  "tenant": {
-    "title": "Tenant Management",
-    "name": "Name",
-    "code": "Code",
-    "contact": "Contact",
-    "contactPhone": "Phone",
-    "contactEmail": "Email",
-    "expireTime": "Expire Time"
   },
   "log": {
     "title": "Operation Logs",

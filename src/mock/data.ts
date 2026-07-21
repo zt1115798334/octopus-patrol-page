@@ -7,7 +7,6 @@ import type {
   RoleDto,
   MenuDto,
   PermissionDto,
-  TenantDto,
   LogDto,
   PricingPlanDto,
   UserPricingPlanHistoryDto,
@@ -47,18 +46,18 @@ function daysAgo(n: number): string {
 
 // ---- Users ----
 export const mockUsers: UserDto[] = [
-  { id: 1, tenantId: 1, account: 'admin', username: '管理员', avatarId: 1, phone: '13800000001', enabledState: 'ENABLED' as any, createdTime: daysAgo(60), lastLoginTime: daysAgo(0), planName: '企业版', planLevel: 'ENTERPRISE' as any, roleIds: [1] },
-  { id: 2, tenantId: 1, account: 'zhangsan', username: '张三', avatarId: 2, phone: '13800000002', enabledState: 'ENABLED' as any, createdTime: daysAgo(55), lastLoginTime: daysAgo(2), planName: '专业版', planLevel: 'PROFESSIONAL' as any, roleIds: [2] },
-  { id: 3, tenantId: 1, account: 'lisi', username: '李四', avatarId: 3, phone: '13800000003', enabledState: 'ENABLED' as any, createdTime: daysAgo(50), lastLoginTime: daysAgo(3), planName: '基础版', planLevel: 'BASIC' as any, roleIds: [2] },
-  { id: 4, tenantId: 2, account: 'wangwu', username: '王五', avatarId: 4, phone: '13800000004', enabledState: 'ENABLED' as any, createdTime: daysAgo(45), lastLoginTime: daysAgo(5), planName: '专业版', planLevel: 'PROFESSIONAL' as any, roleIds: [2] },
-  { id: 5, tenantId: 2, account: 'zhaoliu', username: '赵六', avatarId: 5, phone: '13800000005', enabledState: 'DISABLED' as any, createdTime: daysAgo(40), lastLoginTime: daysAgo(10), planName: '基础版', planLevel: 'BASIC' as any, roleIds: [3] },
-  { id: 6, tenantId: 1, account: 'sunqi', username: '孙七', avatarId: 6, phone: '13800000006', enabledState: 'ENABLED' as any, createdTime: daysAgo(35), lastLoginTime: daysAgo(1), planName: '企业版', planLevel: 'ENTERPRISE' as any, roleIds: [2] },
-  { id: 7, tenantId: 3, account: 'zhouba', username: '周八', avatarId: 7, phone: '13800000007', enabledState: 'ENABLED' as any, createdTime: daysAgo(30), lastLoginTime: daysAgo(7), planName: '专业版', planLevel: 'PROFESSIONAL' as any, roleIds: [3] },
-  { id: 8, tenantId: 3, account: 'wujiu', username: '吴九', avatarId: 8, phone: '13800000008', enabledState: 'ENABLED' as any, createdTime: daysAgo(25), lastLoginTime: daysAgo(4), planName: '基础版', planLevel: 'BASIC' as any, roleIds: [3] },
-  { id: 9, tenantId: 1, account: 'zhengshi', username: '郑十', avatarId: 9, phone: '13800000009', enabledState: 'DISABLED' as any, createdTime: daysAgo(20), lastLoginTime: daysAgo(15), planName: '企业版', planLevel: 'ENTERPRISE' as any, roleIds: [2] },
-  { id: 10, tenantId: 2, account: 'liuyi', username: '刘一', avatarId: 10, phone: '13800000010', enabledState: 'ENABLED' as any, createdTime: daysAgo(15), lastLoginTime: daysAgo(1), planName: '专业版', planLevel: 'PROFESSIONAL' as any, roleIds: [3] },
-  { id: 11, tenantId: 1, account: 'chener', username: '陈二', avatarId: 11, phone: '13800000011', enabledState: 'ENABLED' as any, createdTime: daysAgo(10), lastLoginTime: daysAgo(2), planName: '基础版', planLevel: 'BASIC' as any, roleIds: [3] },
-  { id: 12, tenantId: 3, account: 'yangshan', username: '杨三', avatarId: 12, phone: '13800000012', enabledState: 'ENABLED' as any, createdTime: daysAgo(5), lastLoginTime: daysAgo(0), planName: '企业版', planLevel: 'ENTERPRISE' as any, roleIds: [2] },
+  { id: 1, account: 'admin', username: '管理员', avatarId: 1, phone: '13800000001', enabledState: 'ENABLED' as any, createdTime: daysAgo(60), lastLoginTime: daysAgo(0), planName: '企业版', planLevel: 'ENTERPRISE' as any, roleIds: [1] },
+  { id: 2, account: 'zhangsan', username: '张三', avatarId: 2, phone: '13800000002', enabledState: 'ENABLED' as any, createdTime: daysAgo(55), lastLoginTime: daysAgo(2), planName: '专业版', planLevel: 'PROFESSIONAL' as any, roleIds: [2] },
+  { id: 3, account: 'lisi', username: '李四', avatarId: 3, phone: '13800000003', enabledState: 'ENABLED' as any, createdTime: daysAgo(50), lastLoginTime: daysAgo(3), planName: '基础版', planLevel: 'BASIC' as any, roleIds: [2] },
+  { id: 4, account: 'wangwu', username: '王五', avatarId: 4, phone: '13800000004', enabledState: 'ENABLED' as any, createdTime: daysAgo(45), lastLoginTime: daysAgo(5), planName: '专业版', planLevel: 'PROFESSIONAL' as any, roleIds: [2] },
+  { id: 5, account: 'zhaoliu', username: '赵六', avatarId: 5, phone: '13800000005', enabledState: 'DISABLED' as any, createdTime: daysAgo(40), lastLoginTime: daysAgo(10), planName: '基础版', planLevel: 'BASIC' as any, roleIds: [3] },
+  { id: 6, account: 'sunqi', username: '孙七', avatarId: 6, phone: '13800000006', enabledState: 'ENABLED' as any, createdTime: daysAgo(35), lastLoginTime: daysAgo(1), planName: '企业版', planLevel: 'ENTERPRISE' as any, roleIds: [2] },
+  { id: 7, account: 'zhouba', username: '周八', avatarId: 7, phone: '13800000007', enabledState: 'ENABLED' as any, createdTime: daysAgo(30), lastLoginTime: daysAgo(7), planName: '专业版', planLevel: 'PROFESSIONAL' as any, roleIds: [3] },
+  { id: 8, account: 'wujiu', username: '吴九', avatarId: 8, phone: '13800000008', enabledState: 'ENABLED' as any, createdTime: daysAgo(25), lastLoginTime: daysAgo(4), planName: '基础版', planLevel: 'BASIC' as any, roleIds: [3] },
+  { id: 9, account: 'zhengshi', username: '郑十', avatarId: 9, phone: '13800000009', enabledState: 'DISABLED' as any, createdTime: daysAgo(20), lastLoginTime: daysAgo(15), planName: '企业版', planLevel: 'ENTERPRISE' as any, roleIds: [2] },
+  { id: 10, account: 'liuyi', username: '刘一', avatarId: 10, phone: '13800000010', enabledState: 'ENABLED' as any, createdTime: daysAgo(15), lastLoginTime: daysAgo(1), planName: '专业版', planLevel: 'PROFESSIONAL' as any, roleIds: [3] },
+  { id: 11, account: 'chener', username: '陈二', avatarId: 11, phone: '13800000011', enabledState: 'ENABLED' as any, createdTime: daysAgo(10), lastLoginTime: daysAgo(2), planName: '基础版', planLevel: 'BASIC' as any, roleIds: [3] },
+  { id: 12, account: 'yangshan', username: '杨三', avatarId: 12, phone: '13800000012', enabledState: 'ENABLED' as any, createdTime: daysAgo(5), lastLoginTime: daysAgo(0), planName: '企业版', planLevel: 'ENTERPRISE' as any, roleIds: [2] },
 ]
 
 // ---- Roles ----
@@ -68,16 +67,6 @@ export const mockRoles: RoleDto[] = [
   { id: 3, name: '普通用户', sort: 3, enabledState: 'ENABLED' as any },
   { id: 4, name: '审计员', sort: 4, enabledState: 'ENABLED' as any },
   { id: 5, name: '只读用户', sort: 5, enabledState: 'DISABLED' as any },
-]
-
-// ---- Tenants ----
-export const mockTenants: TenantDto[] = [
-  { id: 1, tenantName: '腾讯科技', tenantCode: 'tencent', contactName: '马化腾', contactPhone: '13800001111', contactEmail: 'tencent@example.com', enabledState: 'ENABLED' as any, expireTime: daysAgo(-365), createdTime: daysAgo(365) },
-  { id: 2, tenantName: '阿里巴巴', tenantCode: 'alibaba', contactName: '张勇', contactPhone: '13800002222', contactEmail: 'alibaba@example.com', enabledState: 'ENABLED' as any, expireTime: daysAgo(-200), createdTime: daysAgo(300) },
-  { id: 3, tenantName: '字节跳动', tenantCode: 'bytedance', contactName: '梁汝波', contactPhone: '13800003333', contactEmail: 'bytedance@example.com', enabledState: 'ENABLED' as any, expireTime: daysAgo(-180), createdTime: daysAgo(200) },
-  { id: 4, tenantName: '美团', tenantCode: 'meituan', contactName: '王兴', contactPhone: '13800004444', contactEmail: 'meituan@example.com', enabledState: 'DISABLED' as any, expireTime: daysAgo(10), createdTime: daysAgo(150) },
-  { id: 5, tenantName: '京东集团', tenantCode: 'jd', contactName: '刘强东', contactPhone: '13800005555', contactEmail: 'jd@example.com', enabledState: 'ENABLED' as any, expireTime: daysAgo(-90), createdTime: daysAgo(100) },
-  { id: 6, tenantName: '拼多多', tenantCode: 'pdd', contactName: '陈磊', contactPhone: '13800006666', contactEmail: 'pdd@example.com', enabledState: 'ENABLED' as any, expireTime: daysAgo(-60), createdTime: daysAgo(80) },
 ]
 
 // ---- Platforms ----

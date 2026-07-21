@@ -14,7 +14,7 @@ export function deleteAiConfigs(ids: number[]): Promise<ResultMessage<void>> {
 }
 
 export function changeAiConfigEnabledState(data: { id: number; enabledState: EnabledState }): Promise<ResultMessage<void>> {
-  return request<ResultMessage<void>>({ method: 'PUT', url: '/aiConfig/changeEnabledState', params: data }, WEB_BASE_URL)
+  return put<ResultMessage<void>>('/aiConfig/changeAiConfigEnabledState', data)
 }
 
 export function findAiConfigPage(data: QueryAiConfigDto): Promise<ResultMessage<AiConfigDto>> {

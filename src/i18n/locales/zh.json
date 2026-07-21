@@ -10,7 +10,6 @@
     "role": "角色管理",
     "menu": "菜单管理",
     "permission": "权限管理",
-    "tenant": "租户管理",
     "log": "操作日志",
     "platform": "平台管理",
     "aiManagement": "AI管理",
@@ -125,7 +124,6 @@
     "username": "用户名",
     "phone": "手机号",
     "role": "角色",
-    "tenant": "租户",
     "plan": "套餐",
     "lastLogin": "最后登录",
     "createdTime": "创建时间",
@@ -159,15 +157,6 @@
     "parentMenu": "父菜单",
     "sort": "排序",
     "redirect": "重定向"
-  },
-  "tenant": {
-    "title": "租户管理",
-    "name": "租户名称",
-    "code": "租户编码",
-    "contact": "联系人",
-    "contactPhone": "联系电话",
-    "contactEmail": "联系邮箱",
-    "expireTime": "过期时间"
   },
   "log": {
     "title": "操作日志",
