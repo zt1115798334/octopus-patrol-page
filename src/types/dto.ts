@@ -465,6 +465,9 @@ export interface PlatformAccountDto {
   platformCode?: string
   enabledState?: EnabledState
   cookie?: string
+  accessToken?: string
+  wToken?: string
+  safeUniqueCode?: string
   createdTime?: string
   updatedTime?: string
 }

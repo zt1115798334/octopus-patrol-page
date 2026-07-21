@@ -28,10 +28,10 @@ export default function JobManagement() {
   const { data, isLoading } = useQuery({ queryKey: ['jobs'], queryFn: findAllJobs })
   const form = useForm<FormData>({ resolver: zodResolver(formSchema) })
 
-  const addMutation = useMutation({ mutationFn: addJob, onSuccess: () => { toast.success(t('common.operationSuccess')); setDialogOpen(false); queryClient.invalidateQueries({ queryKey: ['jobs'] }) }, onError: () => toast.error(t('common.operationFailed')) })
-  const pauseMutation = useMutation({ mutationFn: pauseJob, onSuccess: () => { toast.success(t('common.operationSuccess')); queryClient.invalidateQueries({ queryKey: ['jobs'] }) }, onError: () => toast.error(t('common.operationFailed')) })
-  const resumeMutation = useMutation({ mutationFn: resumeJob, onSuccess: () => { toast.success(t('common.operationSuccess')); queryClient.invalidateQueries({ queryKey: ['jobs'] }) }, onError: () => toast.error(t('common.operationFailed')) })
-  const deleteMutation = useMutation({ mutationFn: deleteJob, onSuccess: () => { toast.success(t('common.operationSuccess')); setDeleteTarget(null); queryClient.invalidateQueries({ queryKey: ['jobs'] }) }, onError: () => toast.error(t('common.operationFailed')) })
+  const addMutation = useMutation({ mutationFn: addJob, onSuccess: () => { toast.success(t('common.operationSuccess')); setDialogOpen(false); queryClient.invalidateQueries({ queryKey: ['jobs'] }) }, onError: () => {} })
+  const pauseMutation = useMutation({ mutationFn: pauseJob, onSuccess: () => { toast.success(t('common.operationSuccess')); queryClient.invalidateQueries({ queryKey: ['jobs'] }) }, onError: () => {} })
+  const resumeMutation = useMutation({ mutationFn: resumeJob, onSuccess: () => { toast.success(t('common.operationSuccess')); queryClient.invalidateQueries({ queryKey: ['jobs'] }) }, onError: () => {} })
+  const deleteMutation = useMutation({ mutationFn: deleteJob, onSuccess: () => { toast.success(t('common.operationSuccess')); setDeleteTarget(null); queryClient.invalidateQueries({ queryKey: ['jobs'] }) }, onError: () => {} })
 
   const handleSubmit = useCallback((d: FormData) => { addMutation.mutate(d) }, [addMutation])
 

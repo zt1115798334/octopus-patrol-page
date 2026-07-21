@@ -227,6 +227,15 @@
     "enabledState": "Enabled State",
     "selectEnabledState": "Please select enabled state"
   },
+  "platformAccount": {
+    "account": "Account",
+    "password": "Password",
+    "platform": "Platform",
+    "cookie": "Login Cookie",
+    "accessToken": "Access Token",
+    "wToken": "W Token",
+    "safeUniqueCode": "Safe Unique Code"
+  },
   "schedule": {
     "title": "Job Schedule",
     "jobName": "Job Name",

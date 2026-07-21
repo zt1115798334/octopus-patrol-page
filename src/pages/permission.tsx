@@ -34,8 +34,8 @@ export default function PermissionManagement() {
   const { data, isLoading } = useQuery({ queryKey: ['permissions', query], queryFn: () => findPermissionPage(query) })
   const form = useForm<FormData>({ resolver: zodResolver(formSchema) })
 
-  const saveMutation = useMutation({ mutationFn: savePermission, onSuccess: () => { toast.success(t('common.operationSuccess')); setDialogOpen(false); queryClient.invalidateQueries({ queryKey: ['permissions'] }) }, onError: () => toast.error(t('common.operationFailed')) })
-  const deleteMutation = useMutation({ mutationFn: deletePermission, onSuccess: () => { toast.success(t('common.operationSuccess')); setDeleteTarget(null); queryClient.invalidateQueries({ queryKey: ['permissions'] }) }, onError: () => toast.error(t('common.operationFailed')) })
+  const saveMutation = useMutation({ mutationFn: savePermission, onSuccess: () => { toast.success(t('common.operationSuccess')); setDialogOpen(false); queryClient.invalidateQueries({ queryKey: ['permissions'] }) }, onError: () => {} })
+  const deleteMutation = useMutation({ mutationFn: deletePermission, onSuccess: () => { toast.success(t('common.operationSuccess')); setDeleteTarget(null); queryClient.invalidateQueries({ queryKey: ['permissions'] }) }, onError: () => {} })
 
   const handleEdit = useCallback((item: PermissionDto) => { setEditing(item); form.reset({ name: item.name || '', permissionKey: item.permissionKey || '', url: item.url || '', httpMethod: item.httpMethod || 'GET' }); setDialogOpen(true) }, [form])
   const handleCreate = useCallback(() => { setEditing(null); form.reset({ name: '', permissionKey: '', url: '', httpMethod: 'GET' }); setDialogOpen(true) }, [form])

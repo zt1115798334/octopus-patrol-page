@@ -227,6 +227,15 @@
     "enabledState": "开启状态",
     "selectEnabledState": "请选择开启状态"
   },
+  "platformAccount": {
+    "account": "账号",
+    "password": "密码",
+    "platform": "关联平台",
+    "cookie": "登录Cookie",
+    "accessToken": "访问令牌",
+    "wToken": "W令牌",
+    "safeUniqueCode": "安全唯一码"
+  },
   "schedule": {
     "title": "任务调度",
     "jobName": "任务名称",

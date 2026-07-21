@@ -43,9 +43,9 @@ export default function RunPlanManagement() {
   const { data, isLoading } = useQuery({ queryKey: ['platformSchemes', query], queryFn: () => findPlatformSchemePage(query) })
   const form = useForm<FormData>({ resolver: zodResolver(formSchema) })
 
-  const saveMutation = useMutation({ mutationFn: savePlatformScheme, onSuccess: () => { toast.success(t('common.operationSuccess')); setDialogOpen(false); queryClient.invalidateQueries({ queryKey: ['platformSchemes'] }) }, onError: () => toast.error(t('common.operationFailed')) })
-  const deleteMutation = useMutation({ mutationFn: deletePlatformScheme, onSuccess: () => { toast.success(t('common.operationSuccess')); setDeleteTarget(null); queryClient.invalidateQueries({ queryKey: ['platformSchemes'] }) }, onError: () => toast.error(t('common.operationFailed')) })
-  const runMutation = useMutation({ mutationFn: runPlatformScheme, onSuccess: () => { toast.success('运行任务已触发'); queryClient.invalidateQueries({ queryKey: ['platformSchemes'] }) }, onError: () => toast.error('运行失败') })
+  const saveMutation = useMutation({ mutationFn: savePlatformScheme, onSuccess: () => { toast.success(t('common.operationSuccess')); setDialogOpen(false); queryClient.invalidateQueries({ queryKey: ['platformSchemes'] }) }, onError: () => {} })
+  const deleteMutation = useMutation({ mutationFn: deletePlatformScheme, onSuccess: () => { toast.success(t('common.operationSuccess')); setDeleteTarget(null); queryClient.invalidateQueries({ queryKey: ['platformSchemes'] }) }, onError: () => {} })
+  const runMutation = useMutation({ mutationFn: runPlatformScheme, onSuccess: () => { toast.success('运行任务已触发'); queryClient.invalidateQueries({ queryKey: ['platformSchemes'] }) }, onError: () => {} })
 
   const handleEdit = useCallback((item: PlatformSchemeDto) => { setEditing(item); form.reset({ platformCode: item.platformCode || '', platformAccountId: item.platformAccountId, requestParams: item.requestParams || '', description: item.description || '', enabledState: item.enabledState || 'ON' }); setDialogOpen(true) }, [form])
   const handleCreate = useCallback(() => { setEditing(null); form.reset({ platformCode: '', platformAccountId: undefined, requestParams: '', description: '', enabledState: 'ON' }); setDialogOpen(true) }, [form])

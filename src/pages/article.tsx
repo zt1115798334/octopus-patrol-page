@@ -33,9 +33,9 @@ export default function ArticleManagement() {
   const { data, isLoading } = useQuery({ queryKey: ['articles', query], queryFn: () => findArticlePage(query) })
   const form = useForm<FormData>({ resolver: zodResolver(formSchema) })
 
-  const saveMutation = useMutation({ mutationFn: saveArticle, onSuccess: () => { toast.success(t('common.operationSuccess')); setDialogOpen(false); queryClient.invalidateQueries({ queryKey: ['articles'] }) }, onError: () => toast.error(t('common.operationFailed')) })
-  const deleteMutation = useMutation({ mutationFn: deleteArticle, onSuccess: () => { toast.success(t('common.operationSuccess')); setDeleteTarget(null); queryClient.invalidateQueries({ queryKey: ['articles'] }) }, onError: () => toast.error(t('common.operationFailed')) })
-  const crawlMutation = useMutation({ mutationFn: crawlArticles, onSuccess: () => { toast.success('爬取任务已触发'); queryClient.invalidateQueries({ queryKey: ['articles'] }) }, onError: () => toast.error(t('common.operationFailed')) })
+  const saveMutation = useMutation({ mutationFn: saveArticle, onSuccess: () => { toast.success(t('common.operationSuccess')); setDialogOpen(false); queryClient.invalidateQueries({ queryKey: ['articles'] }) }, onError: () => {} })
+  const deleteMutation = useMutation({ mutationFn: deleteArticle, onSuccess: () => { toast.success(t('common.operationSuccess')); setDeleteTarget(null); queryClient.invalidateQueries({ queryKey: ['articles'] }) }, onError: () => {} })
+  const crawlMutation = useMutation({ mutationFn: crawlArticles, onSuccess: () => { toast.success('爬取任务已触发'); queryClient.invalidateQueries({ queryKey: ['articles'] }) }, onError: () => {} })
 
   const handleEdit = useCallback((item: ArticleDto) => { setEditing(item); form.reset({ title: item.title || '', content: item.content || '', url: item.url || '', publishTime: item.publishTime || '' }); setDialogOpen(true) }, [form])
   const handleCreate = useCallback(() => { setEditing(null); form.reset({ title: '', content: '', url: '', publishTime: '' }); setDialogOpen(true) }, [form])

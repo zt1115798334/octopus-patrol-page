@@ -16,6 +16,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
 import { toast } from 'sonner'
 import { findPlatformPage, savePlatform, deletePlatform, changePlatformEnabledState } from '@/api/modules/platform'
 import { useEnumCache } from '@/hooks'
@@ -58,9 +59,9 @@ export default function PlatformManagement() {
   const { data, isLoading } = useQuery({ queryKey: ['platforms', query], queryFn: () => findPlatformPage(query) })
   const form = useForm<FormData>({ resolver: zodResolver(formSchema) })
 
-  const saveMutation = useMutation({ mutationFn: savePlatform, onSuccess: () => { toast.success(t('common.operationSuccess')); setDialogOpen(false); queryClient.invalidateQueries({ queryKey: ['platforms'] }) }, onError: () => toast.error(t('common.operationFailed')) })
-  const deleteMutation = useMutation({ mutationFn: deletePlatform, onSuccess: () => { toast.success(t('common.operationSuccess')); setDeleteTarget(null); queryClient.invalidateQueries({ queryKey: ['platforms'] }) }, onError: () => toast.error(t('common.operationFailed')) })
-  const toggleMutation = useMutation({ mutationFn: changePlatformEnabledState, onSuccess: () => { toast.success(t('common.operationSuccess')); queryClient.invalidateQueries({ queryKey: ['platforms'] }) }, onError: () => toast.error(t('common.operationFailed')) })
+  const saveMutation = useMutation({ mutationFn: savePlatform, onSuccess: () => { toast.success(t('common.operationSuccess')); setDialogOpen(false); queryClient.invalidateQueries({ queryKey: ['platforms'] }) }, onError: () => {} })
+  const deleteMutation = useMutation({ mutationFn: deletePlatform, onSuccess: () => { toast.success(t('common.operationSuccess')); setDeleteTarget(null); queryClient.invalidateQueries({ queryKey: ['platforms'] }) }, onError: () => {} })
+  const toggleMutation = useMutation({ mutationFn: changePlatformEnabledState, onSuccess: () => { toast.success(t('common.operationSuccess')); queryClient.invalidateQueries({ queryKey: ['platforms'] }) }, onError: () => {} })
 
   const handleEdit = useCallback((item: PlatformDto) => { setEditing(item); form.reset({ platformName: item.platformName || '', platformCode: item.platformCode || '', description: item.description || '', enabledState: item.enabledState || 'ON' }); setDialogOpen(true) }, [form])
   const handleCreate = useCallback(() => { setEditing(null); form.reset({ platformName: '', platformCode: '', description: '', enabledState: 'ON' }); setDialogOpen(true) }, [form])
@@ -81,10 +82,19 @@ export default function PlatformManagement() {
     <div className="space-y-4"><div className="flex items-center justify-between"><div><h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-50">{t('platform.title')}</h1><p className="text-sm text-neutral-500 mt-1">{t('common.total', { total })}</p></div><Button onClick={handleCreate}><Plus className="h-4 w-4" />{t('common.create')}</Button></div>
       <Card><CardContent className="pt-4"><div className="flex items-center gap-3 mb-4"><Button variant="outline" size="sm" onClick={() => queryClient.invalidateQueries({ queryKey: ['platforms'] })}><RefreshCw className="h-4 w-4 mr-2" />{t('common.refresh')}</Button></div>
         {isLoading ? <SkeletonTable rows={5} /> : items.length === 0 ? <EmptyState onAction={handleCreate} actionLabel={t('common.create')} /> : (
-          <Table><TableHeader><TableRow><TableHead>{t('platform.name')}</TableHead><TableHead>{t('platform.code')}</TableHead><TableHead>{t('platform.description')}</TableHead><TableHead>{t('common.status')}</TableHead><TableHead>{t('tenant.expireTime')}</TableHead><TableHead className="w-16">{t('common.actions')}</TableHead></TableRow></TableHeader>
+          <Table><TableHeader><TableRow><TableHead>{t('platform.name')}</TableHead><TableHead>{t('platform.code')}</TableHead><TableHead>{t('platform.description')}</TableHead><TableHead>{t('common.status')}</TableHead><TableHead>{t('tenant.expireTime')}</TableHead><TableHead className="w-28">{t('common.actions')}</TableHead></TableRow></TableHeader>
             <TableBody>{items.map((item) => (
               <TableRow key={item.id}><TableCell className="font-medium">{item.platformName}</TableCell><TableCell><Badge variant="info">{platformCodeDescMap[item.platformCode ?? ''] ?? item.platformCode}</Badge></TableCell><TableCell className="text-sm text-neutral-500">{item.description || '-'}</TableCell><TableCell><Badge variant={item.enabledState === 'ON' ? 'success' : 'danger'} dot>{item.enabledState === 'ON' ? t('common.enabled') : t('common.disabled')}</Badge></TableCell><TableCell className="text-sm text-neutral-500">{formatDate(item.createdTime, 'yyyy-MM-dd')}</TableCell>
-                <TableCell><DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => handleEdit(item)}><Pencil className="h-4 w-4 mr-2" />{t('common.edit')}</DropdownMenuItem><DropdownMenuItem onClick={() => toggleMutation.mutate({ id: item.id!, enabledState: item.enabledState === 'ON' ? 'OFF' as EnabledState : 'ON' as EnabledState })}>{item.enabledState === 'ON' ? t('common.disabled') : t('common.enabled')}</DropdownMenuItem><DropdownMenuItem className="text-danger-500" onClick={() => setDeleteTarget(item.id!)}><Trash2 className="h-4 w-4 mr-2" />{t('common.delete')}</DropdownMenuItem></DropdownMenuContent></DropdownMenu></TableCell>
+                <TableCell>
+  <div className="flex items-center gap-2">
+    <Switch
+      checked={item.enabledState === 'ON'}
+      disabled={toggleMutation.isPending}
+      onCheckedChange={() => toggleMutation.mutate({ id: item.id!, enabledState: item.enabledState === 'ON' ? 'OFF' as EnabledState : 'ON' as EnabledState })}
+    />
+    <DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger><DropdownMenuContent align="end"><DropdownMenuItem onClick={() => handleEdit(item)}><Pencil className="h-4 w-4 mr-2" />{t('common.edit')}</DropdownMenuItem><DropdownMenuItem className="text-danger-500" onClick={() => setDeleteTarget(item.id!)}><Trash2 className="h-4 w-4 mr-2" />{t('common.delete')}</DropdownMenuItem></DropdownMenuContent></DropdownMenu>
+  </div>
+</TableCell>
               </TableRow>
             ))}</TableBody></Table>
         )}{total > pageSize && <div className="flex items-center justify-between pt-4"><p className="text-sm text-neutral-500">{t('common.total', { total })}</p><div className="flex gap-2"><Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>{t('common.back')}</Button><Button variant="outline" size="sm" disabled={page * pageSize >= total} onClick={() => setPage((p) => p + 1)}>{t('common.more')}</Button></div></div>}
@@ -101,16 +111,14 @@ export default function PlatformManagement() {
   </SelectContent>
 </Select>
 <Input label={t('platform.description')} {...form.register('description')} />
-<Select value={form.watch('enabledState') || undefined} onValueChange={(v) => form.setValue('enabledState', v, { shouldValidate: true })}>
-  <SelectTrigger label={t('platform.enabledState')}>
-    <SelectValue placeholder={t('platform.selectEnabledState')} />
-  </SelectTrigger>
-  <SelectContent>
-    {(['ON', 'OFF'] as EnabledState[]).map((state) => (
-      <SelectItem key={state} value={state}>{state === 'ON' ? t('common.enabled') : t('common.disabled')}</SelectItem>
-    ))}
-  </SelectContent>
-</Select>
+<div className="flex items-center gap-3">
+  <span className="text-sm font-medium">{t('platform.enabledState')}</span>
+  <Switch
+    checked={form.watch('enabledState') === 'ON'}
+    onCheckedChange={(checked) => form.setValue('enabledState', checked ? 'ON' : 'OFF', { shouldValidate: true })}
+  />
+  <span className="text-sm text-neutral-500">{form.watch('enabledState') === 'ON' ? t('common.enabled') : t('common.disabled')}</span>
+</div>
 <DialogFooter><Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>{t('common.cancel')}</Button><Button type="submit" loading={saveMutation.isPending}>{t('common.save')}</Button></DialogFooter></form></DialogContent></Dialog>
       <AlertDialog open={!!deleteTarget} onOpenChange={() => setDeleteTarget(null)}><AlertDialogContent><AlertDialogHeader><AlertDialogTitle>{t('common.confirmDelete')}</AlertDialogTitle><AlertDialogDescription>{t('common.confirmDeleteDesc')}</AlertDialogDescription></AlertDialogHeader><AlertDialogFooter><AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel><AlertDialogAction className="bg-danger-500 hover:bg-danger-600" onClick={() => deleteTarget && deleteMutation.mutate(deleteTarget)}>{t('common.confirm')}</AlertDialogAction></AlertDialogFooter></AlertDialogContent></AlertDialog>
     </div>

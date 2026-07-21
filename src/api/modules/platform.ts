@@ -24,3 +24,7 @@ export function findPlatformPage(data: QueryPlatformDto): Promise<ResultMessage<
 export function findAllPlatforms(): Promise<ResultMessage<PlatformDto[]>> {
   return get<ResultMessage<PlatformDto[]>>('/platform/findAllPlatforms', undefined, WEB_BASE_URL)
 }
+
+export function findOnPlatforms(): Promise<ResultMessage<PlatformDto[]>> {
+  return get<ResultMessage<PlatformDto[]>>('/platform/findOnPlatforms', undefined, WEB_BASE_URL)
+}

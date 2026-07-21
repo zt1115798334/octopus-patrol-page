@@ -1,15 +1,16 @@
 import { StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider, MutationCache } from '@tanstack/react-query'
 import { ErrorBoundary } from 'react-error-boundary'
-import { Toaster } from 'sonner'
+import { toast, Toaster } from 'sonner'
 import { router } from './router'
 import { ErrorFallback } from './components/common/error-fallback'
 import { enableMockMode } from './lib/api-client'
 import { handleMockRequest } from './mock'
 import './styles/globals.css'
 import './i18n'
+import i18n from './i18n'
 
 // Enable mock mode only when VITE_ENABLE_MOCK=true — defaults to real API calls
 if (import.meta.env.VITE_ENABLE_MOCK === 'true') {
@@ -24,6 +25,16 @@ const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
     },
   },
+  mutationCache: new MutationCache({
+    onError: (error: unknown) => {
+      const msg = (error as { message?: string; __businessError?: boolean })?.message
+      if (msg) {
+        toast.error(msg)
+      } else {
+        toast.error(i18n.t('common.operationFailed'))
+      }
+    },
+  }),
 })
 
 function AppLoading() {

@@ -33,9 +33,9 @@ export default function PricingPlanManagement() {
   const { data, isLoading } = useQuery({ queryKey: ['pricingPlans', query], queryFn: () => findPricingPlanPage(query) })
   const form = useForm<FormData>({ resolver: zodResolver(formSchema) })
 
-  const saveMutation = useMutation({ mutationFn: savePricingPlan, onSuccess: () => { toast.success(t('common.operationSuccess')); setDialogOpen(false); queryClient.invalidateQueries({ queryKey: ['pricingPlans'] }) }, onError: () => toast.error(t('common.operationFailed')) })
-  const deleteMutation = useMutation({ mutationFn: deletePricingPlan, onSuccess: () => { toast.success(t('common.operationSuccess')); setDeleteTarget(null); queryClient.invalidateQueries({ queryKey: ['pricingPlans'] }) }, onError: () => toast.error(t('common.operationFailed')) })
-  const toggleMutation = useMutation({ mutationFn: changePricingPlanEnabledState, onSuccess: () => { toast.success(t('common.operationSuccess')); queryClient.invalidateQueries({ queryKey: ['pricingPlans'] }) }, onError: () => toast.error(t('common.operationFailed')) })
+  const saveMutation = useMutation({ mutationFn: savePricingPlan, onSuccess: () => { toast.success(t('common.operationSuccess')); setDialogOpen(false); queryClient.invalidateQueries({ queryKey: ['pricingPlans'] }) }, onError: () => {} })
+  const deleteMutation = useMutation({ mutationFn: deletePricingPlan, onSuccess: () => { toast.success(t('common.operationSuccess')); setDeleteTarget(null); queryClient.invalidateQueries({ queryKey: ['pricingPlans'] }) }, onError: () => {} })
+  const toggleMutation = useMutation({ mutationFn: changePricingPlanEnabledState, onSuccess: () => { toast.success(t('common.operationSuccess')); queryClient.invalidateQueries({ queryKey: ['pricingPlans'] }) }, onError: () => {} })
 
   const handleEdit = useCallback((item: PricingPlanDto) => { setEditing(item); form.reset({ planName: item.planName || '', planLevel: item.planLevel || 'FREE', originalPrice: item.originalPrice || 0, discountPrice: item.discountPrice || 0, keywordLimit: item.keywordLimit || 0, dailyCommentLimit: item.dailyCommentLimit || 0, aiConfigLimit: item.aiConfigLimit || 0, tokenLimit: item.tokenLimit || 0, enabledState: item.enabledState || 'ON' }); setDialogOpen(true) }, [form])
   const handleCreate = useCallback(() => { setEditing(null); form.reset({ planName: '', planLevel: 'FREE', originalPrice: 0, discountPrice: 0, keywordLimit: 0, dailyCommentLimit: 0, aiConfigLimit: 0, tokenLimit: 0, enabledState: 'ON' }); setDialogOpen(true) }, [form])

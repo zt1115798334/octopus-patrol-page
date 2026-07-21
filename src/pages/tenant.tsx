@@ -32,9 +32,9 @@ export default function TenantManagement() {
   const { data, isLoading } = useQuery({ queryKey: ['tenants', query], queryFn: () => findTenantPage(query) })
   const form = useForm<FormData>({ resolver: zodResolver(formSchema) })
 
-  const saveMutation = useMutation({ mutationFn: saveTenant, onSuccess: () => { toast.success(t('common.operationSuccess')); setDialogOpen(false); queryClient.invalidateQueries({ queryKey: ['tenants'] }) }, onError: () => toast.error(t('common.operationFailed')) })
-  const deleteMutation = useMutation({ mutationFn: deleteTenant, onSuccess: () => { toast.success(t('common.operationSuccess')); setDeleteTarget(null); queryClient.invalidateQueries({ queryKey: ['tenants'] }) }, onError: () => toast.error(t('common.operationFailed')) })
-  const toggleMutation = useMutation({ mutationFn: changeTenantEnabledState, onSuccess: () => { toast.success(t('common.operationSuccess')); queryClient.invalidateQueries({ queryKey: ['tenants'] }) }, onError: () => toast.error(t('common.operationFailed')) })
+  const saveMutation = useMutation({ mutationFn: saveTenant, onSuccess: () => { toast.success(t('common.operationSuccess')); setDialogOpen(false); queryClient.invalidateQueries({ queryKey: ['tenants'] }) }, onError: () => {} })
+  const deleteMutation = useMutation({ mutationFn: deleteTenant, onSuccess: () => { toast.success(t('common.operationSuccess')); setDeleteTarget(null); queryClient.invalidateQueries({ queryKey: ['tenants'] }) }, onError: () => {} })
+  const toggleMutation = useMutation({ mutationFn: changeTenantEnabledState, onSuccess: () => { toast.success(t('common.operationSuccess')); queryClient.invalidateQueries({ queryKey: ['tenants'] }) }, onError: () => {} })
 
   const handleEdit = useCallback((item: TenantDto) => { setEditing(item); form.reset({ tenantName: item.tenantName || '', tenantCode: item.tenantCode || '', contactName: item.contactName || '', contactPhone: item.contactPhone || '', contactEmail: item.contactEmail || '', enabledState: item.enabledState || 'ON' }); setDialogOpen(true) }, [form])
   const handleCreate = useCallback(() => { setEditing(null); form.reset({ tenantName: '', tenantCode: '', contactName: '', contactPhone: '', contactEmail: '', enabledState: 'ON' }); setDialogOpen(true) }, [form])

@@ -52,7 +52,7 @@ export default function Settings() {
       toast.success(t('common.operationSuccess'))
       queryClient.invalidateQueries({ queryKey: ['currentUser'] })
     },
-    onError: () => toast.error(t('common.operationFailed')),
+    onError: () => {},
   })
 
   const passwordMutation = useMutation({
@@ -62,7 +62,7 @@ export default function Settings() {
       toast.success(t('common.operationSuccess'))
       passwordForm.reset()
     },
-    onError: () => toast.error(t('common.operationFailed')),
+    onError: () => {},
   })
 
   const handleAvatarSelect = useCallback(

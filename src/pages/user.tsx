@@ -77,7 +77,7 @@ export default function UserManagement() {
       setDialogOpen(false)
       queryClient.invalidateQueries({ queryKey: ['users'] })
     },
-    onError: () => toast.error(t('common.operationFailed')),
+    onError: () => {},
   })
 
   const deleteMutation = useMutation({
@@ -87,7 +87,7 @@ export default function UserManagement() {
       setDeleteTarget(null)
       queryClient.invalidateQueries({ queryKey: ['users'] })
     },
-    onError: () => toast.error(t('common.operationFailed')),
+    onError: () => {},
   })
 
   const batchDeleteMutation = useMutation({
@@ -97,7 +97,7 @@ export default function UserManagement() {
       setSelectedIds(new Set())
       queryClient.invalidateQueries({ queryKey: ['users'] })
     },
-    onError: () => toast.error(t('common.operationFailed')),
+    onError: () => {},
   })
 
   const toggleEnabledMutation = useMutation({
@@ -106,7 +106,7 @@ export default function UserManagement() {
       toast.success(t('common.operationSuccess'))
       queryClient.invalidateQueries({ queryKey: ['users'] })
     },
-    onError: () => toast.error(t('common.operationFailed')),
+    onError: () => {},
   })
 
   const handleEdit = useCallback((user: UserDto) => {

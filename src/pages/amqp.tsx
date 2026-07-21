@@ -35,7 +35,7 @@ export default function AmqpPage() {
         accountCookie: '',
       })
     },
-    onError: () => toast.error(t('common.operationFailed')),
+    onError: () => {},
   })
 
   const handleSubmit = (e: React.FormEvent) => {
