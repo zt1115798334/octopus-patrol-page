@@ -25,7 +25,6 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { SkeletonCard, Skeleton } from '@/components/ui/skeleton'
 import { getUserStatistics } from '@/api/modules/user'
-import { getLogStatistics } from '@/api/modules/log'
 import {
   findVisitStats,
   findVisitTrend,
@@ -37,6 +36,7 @@ import {
   findActiveUsers,
   findOperateRatio,
   findWeeklyCompare,
+  getLogStatistics,
 } from '@/api/modules/dashboard'
 import { formatNumber, formatPercent } from '@/lib/utils'
 import { endOfDay, format, subDays } from 'date-fns'
