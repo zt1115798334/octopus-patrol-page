@@ -76,6 +76,15 @@ function processQueue(error: unknown, token: string | null = null) {
 
 instance.interceptors.response.use(
   (response: AxiosResponse) => {
+    const data = response.data
+    if (data?.meta?.success === false) {
+      return Promise.reject({
+        message: data.meta.message || '操作失败',
+        code: data.meta.code,
+        response,
+        __businessError: true,
+      })
+    }
     return response
   },
   async (error) => {

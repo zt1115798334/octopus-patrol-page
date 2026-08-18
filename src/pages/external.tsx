@@ -26,7 +26,7 @@ export default function ExternalPage() {
         toast.success(`${t('common.search')}完成`)
       }
     },
-    onError: () => toast.error(t('common.operationFailed')),
+    onError: () => {},
   })
 
   const handleSearch = () => {

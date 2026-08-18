@@ -45,13 +45,13 @@ export default function PersonalCenter() {
   const passwordMutation = useMutation({
     mutationFn: modifyUserPassword,
     onSuccess: () => { toast.success(t('common.operationSuccess')); passwordForm.reset() },
-    onError: () => toast.error(t('common.operationFailed')),
+    onError: () => {},
   })
 
   const configMutation = useMutation({
     mutationFn: modifyConfigInfo,
     onSuccess: () => toast.success(t('common.operationSuccess')),
-    onError: () => toast.error(t('common.operationFailed')),
+    onError: () => {},
   })
 
   const handlePassword = useCallback((d: z.infer<typeof passwordSchema>) => {

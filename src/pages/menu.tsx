@@ -102,7 +102,7 @@ export default function MenuManagement() {
       setDialogOpen(false)
       setEditingMenu(null)
     },
-    onError: () => toast.error(t('common.operationFailed')),
+    onError: () => {},
   })
 
   const deleteMutation = useMutation({
@@ -111,7 +111,7 @@ export default function MenuManagement() {
       toast.success(t('common.operationSuccess'))
       queryClient.invalidateQueries({ queryKey: ['menus'] })
     },
-    onError: () => toast.error(t('common.operationFailed')),
+    onError: () => {},
   })
 
   const openCreate = () => {

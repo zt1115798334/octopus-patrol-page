@@ -32,8 +32,8 @@ export default function CommentKeywordManagement() {
   const { data, isLoading } = useQuery({ queryKey: ['commentKeywords', query], queryFn: () => findCommentKeywordPage(query) })
   const form = useForm<FormData>({ resolver: zodResolver(formSchema) })
 
-  const saveMutation = useMutation({ mutationFn: saveCommentKeyword, onSuccess: () => { toast.success(t('common.operationSuccess')); setDialogOpen(false); queryClient.invalidateQueries({ queryKey: ['commentKeywords'] }) }, onError: () => toast.error(t('common.operationFailed')) })
-  const deleteMutation = useMutation({ mutationFn: deleteCommentKeyword, onSuccess: () => { toast.success(t('common.operationSuccess')); setDeleteTarget(null); queryClient.invalidateQueries({ queryKey: ['commentKeywords'] }) }, onError: () => toast.error(t('common.operationFailed')) })
+  const saveMutation = useMutation({ mutationFn: saveCommentKeyword, onSuccess: () => { toast.success(t('common.operationSuccess')); setDialogOpen(false); queryClient.invalidateQueries({ queryKey: ['commentKeywords'] }) }, onError: () => {} })
+  const deleteMutation = useMutation({ mutationFn: deleteCommentKeyword, onSuccess: () => { toast.success(t('common.operationSuccess')); setDeleteTarget(null); queryClient.invalidateQueries({ queryKey: ['commentKeywords'] }) }, onError: () => {} })
 
   const handleEdit = useCallback((item: CommentKeywordDto) => { setEditing(item); form.reset({ keyword: item.keyword || '', platformAccountId: item.platformAccountId || undefined }); setDialogOpen(true) }, [form])
   const handleCreate = useCallback(() => { setEditing(null); form.reset({ keyword: '', platformAccountId: undefined }); setDialogOpen(true) }, [form])

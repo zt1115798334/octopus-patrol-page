@@ -14,6 +14,7 @@ import type {
   ActiveUserDto,
   OperateRatioDto,
   WeeklyCompareDto,
+  LogStatisticsDto,
 } from '@/types'
 
 /**
@@ -94,4 +95,11 @@ export function findOperateRatio(): Promise<ResultMessage<OperateRatioDto[]>> {
  */
 export function findWeeklyCompare(): Promise<ResultMessage<WeeklyCompareDto>> {
   return post<ResultMessage<WeeklyCompareDto>>('/dashboard/findWeeklyCompare')
+}
+
+/**
+ * 获取日志统计概览（无参）
+ */
+export function getLogStatistics(): Promise<ResultMessage<LogStatisticsDto>> {
+  return post<ResultMessage<LogStatisticsDto>>('/dashboard/getLogStatistics')
 }

@@ -15,7 +15,7 @@ export function deletePlatformAccounts(ids: number[]): Promise<ResultMessage<voi
 }
 
 export function changePlatformAccountEnabledState(data: { id: number; enabledState: EnabledState }): Promise<ResultMessage<void>> {
-  return put<ResultMessage<void>>('/platformAccount/changePlatformAccountEnabledState', data)
+  return request<ResultMessage<void>>({ method: 'PUT', url: '/platformAccount/changePlatformAccountEnabledState', params: data }, WEB_BASE_URL)
 }
 
 export function findPlatformAccountPage(data: QueryPlatformAccountDto): Promise<ResultMessage<PageData<PlatformAccountDto>>> {

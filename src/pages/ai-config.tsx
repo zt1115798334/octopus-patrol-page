@@ -34,9 +34,9 @@ export default function AiConfigManagement() {
   const { data, isLoading } = useQuery({ queryKey: ['aiConfigs', query], queryFn: () => findAiConfigPage(query) })
   const form = useForm<FormData>({ resolver: zodResolver(formSchema) })
 
-  const saveMutation = useMutation({ mutationFn: saveAiConfig, onSuccess: () => { toast.success(t('common.operationSuccess')); setDialogOpen(false); queryClient.invalidateQueries({ queryKey: ['aiConfigs'] }) }, onError: () => toast.error(t('common.operationFailed')) })
-  const deleteMutation = useMutation({ mutationFn: deleteAiConfig, onSuccess: () => { toast.success(t('common.operationSuccess')); setDeleteTarget(null); queryClient.invalidateQueries({ queryKey: ['aiConfigs'] }) }, onError: () => toast.error(t('common.operationFailed')) })
-  const toggleMutation = useMutation({ mutationFn: changeAiConfigEnabledState, onSuccess: () => { toast.success(t('common.operationSuccess')); queryClient.invalidateQueries({ queryKey: ['aiConfigs'] }) }, onError: () => toast.error(t('common.operationFailed')) })
+  const saveMutation = useMutation({ mutationFn: saveAiConfig, onSuccess: () => { toast.success(t('common.operationSuccess')); setDialogOpen(false); queryClient.invalidateQueries({ queryKey: ['aiConfigs'] }) }, onError: () => {} })
+  const deleteMutation = useMutation({ mutationFn: deleteAiConfig, onSuccess: () => { toast.success(t('common.operationSuccess')); setDeleteTarget(null); queryClient.invalidateQueries({ queryKey: ['aiConfigs'] }) }, onError: () => {} })
+  const toggleMutation = useMutation({ mutationFn: changeAiConfigEnabledState, onSuccess: () => { toast.success(t('common.operationSuccess')); queryClient.invalidateQueries({ queryKey: ['aiConfigs'] }) }, onError: () => {} })
 
   const handleEdit = useCallback((item: AiConfigDto) => { setEditing(item); form.reset({ name: item.name || '', vendor: item.vendor || 'OPENAI', apiKey: item.apiKey || '', apiUrl: item.apiUrl || '', model: item.model || '', isDefault: item.isDefault || false, enabledState: item.enabledState || 'ON' }); setDialogOpen(true) }, [form])
   const handleCreate = useCallback(() => { setEditing(null); form.reset({ name: '', vendor: 'OPENAI', apiKey: '', apiUrl: '', model: '', isDefault: false, enabledState: 'ON' }); setDialogOpen(true) }, [form])

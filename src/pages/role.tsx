@@ -45,25 +45,25 @@ export default function RoleManagement() {
   const saveMutation = useMutation({
     mutationFn: saveRole,
     onSuccess: () => { toast.success(t('common.operationSuccess')); setDialogOpen(false); queryClient.invalidateQueries({ queryKey: ['roles'] }) },
-    onError: () => toast.error(t('common.operationFailed')),
+    onError: () => {},
   })
 
   const deleteMutation = useMutation({
     mutationFn: deleteRole,
     onSuccess: () => { toast.success(t('common.operationSuccess')); setDeleteTarget(null); queryClient.invalidateQueries({ queryKey: ['roles'] }) },
-    onError: () => toast.error(t('common.operationFailed')),
+    onError: () => {},
   })
 
   const batchDeleteMutation = useMutation({
     mutationFn: deleteRoles,
     onSuccess: () => { toast.success(t('common.operationSuccess')); setSelectedIds(new Set()); queryClient.invalidateQueries({ queryKey: ['roles'] }) },
-    onError: () => toast.error(t('common.operationFailed')),
+    onError: () => {},
   })
 
   const toggleMutation = useMutation({
     mutationFn: changeRoleEnabledState,
     onSuccess: () => { toast.success(t('common.operationSuccess')); queryClient.invalidateQueries({ queryKey: ['roles'] }) },
-    onError: () => toast.error(t('common.operationFailed')),
+    onError: () => {},
   })
 
   const handleEdit = useCallback((item: RoleDto) => {
