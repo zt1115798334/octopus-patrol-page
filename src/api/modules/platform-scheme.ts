@@ -1,18 +1,30 @@
-import { get, post, del, WEB_BASE_URL } from '@/lib/api-client'
-import type { ResultMessage, PageData, PlatformSchemeDto, QueryPlatformSchemeDto } from '@/types'
+import { del, get, post, WEB_BASE_URL } from '@/lib/api-client'
+import type { PageData, PlatformSchemeDto, QueryPlatformSchemeDto, ResultMessage } from '@/types'
 
 export function savePlatformScheme(
   data: PlatformSchemeDto,
 ): Promise<ResultMessage<PlatformSchemeDto>> {
-  return post<ResultMessage<PlatformSchemeDto>>('/platformScheme/savePlatformScheme', data, WEB_BASE_URL)
+  return post<ResultMessage<PlatformSchemeDto>>(
+    '/platformScheme/savePlatformScheme',
+    data,
+    WEB_BASE_URL,
+  )
 }
 
 export function deletePlatformScheme(id: number): Promise<ResultMessage<void>> {
-  return del<ResultMessage<void>>(`/platformScheme/deletePlatformScheme/${id}`, undefined, WEB_BASE_URL)
+  return del<ResultMessage<void>>(
+    `/platformScheme/deletePlatformScheme/${id}`,
+    undefined,
+    WEB_BASE_URL,
+  )
 }
 
 export function findPlatformScheme(id: number): Promise<ResultMessage<PlatformSchemeDto>> {
-  return get<ResultMessage<PlatformSchemeDto>>(`/platformScheme/findPlatformScheme/${id}`, undefined, WEB_BASE_URL)
+  return get<ResultMessage<PlatformSchemeDto>>(
+    `/platformScheme/findPlatformScheme/${id}`,
+    undefined,
+    WEB_BASE_URL,
+  )
 }
 
 export function findPlatformSchemesByCurrentUser(): Promise<ResultMessage<PlatformSchemeDto[]>> {
@@ -54,5 +66,9 @@ export function findPlatformSchemePage(
 }
 
 export function runPlatformScheme(id: number): Promise<ResultMessage<void>> {
-  return post<ResultMessage<void>>(`/platformScheme/runPlatformScheme/${id}`, undefined, WEB_BASE_URL)
+  return post<ResultMessage<void>>(
+    `/platformScheme/runPlatformScheme/${id}`,
+    undefined,
+    WEB_BASE_URL,
+  )
 }

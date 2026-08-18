@@ -1,8 +1,19 @@
-import { get, post, put, del } from '@/lib/api-client'
-import type { ResultMessage, PageData, PlatformPermissionDto, QueryPlatformPermissionDto, EnabledState } from '@/types'
+import { del, get, post, put } from '@/lib/api-client'
+import type {
+  EnabledState,
+  PageData,
+  PlatformPermissionDto,
+  QueryPlatformPermissionDto,
+  ResultMessage,
+} from '@/types'
 
-export function savePlatformPermission(data: PlatformPermissionDto): Promise<ResultMessage<PlatformPermissionDto>> {
-  return post<ResultMessage<PlatformPermissionDto>>('/platformPermission/savePlatformPermission', data)
+export function savePlatformPermission(
+  data: PlatformPermissionDto,
+): Promise<ResultMessage<PlatformPermissionDto>> {
+  return post<ResultMessage<PlatformPermissionDto>>(
+    '/platformPermission/savePlatformPermission',
+    data,
+  )
 }
 
 export function deletePlatformPermission(id: number): Promise<ResultMessage<void>> {
@@ -13,14 +24,24 @@ export function deletePlatformPermissions(ids: number[]): Promise<ResultMessage<
   return del<ResultMessage<void>>('/platformPermission/deletePlatformPermissions', ids)
 }
 
-export function changePlatformPermissionEnabledState(data: { id: number; enabledState: EnabledState }): Promise<ResultMessage<void>> {
+export function changePlatformPermissionEnabledState(data: {
+  id: number
+  enabledState: EnabledState
+}): Promise<ResultMessage<void>> {
   return put<ResultMessage<void>>('/platformPermission/changeEnabledState', data)
 }
 
-export function findPlatformPermissionPage(data: QueryPlatformPermissionDto): Promise<ResultMessage<PageData<PlatformPermissionDto>>> {
-  return post<ResultMessage<PageData<PlatformPermissionDto>>>('/platformPermission/findPlatformPermissionPage', data)
+export function findPlatformPermissionPage(
+  data: QueryPlatformPermissionDto,
+): Promise<ResultMessage<PageData<PlatformPermissionDto>>> {
+  return post<ResultMessage<PageData<PlatformPermissionDto>>>(
+    '/platformPermission/findPlatformPermissionPage',
+    data,
+  )
 }
 
 export function findPlatformPermissionList(): Promise<ResultMessage<PlatformPermissionDto[]>> {
-  return get<ResultMessage<PlatformPermissionDto[]>>('/platformPermission/findPlatformPermissionList')
+  return get<ResultMessage<PlatformPermissionDto[]>>(
+    '/platformPermission/findPlatformPermissionList',
+  )
 }

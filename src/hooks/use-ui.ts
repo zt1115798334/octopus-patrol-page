@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 /**
  * Custom hook for managing dialog open/close state
@@ -64,18 +64,21 @@ export function usePrevious<T>(value: T): T | undefined {
 export function useTableSelection<T>(items: T[], getId: (item: T) => number | string) {
   const [selectedIds, setSelectedIds] = useState<Set<string | number>>(new Set())
 
-  const toggle = useCallback((item: T) => {
-    const id = getId(item)
-    setSelectedIds((prev) => {
-      const next = new Set(prev)
-      if (next.has(id)) {
-        next.delete(id)
-      } else {
-        next.add(id)
-      }
-      return next
-    })
-  }, [getId])
+  const toggle = useCallback(
+    (item: T) => {
+      const id = getId(item)
+      setSelectedIds((prev) => {
+        const next = new Set(prev)
+        if (next.has(id)) {
+          next.delete(id)
+        } else {
+          next.add(id)
+        }
+        return next
+      })
+    },
+    [getId],
+  )
 
   const toggleAll = useCallback(() => {
     if (selectedIds.size === items.length) {
@@ -87,10 +90,7 @@ export function useTableSelection<T>(items: T[], getId: (item: T) => number | st
 
   const clear = useCallback(() => setSelectedIds(new Set()), [])
 
-  const isSelected = useCallback(
-    (item: T) => selectedIds.has(getId(item)),
-    [selectedIds, getId],
-  )
+  const isSelected = useCallback((item: T) => selectedIds.has(getId(item)), [selectedIds, getId])
 
   const isAllSelected = items.length > 0 && selectedIds.size === items.length
 

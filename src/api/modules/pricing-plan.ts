@@ -1,5 +1,11 @@
-import { get, post, put, del } from '@/lib/api-client'
-import type { ResultMessage, PageData, PricingPlanDto, QueryKeywordsDto, EnabledState } from '@/types'
+import { del, get, post, put } from '@/lib/api-client'
+import type {
+  EnabledState,
+  PageData,
+  PricingPlanDto,
+  QueryKeywordsDto,
+  ResultMessage,
+} from '@/types'
 
 export function savePricingPlan(data: PricingPlanDto): Promise<ResultMessage<PricingPlanDto>> {
   return post<ResultMessage<PricingPlanDto>>('/pricingPlan/savePricingPlan', data)
@@ -13,11 +19,16 @@ export function deletePricingPlans(ids: number[]): Promise<ResultMessage<void>> 
   return del<ResultMessage<void>>('/pricingPlan/deletePricingPlans', ids)
 }
 
-export function changePricingPlanEnabledState(data: { id: number; enabledState: EnabledState }): Promise<ResultMessage<void>> {
+export function changePricingPlanEnabledState(data: {
+  id: number
+  enabledState: EnabledState
+}): Promise<ResultMessage<void>> {
   return put<ResultMessage<void>>('/pricingPlan/changeEnabledState', data)
 }
 
-export function findPricingPlanPage(data: QueryKeywordsDto): Promise<ResultMessage<PageData<PricingPlanDto>>> {
+export function findPricingPlanPage(
+  data: QueryKeywordsDto,
+): Promise<ResultMessage<PageData<PricingPlanDto>>> {
   return post<ResultMessage<PageData<PricingPlanDto>>>('/pricingPlan/findPricingPlanPage', data)
 }
 

@@ -1,7 +1,6 @@
-import { useLocation, Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { ChevronRight, Home } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { cn } from '@/lib/utils'
 
 const pathLabelMap: Record<string, string> = {
   '/': 'dashboard',

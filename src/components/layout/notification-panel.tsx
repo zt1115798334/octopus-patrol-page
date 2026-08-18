@@ -1,23 +1,23 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import {
+  AlertCircle,
+  AlertTriangle,
   Bell,
   Check,
   CheckCheck,
-  Trash2,
-  Info,
-  AlertTriangle,
-  AlertCircle,
   CheckCircle,
   ExternalLink,
+  Info,
+  Trash2,
 } from 'lucide-react'
 import { cn, formatDate } from '@/lib/utils'
-import { useNotificationStore, type NotificationItem } from '@/stores'
+import { type NotificationItem, useNotificationStore } from '@/stores'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { EmptyState } from '@/components/ui/empty-state'
 
 const typeIcon = {
@@ -66,14 +66,24 @@ function NotificationItemRow({
       )}
 
       {/* Icon */}
-      <div className={cn('flex h-8 w-8 shrink-0 items-center justify-center rounded-lg', typeBg[notification.type])}>
+      <div
+        className={cn(
+          'flex h-8 w-8 shrink-0 items-center justify-center rounded-lg',
+          typeBg[notification.type],
+        )}
+      >
         {typeIcon[notification.type]}
       </div>
 
       {/* Content */}
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-2">
-          <p className={cn('text-sm leading-snug', !notification.read && 'font-medium text-neutral-900 dark:text-neutral-50')}>
+          <p
+            className={cn(
+              'text-sm leading-snug',
+              !notification.read && 'font-medium text-neutral-900 dark:text-neutral-50',
+            )}
+          >
             {notification.title}
           </p>
           <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -114,20 +124,12 @@ function NotificationItemRow({
 }
 
 export function NotificationPanel({ open, onClose }: NotificationPanelProps) {
-  const {
-    notifications,
-    unreadCount,
-    markAsRead,
-    markAllAsRead,
-    removeNotification,
-    clearAll,
-  } = useNotificationStore()
+  const { notifications, unreadCount, markAsRead, markAllAsRead, removeNotification, clearAll } =
+    useNotificationStore()
   const [tab, setTab] = useState('all')
 
   const filteredNotifications =
-    tab === 'unread'
-      ? notifications.filter((n) => !n.read)
-      : notifications
+    tab === 'unread' ? notifications.filter((n) => !n.read) : notifications
 
   if (!open) return null
 
@@ -197,9 +199,7 @@ export function NotificationPanel({ open, onClose }: NotificationPanelProps) {
                     </TabsTrigger>
                     <TabsTrigger value="unread" className="flex-1 text-xs">
                       Unread
-                      {unreadCount > 0 && (
-                        <span className="ml-1 text-[10px]">{unreadCount}</span>
-                      )}
+                      {unreadCount > 0 && <span className="ml-1 text-[10px]">{unreadCount}</span>}
                     </TabsTrigger>
                   </TabsList>
                 </div>

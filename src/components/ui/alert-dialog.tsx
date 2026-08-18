@@ -46,14 +46,21 @@ const AlertDialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDiv
 )
 
 const AlertDialogFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)} {...props} />
+  <div
+    className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)}
+    {...props}
+  />
 )
 
 const AlertDialogTitle = React.forwardRef<
   React.ComponentRef<typeof AlertDialogPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Title>
 >(({ className, ...props }, ref) => (
-  <AlertDialogPrimitive.Title ref={ref} className={cn('text-lg font-semibold', className)} {...props} />
+  <AlertDialogPrimitive.Title
+    ref={ref}
+    className={cn('text-lg font-semibold', className)}
+    {...props}
+  />
 ))
 AlertDialogTitle.displayName = 'AlertDialogTitle'
 
@@ -61,7 +68,11 @@ const AlertDialogDescription = React.forwardRef<
   React.ComponentRef<typeof AlertDialogPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Description>
 >(({ className, ...props }, ref) => (
-  <AlertDialogPrimitive.Description ref={ref} className={cn('text-sm text-neutral-500 dark:text-neutral-400', className)} {...props} />
+  <AlertDialogPrimitive.Description
+    ref={ref}
+    className={cn('text-sm text-neutral-500 dark:text-neutral-400', className)}
+    {...props}
+  />
 ))
 AlertDialogDescription.displayName = 'AlertDialogDescription'
 
@@ -77,7 +88,11 @@ const AlertDialogCancel = React.forwardRef<
   React.ComponentRef<typeof AlertDialogPrimitive.Cancel>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Cancel>
 >(({ className, ...props }, ref) => (
-  <AlertDialogPrimitive.Cancel ref={ref} className={cn(buttonVariants({ variant: 'outline' }), 'mt-2 sm:mt-0', className)} {...props} />
+  <AlertDialogPrimitive.Cancel
+    ref={ref}
+    className={cn(buttonVariants({ variant: 'outline' }), 'mt-2 sm:mt-0', className)}
+    {...props}
+  />
 ))
 AlertDialogCancel.displayName = 'AlertDialogCancel'
 

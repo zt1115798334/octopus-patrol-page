@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { findAllEnumPairs } from '@/api/modules/enum'
 import type { EnumPairsData } from '@/types'
 

@@ -34,8 +34,7 @@ const buttonVariants = cva(
 )
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
   asChild?: boolean
   loading?: boolean
 }
@@ -52,7 +51,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           disabled={disabled || loading}
           {...(props as React.ComponentPropsWithoutRef<typeof Slot>)}
         >
-          {loading ? <><Loader2 className="animate-spin" />{children}</> : children}
+          {loading ? (
+            <>
+              <Loader2 className="animate-spin" />
+              {children}
+            </>
+          ) : (
+            children
+          )}
         </Comp>
       )
     }
@@ -67,7 +73,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         transition={{ type: 'spring', stiffness: 400, damping: 17 }}
         {...(props as React.ComponentPropsWithoutRef<typeof motion.button>)}
       >
-        {loading ? <><Loader2 className="animate-spin" />{children}</> : children}
+        {loading ? (
+          <>
+            <Loader2 className="animate-spin" />
+            {children}
+          </>
+        ) : (
+          children
+        )}
       </Comp>
     )
   },

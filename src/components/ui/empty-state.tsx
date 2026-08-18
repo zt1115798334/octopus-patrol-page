@@ -33,8 +33,12 @@ export function EmptyState({
           {icon || <Inbox className="h-7 w-7 text-neutral-400 dark:text-neutral-500" />}
         </div>
       </div>
-      <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-1.5">{title}</h3>
-      <p className="text-xs text-neutral-500 dark:text-neutral-500 mb-6 text-center max-w-sm leading-relaxed">{description}</p>
+      <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-1.5">
+        {title}
+      </h3>
+      <p className="text-xs text-neutral-500 dark:text-neutral-500 mb-6 text-center max-w-sm leading-relaxed">
+        {description}
+      </p>
       {actionLabel && onAction && (
         <Button onClick={onAction} size="sm">
           {actionLabel}

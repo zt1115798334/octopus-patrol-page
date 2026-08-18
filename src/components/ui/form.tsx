@@ -1,11 +1,11 @@
 import {
+  type ComponentPropsWithoutRef,
   createContext,
+  type ElementRef,
   forwardRef,
+  type HTMLAttributes,
   useContext,
   useId,
-  type ComponentPropsWithoutRef,
-  type ElementRef,
-  type HTMLAttributes,
 } from 'react'
 import {
   Controller,
@@ -92,11 +92,7 @@ const FormLabel = forwardRef<
     <Slot
       ref={ref}
       id={formItemId}
-      className={cn(
-        'text-sm font-medium leading-none',
-        error && 'text-danger-500',
-        className,
-      )}
+      className={cn('text-sm font-medium leading-none', error && 'text-danger-500', className)}
       {...props}
     >
       {children}

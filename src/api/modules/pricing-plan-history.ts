@@ -1,5 +1,5 @@
 import { post } from '@/lib/api-client'
-import type { ResultMessage, PageData, UserPricingPlanHistoryDto, QueryKeywordsDto } from '@/types'
+import type { PageData, QueryKeywordsDto, ResultMessage, UserPricingPlanHistoryDto } from '@/types'
 
 export function findUserPricingPlanHistoryPage(
   data: QueryKeywordsDto,

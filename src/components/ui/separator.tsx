@@ -1,4 +1,4 @@
-import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from 'react'
+import { type ComponentPropsWithoutRef, type ElementRef, forwardRef } from 'react'
 import * as SeparatorPrimitive from '@radix-ui/react-separator'
 import { cn } from '@/lib/utils'
 

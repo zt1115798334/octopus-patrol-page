@@ -1,11 +1,14 @@
-import { post, get, request } from '@/lib/api-client'
+import { get, post, request } from '@/lib/api-client'
 import type { ResultMessage } from '@/types'
 
 /**
  * 用户登录
  * 后端 LoginController 使用 @RequestParam 接收参数，因此需要用 application/x-www-form-urlencoded 格式
  */
-export function login(data: { username: string; password: string }): Promise<ResultMessage<string>> {
+export function login(data: {
+  username: string
+  password: string
+}): Promise<ResultMessage<string>> {
   const formData = new URLSearchParams()
   formData.append('username', data.username)
   formData.append('password', data.password)

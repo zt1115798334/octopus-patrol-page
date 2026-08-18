@@ -40,9 +40,7 @@ const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
           )}
           {children}
         </div>
-        {actions && (
-          <div className="flex items-center gap-2 mt-2 sm:mt-0">{actions}</div>
-        )}
+        {actions && <div className="flex items-center gap-2 mt-2 sm:mt-0">{actions}</div>}
       </Wrapper>
     )
   },

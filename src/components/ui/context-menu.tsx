@@ -1,4 +1,4 @@
-import { forwardRef, type ComponentPropsWithoutRef, type ElementRef } from 'react'
+import { type ComponentPropsWithoutRef, type ElementRef, forwardRef } from 'react'
 import * as ContextMenuPrimitive from '@radix-ui/react-context-menu'
 import { Check, ChevronRight, Circle } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -58,8 +58,8 @@ const ContextMenuContent = forwardRef<
     <ContextMenuPrimitive.Content
       ref={ref}
       className={cn(
-      'z-50 min-w-[8rem] overflow-hidden rounded-xl border border-neutral-200/80 dark:border-neutral-700/80',
-      'bg-white dark:bg-neutral-900 p-1 shadow-[0_4px_16px_-4px_rgba(0,0,0,0.08),0_2px_8px_-2px_rgba(0,0,0,0.04)]',
+        'z-50 min-w-[8rem] overflow-hidden rounded-xl border border-neutral-200/80 dark:border-neutral-700/80',
+        'bg-white dark:bg-neutral-900 p-1 shadow-[0_4px_16px_-4px_rgba(0,0,0,0.08),0_2px_8px_-2px_rgba(0,0,0,0.04)]',
         'data-[state=open]:animate-in data-[state=closed]:animate-out',
         'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
         'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',

@@ -2,7 +2,7 @@
 // Mock Handler — intercepts axios requests and returns mock data
 // ============================================================
 
-import type { InternalAxiosRequestConfig, AxiosResponse } from 'axios'
+import type { AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 import * as data from './data'
 
 // ---- Helpers ----
@@ -57,7 +57,9 @@ let logs = clone(data.mockLogs)
 let jobs = clone(data.mockJobs)
 
 let idCounter = 1000
-function nextId() { return ++idCounter }
+function nextId() {
+  return ++idCounter
+}
 
 // ===== URL pattern matching =====
 
@@ -92,7 +94,12 @@ on('POST', /\/user\/saveUser/, (_, __, body) => {
     const idx = users.findIndex((u) => u.id === body.id)
     if (idx >= 0) users[idx] = { ...users[idx], ...body }
   } else {
-    const newUser = { ...body, id: nextId(), createdTime: new Date().toISOString(), lastLoginTime: undefined }
+    const newUser = {
+      ...body,
+      id: nextId(),
+      createdTime: new Date().toISOString(),
+      lastLoginTime: undefined,
+    }
     users.unshift(newUser)
   }
   return ok()
@@ -216,9 +223,15 @@ on('GET', /\/pricingPlan\/findAllPricingPlans/, () => success(pricingPlans))
 on('POST', /\/pricingPlan\/savePricingPlan/, (_, __, body) => {
   if (body?.id) {
     const idx = pricingPlans.findIndex((p) => p.id === body.id)
-    if (idx >= 0) pricingPlans[idx] = { ...pricingPlans[idx], ...body, updatedTime: new Date().toISOString() }
+    if (idx >= 0)
+      pricingPlans[idx] = { ...pricingPlans[idx], ...body, updatedTime: new Date().toISOString() }
   } else {
-    pricingPlans.push({ ...body, id: nextId(), createdTime: new Date().toISOString(), updatedTime: new Date().toISOString() })
+    pricingPlans.push({
+      ...body,
+      id: nextId(),
+      createdTime: new Date().toISOString(),
+      updatedTime: new Date().toISOString(),
+    })
   }
   return ok()
 })
@@ -250,9 +263,15 @@ on('GET', /\/aiConfig\/findAiConfigList/, () => success(aiConfigs))
 on('POST', /\/aiConfig\/saveAiConfig/, (_, __, body) => {
   if (body?.id) {
     const idx = aiConfigs.findIndex((c) => c.id === body.id)
-    if (idx >= 0) aiConfigs[idx] = { ...aiConfigs[idx], ...body, updatedTime: new Date().toISOString() }
+    if (idx >= 0)
+      aiConfigs[idx] = { ...aiConfigs[idx], ...body, updatedTime: new Date().toISOString() }
   } else {
-    aiConfigs.push({ ...body, id: nextId(), createdTime: new Date().toISOString(), updatedTime: new Date().toISOString() })
+    aiConfigs.push({
+      ...body,
+      id: nextId(),
+      createdTime: new Date().toISOString(),
+      updatedTime: new Date().toISOString(),
+    })
   }
   return ok()
 })
@@ -274,7 +293,8 @@ on('PUT', /\/aiConfig\/changeAiConfigEnabledState/, (_, __, body) => {
 // ---- AI ----
 on('POST', /\/ai\/generateComment/, () => {
   return success({
-    content: '这是一条由AI自动生成的评论，模拟真实场景下的回复内容。观点清晰，语言流畅，符合平台调性要求。',
+    content:
+      '这是一条由AI自动生成的评论，模拟真实场景下的回复内容。观点清晰，语言流畅，符合平台调性要求。',
   })
 })
 
@@ -285,9 +305,15 @@ on('POST', /\/article\/findArticlePage/, (_, __, body) => {
 on('POST', /\/article\/saveArticle/, (_, __, body) => {
   if (body?.id) {
     const idx = articles.findIndex((a) => a.id === body.id)
-    if (idx >= 0) articles[idx] = { ...articles[idx], ...body, updatedTime: new Date().toISOString() }
+    if (idx >= 0)
+      articles[idx] = { ...articles[idx], ...body, updatedTime: new Date().toISOString() }
   } else {
-    articles.unshift({ ...body, id: nextId(), createdTime: new Date().toISOString(), updatedTime: new Date().toISOString() })
+    articles.unshift({
+      ...body,
+      id: nextId(),
+      createdTime: new Date().toISOString(),
+      updatedTime: new Date().toISOString(),
+    })
   }
   return ok()
 })
@@ -309,9 +335,19 @@ on('POST', /\/commentKeyword\/findCommentKeywordPage/, (_, __, body) => {
 on('POST', /\/commentKeyword\/saveCommentKeyword/, (_, __, body) => {
   if (body?.id) {
     const idx = commentKeywords.findIndex((k) => k.id === body.id)
-    if (idx >= 0) commentKeywords[idx] = { ...commentKeywords[idx], ...body, updatedTime: new Date().toISOString() }
+    if (idx >= 0)
+      commentKeywords[idx] = {
+        ...commentKeywords[idx],
+        ...body,
+        updatedTime: new Date().toISOString(),
+      }
   } else {
-    commentKeywords.unshift({ ...body, id: nextId(), createdTime: new Date().toISOString(), updatedTime: new Date().toISOString() })
+    commentKeywords.unshift({
+      ...body,
+      id: nextId(),
+      createdTime: new Date().toISOString(),
+      updatedTime: new Date().toISOString(),
+    })
   }
   return ok()
 })
@@ -333,9 +369,15 @@ on('GET', /\/platform\/findAllPlatforms/, () => success(platforms))
 on('POST', /\/platform\/savePlatform/, (_, __, body) => {
   if (body?.id) {
     const idx = platforms.findIndex((p) => p.id === body.id)
-    if (idx >= 0) platforms[idx] = { ...platforms[idx], ...body, updatedTime: new Date().toISOString() }
+    if (idx >= 0)
+      platforms[idx] = { ...platforms[idx], ...body, updatedTime: new Date().toISOString() }
   } else {
-    platforms.unshift({ ...body, id: nextId(), createdTime: new Date().toISOString(), updatedTime: new Date().toISOString() })
+    platforms.unshift({
+      ...body,
+      id: nextId(),
+      createdTime: new Date().toISOString(),
+      updatedTime: new Date().toISOString(),
+    })
   }
   return ok()
 })
@@ -362,9 +404,19 @@ on('GET', /\/platformAccount\/findPlatformAccountList/, () => success(platformAc
 on('POST', /\/platformAccount\/savePlatformAccount/, (_, __, body) => {
   if (body?.id) {
     const idx = platformAccounts.findIndex((a) => a.id === body.id)
-    if (idx >= 0) platformAccounts[idx] = { ...platformAccounts[idx], ...body, updatedTime: new Date().toISOString() }
+    if (idx >= 0)
+      platformAccounts[idx] = {
+        ...platformAccounts[idx],
+        ...body,
+        updatedTime: new Date().toISOString(),
+      }
   } else {
-    platformAccounts.unshift({ ...body, id: nextId(), createdTime: new Date().toISOString(), updatedTime: new Date().toISOString() })
+    platformAccounts.unshift({
+      ...body,
+      id: nextId(),
+      createdTime: new Date().toISOString(),
+      updatedTime: new Date().toISOString(),
+    })
   }
   return ok()
 })
@@ -391,9 +443,19 @@ on('GET', /\/platformPermission\/findPlatformPermissionList/, () => success(plat
 on('POST', /\/platformPermission\/savePlatformPermission/, (_, __, body) => {
   if (body?.id) {
     const idx = platformPermissions.findIndex((p) => p.id === body.id)
-    if (idx >= 0) platformPermissions[idx] = { ...platformPermissions[idx], ...body, updatedTime: new Date().toISOString() }
+    if (idx >= 0)
+      platformPermissions[idx] = {
+        ...platformPermissions[idx],
+        ...body,
+        updatedTime: new Date().toISOString(),
+      }
   } else {
-    platformPermissions.unshift({ ...body, id: nextId(), createdTime: new Date().toISOString(), updatedTime: new Date().toISOString() })
+    platformPermissions.unshift({
+      ...body,
+      id: nextId(),
+      createdTime: new Date().toISOString(),
+      updatedTime: new Date().toISOString(),
+    })
   }
   return ok()
 })
@@ -422,13 +484,25 @@ on('GET', /\/platformScheme\/findPlatformScheme\/(\d+)/, (url) => {
 })
 on('GET', /\/platformScheme\/findPlatformSchemesByCurrentUser/, () => success(platformSchemes))
 on('GET', /\/platformScheme\/findPlatformSchemesByUserId/, () => success(platformSchemes))
-on('GET', /\/platformScheme\/findEnabledPlatformSchemesByAccountId/, () => success(platformSchemes.filter((s) => s.enabledState === 'ENABLED')))
+on('GET', /\/platformScheme\/findEnabledPlatformSchemesByAccountId/, () =>
+  success(platformSchemes.filter((s) => s.enabledState === 'ENABLED')),
+)
 on('POST', /\/platformScheme\/savePlatformScheme/, (_, __, body) => {
   if (body?.id) {
     const idx = platformSchemes.findIndex((s) => s.id === body.id)
-    if (idx >= 0) platformSchemes[idx] = { ...platformSchemes[idx], ...body, updatedTime: new Date().toISOString() }
+    if (idx >= 0)
+      platformSchemes[idx] = {
+        ...platformSchemes[idx],
+        ...body,
+        updatedTime: new Date().toISOString(),
+      }
   } else {
-    platformSchemes.unshift({ ...body, id: nextId(), createdTime: new Date().toISOString(), updatedTime: new Date().toISOString() })
+    platformSchemes.unshift({
+      ...body,
+      id: nextId(),
+      createdTime: new Date().toISOString(),
+      updatedTime: new Date().toISOString(),
+    })
   }
   return ok()
 })

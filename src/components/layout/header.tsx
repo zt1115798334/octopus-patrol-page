@@ -1,21 +1,27 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
-  PanelLeft,
-  Search,
-  Moon,
-  Sun,
   Bell,
-  Settings,
-  LogOut,
-  User,
   ChevronDown,
   Command,
   Languages,
+  LogOut,
   Monitor,
+  Moon,
+  PanelLeft,
+  Search,
+  Settings,
   Sparkles,
+  Sun,
+  User,
 } from 'lucide-react'
-import { useSidebarStore, useThemeStore, useNotificationStore, useAuthStore, useSettingStore } from '@/stores'
+import {
+  useAuthStore,
+  useNotificationStore,
+  useSettingStore,
+  useSidebarStore,
+  useThemeStore,
+} from '@/stores'
 import type { ThemeStyle } from '@/stores/setting'
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
@@ -23,9 +29,9 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuLabel,
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
@@ -82,7 +88,12 @@ export function Header() {
           <Tooltip>
             <TooltipTrigger asChild>
               <Button variant="ghost" size="icon" className="h-9 w-9" onClick={toggle}>
-                <PanelLeft className={cn('h-4 w-4 transition-transform duration-200', collapsed && 'rotate-180')} />
+                <PanelLeft
+                  className={cn(
+                    'h-4 w-4 transition-transform duration-200',
+                    collapsed && 'rotate-180',
+                  )}
+                />
               </Button>
             </TooltipTrigger>
             <TooltipContent>{collapsed ? t('common.expand') : t('common.collapse')}</TooltipContent>
@@ -138,17 +149,19 @@ export function Header() {
               <Button
                 variant="ghost"
                 size="icon"
-                className={cn(
-                  'h-9 w-9 relative',
-                  themeStyle !== 'default' && 'text-primary-500',
-                )}
+                className={cn('h-9 w-9 relative', themeStyle !== 'default' && 'text-primary-500')}
                 onClick={() => {
                   const styles: ThemeStyle[] = ['default', 'anime', 'shinchan']
                   const idx = styles.indexOf(themeStyle)
                   setThemeStyle(styles[(idx + 1) % styles.length])
                 }}
               >
-                <Sparkles className={cn('h-4 w-4 transition-all duration-300', themeStyle !== 'default' && 'scale-110')} />
+                <Sparkles
+                  className={cn(
+                    'h-4 w-4 transition-all duration-300',
+                    themeStyle !== 'default' && 'scale-110',
+                  )}
+                />
               </Button>
             </TooltipTrigger>
             <TooltipContent>{t(`theme.${themeStyle}`)}</TooltipContent>
@@ -164,7 +177,11 @@ export function Header() {
             <TooltipContent>
               <DropdownMenu>
                 <DropdownMenuTrigger className="focus:outline-none">
-                  {mode === 'light' ? t('theme.light') : mode === 'dark' ? t('theme.dark') : t('theme.system')}
+                  {mode === 'light'
+                    ? t('theme.light')
+                    : mode === 'dark'
+                      ? t('theme.dark')
+                      : t('theme.system')}
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem onClick={() => setMode('light')}>
@@ -195,7 +212,11 @@ export function Header() {
               >
                 <Bell className="h-4 w-4" />
                 {unreadCount > 0 && (
-                  <Badge variant="danger" size="sm" className="absolute -top-0.5 -right-0.5 h-4 min-w-4 px-1 flex items-center justify-center text-[10px]">
+                  <Badge
+                    variant="danger"
+                    size="sm"
+                    className="absolute -top-0.5 -right-0.5 h-4 min-w-4 px-1 flex items-center justify-center text-[10px]"
+                  >
                     {unreadCount > 99 ? '99+' : unreadCount}
                   </Badge>
                 )}
@@ -210,7 +231,9 @@ export function Header() {
               <Button variant="ghost" className="h-9 gap-2 px-2">
                 <Avatar className="h-7 w-7">
                   {avatarUrl && <AvatarImage src={avatarUrl} alt={username || ''} />}
-                  <AvatarFallback className="text-xs">{username?.charAt(0)?.toUpperCase() || 'U'}</AvatarFallback>
+                  <AvatarFallback className="text-xs">
+                    {username?.charAt(0)?.toUpperCase() || 'U'}
+                  </AvatarFallback>
                 </Avatar>
                 <span className="text-sm font-medium hidden sm:inline">{username || 'User'}</span>
                 <ChevronDown className="h-3 w-3 text-neutral-400" />

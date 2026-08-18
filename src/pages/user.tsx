@@ -1,48 +1,76 @@
-import { useState, useCallback, type ChangeEvent } from 'react'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { type ChangeEvent, useCallback, useState } from 'react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Plus, Trash2, Pencil, Search, RefreshCw, MoreHorizontal, Shield } from 'lucide-react'
+import { MoreHorizontal, Pencil, Plus, RefreshCw, Search, Shield, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { SkeletonTable } from '@/components/ui/skeleton'
 import { EmptyState } from '@/components/ui/empty-state'
-import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
 import {
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from '@/components/ui/dialog'
 import {
-  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
-  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Switch } from '@/components/ui/switch'
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { toast } from 'sonner'
-import { findUserPage, saveUser, deleteUser, deleteUsers, changeUserEnabledState } from '@/api/modules/user'
+import {
+  changeUserEnabledState,
+  deleteUser,
+  deleteUsers,
+  findUserPage,
+  saveUser,
+} from '@/api/modules/user'
 import { uploadFile } from '@/api/modules/file'
 import { formatDate } from '@/lib/utils'
-import type { UserDto, QueryUserDto, EnabledState } from '@/types'
+import type { EnabledState, QueryUserDto, UserDto } from '@/types'
 
-const userFormSchema = z.object({
-  account: z.string().min(1, '请输入账号'),
-  username: z.string().min(1, '请输入用户名'),
-  phone: z.string().optional(),
-  password: z.string().optional(),
-  confirmPassword: z.string().optional(),
-  enabledState: z.string().optional(),
-  avatarId: z.number().optional(),
-}).refine((data) => !data.password || data.password === data.confirmPassword, {
-  message: '两次输入的密码不一致',
-  path: ['confirmPassword'],
-})
+const userFormSchema = z
+  .object({
+    account: z.string().min(1, '请输入账号'),
+    username: z.string().min(1, '请输入用户名'),
+    phone: z.string().optional(),
+    password: z.string().optional(),
+    confirmPassword: z.string().optional(),
+    enabledState: z.string().optional(),
+    avatarId: z.number().optional(),
+  })
+  .refine((data) => !data.password || data.password === data.confirmPassword, {
+    message: '两次输入的密码不一致',
+    path: ['confirmPassword'],
+  })
 
 type UserFormData = z.infer<typeof userFormSchema>
 
@@ -109,18 +137,21 @@ export default function UserManagement() {
     onError: () => {},
   })
 
-  const handleEdit = useCallback((user: UserDto) => {
-    setEditingUser(user)
-    form.reset({
-      account: user.account || '',
-      username: user.username || '',
-      phone: user.phone || '',
-      enabledState: user.enabledState || 'ON',
-      avatarId: user.avatarId,
-    })
-    setAvatarPreview(null)
-    setDialogOpen(true)
-  }, [form])
+  const handleEdit = useCallback(
+    (user: UserDto) => {
+      setEditingUser(user)
+      form.reset({
+        account: user.account || '',
+        username: user.username || '',
+        phone: user.phone || '',
+        enabledState: user.enabledState || 'ON',
+        avatarId: user.avatarId,
+      })
+      setAvatarPreview(null)
+      setDialogOpen(true)
+    },
+    [form],
+  )
 
   const handleCreate = useCallback(() => {
     setEditingUser(null)
@@ -128,39 +159,45 @@ export default function UserManagement() {
     setDialogOpen(true)
   }, [form])
 
-  const handleSubmit = useCallback((formData: UserFormData) => {
-    const payload: UserDto = {
-      id: editingUser?.id,
-      account: formData.account,
-      username: formData.username,
-      phone: formData.phone,
-      password: formData.password,
-      enabledState: formData.enabledState,
-      avatarId: formData.avatarId,
-    }
-    saveMutation.mutate(payload)
-  }, [editingUser, saveMutation])
-
-  const handleAvatarChange = useCallback(async (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    setAvatarPreview(URL.createObjectURL(file))
-    setAvatarUploading(true)
-    try {
-      const res = await uploadFile(file)
-      const info = res.data
-      if (info?.id != null) {
-        form.setValue('avatarId', info.id)
-        toast.success(t('common.operationSuccess'))
-      } else {
-        toast.error(t('common.operationFailed'))
+  const handleSubmit = useCallback(
+    (formData: UserFormData) => {
+      const payload: UserDto = {
+        id: editingUser?.id,
+        account: formData.account,
+        username: formData.username,
+        phone: formData.phone,
+        password: formData.password,
+        enabledState: formData.enabledState,
+        avatarId: formData.avatarId,
       }
-    } catch {
-      toast.error(t('common.operationFailed'))
-    } finally {
-      setAvatarUploading(false)
-    }
-  }, [form, t])
+      saveMutation.mutate(payload)
+    },
+    [editingUser, saveMutation],
+  )
+
+  const handleAvatarChange = useCallback(
+    async (e: ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0]
+      if (!file) return
+      setAvatarPreview(URL.createObjectURL(file))
+      setAvatarUploading(true)
+      try {
+        const res = await uploadFile(file)
+        const info = res.data
+        if (info?.id != null) {
+          form.setValue('avatarId', info.id)
+          toast.success(t('common.operationSuccess'))
+        } else {
+          toast.error(t('common.operationFailed'))
+        }
+      } catch {
+        toast.error(t('common.operationFailed'))
+      } finally {
+        setAvatarUploading(false)
+      }
+    },
+    [form, t],
+  )
 
   const users = data?.data?.content || []
   const total = data?.data?.totalElements || 0
@@ -169,7 +206,9 @@ export default function UserManagement() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-50">{t('user.title')}</h1>
+          <h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-50">
+            {t('user.title')}
+          </h1>
           <p className="text-sm text-neutral-500 mt-1">{t('common.total', { total })}</p>
         </div>
         <Button onClick={handleCreate}>
@@ -188,14 +227,24 @@ export default function UserManagement() {
                 className="pl-9"
                 value={keywords}
                 onChange={(e) => setKeywords(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && queryClient.invalidateQueries({ queryKey: ['users'] })}
+                onKeyDown={(e) =>
+                  e.key === 'Enter' && queryClient.invalidateQueries({ queryKey: ['users'] })
+                }
               />
             </div>
-            <Button variant="outline" size="icon" onClick={() => queryClient.invalidateQueries({ queryKey: ['users'] })}>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => queryClient.invalidateQueries({ queryKey: ['users'] })}
+            >
               <RefreshCw className="h-4 w-4" />
             </Button>
             {selectedIds.size > 0 && (
-              <Button variant="danger" size="sm" onClick={() => batchDeleteMutation.mutate([...selectedIds])}>
+              <Button
+                variant="danger"
+                size="sm"
+                onClick={() => batchDeleteMutation.mutate([...selectedIds])}
+              >
                 <Trash2 className="h-4 w-4" />
                 {t('common.batchDelete')} ({selectedIds.size})
               </Button>
@@ -248,7 +297,9 @@ export default function UserManagement() {
                         {user.enabledState === 'ON' ? t('common.enabled') : t('common.disabled')}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-neutral-500 text-sm">{formatDate(user.createdTime)}</TableCell>
+                    <TableCell className="text-neutral-500 text-sm">
+                      {formatDate(user.createdTime)}
+                    </TableCell>
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -258,17 +309,31 @@ export default function UserManagement() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem onClick={() => handleEdit(user)}>
-                            <Pencil className="h-4 w-4 mr-2" />{t('common.edit')}
+                            <Pencil className="h-4 w-4 mr-2" />
+                            {t('common.edit')}
                           </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => toggleEnabledMutation.mutate({
-                            id: user.id!,
-                            enabledState: user.enabledState === 'ON' ? 'OFF' as EnabledState : 'ON' as EnabledState,
-                          })}>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              toggleEnabledMutation.mutate({
+                                id: user.id!,
+                                enabledState:
+                                  user.enabledState === 'ON'
+                                    ? ('OFF' as EnabledState)
+                                    : ('ON' as EnabledState),
+                              })
+                            }
+                          >
                             <Shield className="h-4 w-4 mr-2" />
-                            {user.enabledState === 'ON' ? t('common.disabled') : t('common.enabled')}
+                            {user.enabledState === 'ON'
+                              ? t('common.disabled')
+                              : t('common.enabled')}
                           </DropdownMenuItem>
-                          <DropdownMenuItem className="text-danger-500" onClick={() => setDeleteTarget(user.id!)}>
-                            <Trash2 className="h-4 w-4 mr-2" />{t('common.delete')}
+                          <DropdownMenuItem
+                            className="text-danger-500"
+                            onClick={() => setDeleteTarget(user.id!)}
+                          >
+                            <Trash2 className="h-4 w-4 mr-2" />
+                            {t('common.delete')}
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
@@ -283,10 +348,20 @@ export default function UserManagement() {
             <div className="flex items-center justify-between pt-4">
               <p className="text-sm text-neutral-500">{t('common.total', { total })}</p>
               <div className="flex gap-2">
-                <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={page <= 1}
+                  onClick={() => setPage((p) => p - 1)}
+                >
                   {t('common.back')}
                 </Button>
-                <Button variant="outline" size="sm" disabled={page * pageSize >= total} onClick={() => setPage((p) => p + 1)}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={page * pageSize >= total}
+                  onClick={() => setPage((p) => p + 1)}
+                >
                   {t('common.more')}
                 </Button>
               </div>
@@ -303,29 +378,53 @@ export default function UserManagement() {
             <DialogDescription>{t('user.title')}</DialogDescription>
           </DialogHeader>
           <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
-            <Input label={t('user.account')} {...form.register('account')} error={form.formState.errors.account?.message} />
-            <Input label={t('user.username')} {...form.register('username')} error={form.formState.errors.username?.message} />
+            <Input
+              label={t('user.account')}
+              {...form.register('account')}
+              error={form.formState.errors.account?.message}
+            />
+            <Input
+              label={t('user.username')}
+              {...form.register('username')}
+              error={form.formState.errors.username?.message}
+            />
             <Input label={t('user.phone')} {...form.register('phone')} />
             {!editingUser && (
               <>
-                <Input label={t('auth.password')} type="password" {...form.register('password')} error={form.formState.errors.password?.message} />
-                <Input label={t('user.confirmPassword')} type="password" {...form.register('confirmPassword')} error={form.formState.errors.confirmPassword?.message} />
+                <Input
+                  label={t('auth.password')}
+                  type="password"
+                  {...form.register('password')}
+                  error={form.formState.errors.password?.message}
+                />
+                <Input
+                  label={t('user.confirmPassword')}
+                  type="password"
+                  {...form.register('confirmPassword')}
+                  error={form.formState.errors.confirmPassword?.message}
+                />
               </>
             )}
             <div className="flex items-center justify-between rounded-lg border border-neutral-200 px-3 py-2 dark:border-neutral-700">
-              <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">{t('user.enabledState')}</span>
+              <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                {t('user.enabledState')}
+              </span>
               <div className="flex items-center gap-2">
                 <span className="text-xs text-neutral-500">
                   {form.watch('enabledState') === 'ON' ? t('common.enabled') : t('common.disabled')}
                 </span>
                 <Switch
                   checked={form.watch('enabledState') === 'ON'}
-                  onCheckedChange={(checked) => form.setValue('enabledState', checked ? 'ON' : 'OFF')}
+                  onCheckedChange={(checked) =>
+                    form.setValue('enabledState', checked ? 'ON' : 'OFF')
+                  }
                 />
               </div>
             </div>
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">{t('user.uploadAvatar')}</label>
+              <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                {t('user.uploadAvatar')}
+              </label>
               <div className="flex items-center gap-3">
                 <Avatar className="h-14 w-14">
                   {avatarPreview ? (
@@ -334,13 +433,22 @@ export default function UserManagement() {
                     <AvatarFallback>{(form.watch('username') || '?').charAt(0)}</AvatarFallback>
                   )}
                 </Avatar>
-                <Input type="file" accept="image/*" onChange={handleAvatarChange} wrapperClassName="flex-1" />
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAvatarChange}
+                  wrapperClassName="flex-1"
+                />
               </div>
               {avatarUploading && <p className="text-xs text-neutral-500">{t('common.loading')}</p>}
             </div>
             <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>{t('common.cancel')}</Button>
-              <Button type="submit" loading={saveMutation.isPending}>{t('common.save')}</Button>
+              <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>
+                {t('common.cancel')}
+              </Button>
+              <Button type="submit" loading={saveMutation.isPending}>
+                {t('common.save')}
+              </Button>
             </DialogFooter>
           </form>
         </DialogContent>
@@ -355,7 +463,10 @@ export default function UserManagement() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
-            <AlertDialogAction className="bg-danger-500 hover:bg-danger-600" onClick={() => deleteTarget && deleteMutation.mutate(deleteTarget)}>
+            <AlertDialogAction
+              className="bg-danger-500 hover:bg-danger-600"
+              onClick={() => deleteTarget && deleteMutation.mutate(deleteTarget)}
+            >
               {t('common.confirm')}
             </AlertDialogAction>
           </AlertDialogFooter>

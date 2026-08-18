@@ -1,11 +1,21 @@
-import { get, post, put, del } from '@/lib/api-client'
-import type { ResultMessage, PageData, UserDto, QueryUserDto, UserStatisticsDto, EnabledState } from '@/types'
+import { del, get, post, put } from '@/lib/api-client'
+import type {
+  EnabledState,
+  PageData,
+  QueryUserDto,
+  ResultMessage,
+  UserDto,
+  UserStatisticsDto,
+} from '@/types'
 
 export function saveUser(data: UserDto): Promise<ResultMessage<UserDto>> {
   return post<ResultMessage<UserDto>>('/user/saveUser', data)
 }
 
-export function modifyUserPassword(data: { id: number; newPassword: string }): Promise<ResultMessage<void>> {
+export function modifyUserPassword(data: {
+  id: number
+  newPassword: string
+}): Promise<ResultMessage<void>> {
   return put<ResultMessage<void>>('/user/modifyUserPassword', data)
 }
 
@@ -21,7 +31,10 @@ export function deleteUsers(ids: number[]): Promise<ResultMessage<void>> {
   return del<ResultMessage<void>>('/user/deleteUsers', ids)
 }
 
-export function changeUserEnabledState(data: { id: number; enabledState: EnabledState }): Promise<ResultMessage<void>> {
+export function changeUserEnabledState(data: {
+  id: number
+  enabledState: EnabledState
+}): Promise<ResultMessage<void>> {
   return put<ResultMessage<void>>('/user/changeEnabledState', data)
 }
 

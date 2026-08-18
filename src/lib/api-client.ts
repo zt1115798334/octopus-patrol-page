@@ -1,8 +1,8 @@
 import axios, {
   type AxiosInstance,
   type AxiosRequestConfig,
-  type InternalAxiosRequestConfig,
   type AxiosResponse,
+  type InternalAxiosRequestConfig,
 } from 'axios'
 
 const BASE_URL = '/patrol/general/api'
@@ -20,7 +20,9 @@ const instance: AxiosInstance = axios.create({
 
 // ---- Mock mode ----
 
-export function enableMockMode(handler: (config: InternalAxiosRequestConfig) => AxiosResponse | null) {
+export function enableMockMode(
+  handler: (config: InternalAxiosRequestConfig) => AxiosResponse | null,
+) {
   console.log('[Mock] Mock mode enabled — intercepting API calls')
 
   // Override adapter only when mock mode is explicitly enabled.
@@ -54,7 +56,6 @@ instance.interceptors.request.use(
     return Promise.reject(error)
   },
 )
-
 
 // Response interceptor
 let isRefreshing = false
@@ -138,12 +139,19 @@ instance.interceptors.response.use(
 )
 
 // Generic request helpers
-export async function request<T>(config: AxiosRequestConfig, baseURL: string = BASE_URL): Promise<T> {
+export async function request<T>(
+  config: AxiosRequestConfig,
+  baseURL: string = BASE_URL,
+): Promise<T> {
   const response = await instance.request<T>({ ...config, baseURL })
   return response.data
 }
 
-export async function get<T>(url: string, params?: Record<string, unknown>, baseURL?: string): Promise<T> {
+export async function get<T>(
+  url: string,
+  params?: Record<string, unknown>,
+  baseURL?: string,
+): Promise<T> {
   return request<T>({ method: 'GET', url, params }, baseURL)
 }
 

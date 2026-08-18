@@ -1,24 +1,24 @@
 import { NavLink, useLocation } from 'react-router-dom'
 
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import {
-  LayoutDashboard,
-  Users,
-  Shield,
-  Menu as MenuIcon,
-  Key,
-  FileText,
-  CreditCard,
-  Globe,
-  UserCheck,
-  Play,
   Bot,
-  History,
-  Timer,
-  Search,
-  Star,
-  Clock4,
   ChevronDown,
+  Clock4,
+  CreditCard,
+  FileText,
+  Globe,
+  History,
+  Key,
+  LayoutDashboard,
+  Menu as MenuIcon,
+  Play,
+  Search,
+  Shield,
+  Star,
+  Timer,
+  UserCheck,
+  Users,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useSidebarStore } from '@/stores'
@@ -27,9 +27,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { Separator } from '@/components/ui/separator'
 import { Badge } from '@/components/ui/badge'
-import { useState, useCallback } from 'react'
-
-
+import { useCallback, useState } from 'react'
 
 interface SidebarMenuGroup {
   label: string
@@ -51,39 +49,83 @@ export function Sidebar() {
   const { t } = useTranslation()
   const location = useLocation()
   const [search, setSearch] = useState('')
-  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set(['dashboard', 'system', 'platform', 'ai']))
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(
+    new Set(['dashboard', 'system', 'platform', 'ai']),
+  )
 
   const menuGroups: SidebarMenuGroup[] = [
     {
       label: t('nav.dashboard'),
       icon: <LayoutDashboard className="h-4 w-4" />,
-      items: [{ id: 'dashboard', label: t('nav.dashboard'), path: '/', icon: <LayoutDashboard className="h-4 w-4" /> }],
+      items: [
+        {
+          id: 'dashboard',
+          label: t('nav.dashboard'),
+          path: '/',
+          icon: <LayoutDashboard className="h-4 w-4" />,
+        },
+      ],
     },
     {
       label: t('nav.system'),
       items: [
         { id: 'user', label: t('nav.user'), path: '/user', icon: <Users className="h-4 w-4" /> },
         { id: 'log', label: t('nav.log'), path: '/log', icon: <FileText className="h-4 w-4" /> },
-        { id: 'pricing-plan', label: t('nav.pricingPlan'), path: '/pricing-plan', icon: <CreditCard className="h-4 w-4" /> },
+        {
+          id: 'pricing-plan',
+          label: t('nav.pricingPlan'),
+          path: '/pricing-plan',
+          icon: <CreditCard className="h-4 w-4" />,
+        },
         { id: 'menu', label: t('nav.menu'), path: '/menu', icon: <MenuIcon className="h-4 w-4" /> },
         { id: 'role', label: t('nav.role'), path: '/role', icon: <Shield className="h-4 w-4" /> },
-        { id: 'permission', label: t('nav.permission'), path: '/permission', icon: <Key className="h-4 w-4" /> },
+        {
+          id: 'permission',
+          label: t('nav.permission'),
+          path: '/permission',
+          icon: <Key className="h-4 w-4" />,
+        },
         { id: 'job', label: t('nav.job'), path: '/job', icon: <Timer className="h-4 w-4" /> },
       ],
     },
     {
       label: t('nav.platform'),
       items: [
-        { id: 'platform', label: t('nav.platformList'), path: '/platform', icon: <Globe className="h-4 w-4" /> },
-        { id: 'platform-account', label: t('nav.platformAccount'), path: '/platform-account', icon: <UserCheck className="h-4 w-4" /> },
-        { id: 'run-plan', label: t('nav.runPlan'), path: '/run-plan', icon: <Play className="h-4 w-4" /> },
+        {
+          id: 'platform',
+          label: t('nav.platformList'),
+          path: '/platform',
+          icon: <Globe className="h-4 w-4" />,
+        },
+        {
+          id: 'platform-account',
+          label: t('nav.platformAccount'),
+          path: '/platform-account',
+          icon: <UserCheck className="h-4 w-4" />,
+        },
+        {
+          id: 'run-plan',
+          label: t('nav.runPlan'),
+          path: '/run-plan',
+          icon: <Play className="h-4 w-4" />,
+        },
       ],
     },
     {
       label: t('nav.aiManagement'),
       items: [
-        { id: 'ai-config', label: t('nav.aiConfig'), path: '/ai-config', icon: <Bot className="h-4 w-4" /> },
-        { id: 'ai-usage', label: t('nav.aiUsage'), path: '/ai-usage', icon: <History className="h-4 w-4" /> },
+        {
+          id: 'ai-config',
+          label: t('nav.aiConfig'),
+          path: '/ai-config',
+          icon: <Bot className="h-4 w-4" />,
+        },
+        {
+          id: 'ai-usage',
+          label: t('nav.aiUsage'),
+          path: '/ai-usage',
+          icon: <History className="h-4 w-4" />,
+        },
       ],
     },
   ]
@@ -118,12 +160,15 @@ export function Sidebar() {
     })
   }
 
-  const isItemActive = useCallback((item: SidebarMenuItem) => {
-    if (item.path === '/') {
-      return location.pathname === '/'
-    }
-    return location.pathname.startsWith(item.path)
-  }, [location.pathname])
+  const isItemActive = useCallback(
+    (item: SidebarMenuItem) => {
+      if (item.path === '/') {
+        return location.pathname === '/'
+      }
+      return location.pathname.startsWith(item.path)
+    },
+    [location.pathname],
+  )
 
   const itemLinkClass = (item: SidebarMenuItem) =>
     cn(
@@ -187,7 +232,7 @@ export function Sidebar() {
   )
 
   return (
-      <motion.aside
+    <motion.aside
       initial={false}
       animate={{ width: collapsed ? 72 : 260 }}
       transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
@@ -279,11 +324,14 @@ export function Sidebar() {
                       onClick={() => toggleGroup(group.label)}
                       className={cn(
                         'flex items-center gap-2 px-4 py-1.5 w-full text-left transition-colors',
-                        hasChevron && 'cursor-pointer hover:text-neutral-700 dark:hover:text-neutral-300',
+                        hasChevron &&
+                          'cursor-pointer hover:text-neutral-700 dark:hover:text-neutral-300',
                       )}
                     >
                       {group.icon && (
-                        <span className="flex-shrink-0 text-neutral-600 dark:text-neutral-400">{group.icon}</span>
+                        <span className="flex-shrink-0 text-neutral-600 dark:text-neutral-400">
+                          {group.icon}
+                        </span>
                       )}
                       <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400 flex-1">
                         {group.label}
@@ -321,8 +369,8 @@ export function Sidebar() {
                     )}
                   </AnimatePresence>
                 </div>
-              )}
-            )}
+              )
+            })}
           </>
         )}
       </ScrollArea>

@@ -4,57 +4,57 @@ import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { useEnumCache } from '@/hooks/use-enum-cache'
 import {
-  Users,
-  UserPlus,
-  FileText,
-  LogIn,
-  TrendingUp,
-  TrendingDown,
-  Clock,
-  Trash2,
   Activity,
-  BarChart3,
-  Zap,
-  Gauge,
-  Timer,
-  Globe,
-  Wifi,
-  ArrowUp,
   ArrowDown,
+  ArrowUp,
+  BarChart3,
+  Clock,
+  FileText,
+  Gauge,
+  Globe,
+  LogIn,
+  Timer,
+  Trash2,
+  TrendingDown,
+  TrendingUp,
+  UserPlus,
+  Users,
+  Wifi,
+  Zap,
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { SkeletonCard, Skeleton } from '@/components/ui/skeleton'
+import { Skeleton, SkeletonCard } from '@/components/ui/skeleton'
 import { getUserStatistics } from '@/api/modules/user'
 import {
+  findActiveUsers,
+  findHotEndpoints,
+  findHourlyVisitDistribution,
+  findModuleDistribution,
+  findOperateRatio,
+  findSlowEndpoints,
+  findTimeConsumingStats,
   findVisitStats,
   findVisitTrend,
-  findTimeConsumingStats,
-  findHotEndpoints,
-  findModuleDistribution,
-  findSlowEndpoints,
-  findHourlyVisitDistribution,
-  findActiveUsers,
-  findOperateRatio,
   findWeeklyCompare,
   getLogStatistics,
 } from '@/api/modules/dashboard'
 import { formatNumber, formatPercent } from '@/lib/utils'
 import { endOfDay, format, subDays } from 'date-fns'
-import type { QueryVisitTrendDto, QueryRankDto, QueryHourlyVisitDto, EnumValueDto } from '@/types'
+import type { EnumValueDto, QueryHourlyVisitDto, QueryRankDto, QueryVisitTrendDto } from '@/types'
 import {
-  AreaChart,
   Area,
-  XAxis,
-  YAxis,
+  AreaChart,
+  Bar,
+  BarChart,
   CartesianGrid,
-  Tooltip as RechartsTooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
   Cell,
   Legend,
-  BarChart,
-  Bar,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip as RechartsTooltip,
+  XAxis,
+  YAxis,
 } from 'recharts'
 
 // 访问趋势图各系列配色（循环使用）
@@ -95,7 +95,9 @@ function StatCard({
         <div className="flex items-start justify-between">
           <div className="space-y-2">
             <p className="text-sm text-neutral-500 dark:text-neutral-400">{title}</p>
-            <p className="text-[1.75rem] font-bold tracking-tight text-neutral-900 dark:text-neutral-50">{value}</p>
+            <p className="text-[1.75rem] font-bold tracking-tight text-neutral-900 dark:text-neutral-50">
+              {value}
+            </p>
             {trend !== undefined && (
               <div className="flex items-center gap-1">
                 {trend >= 0 ? (
@@ -166,7 +168,7 @@ export default function DashboardPage() {
     const list = visitStats?.data || []
     return list.map((item) => ({
       ...item,
-      title: item.type ? (visitStatsTitleMap[item.type] || item.type) : undefined,
+      title: item.type ? visitStatsTitleMap[item.type] || item.type : undefined,
     }))
   }, [visitStats?.data, visitStatsTitleMap])
 
@@ -253,7 +255,7 @@ export default function DashboardPage() {
   // 耗时统计：通过 enumPairsData 的 VisitStatsType 映射中文 title
   const tcList = (timeConsuming?.data ?? []).map((item) => ({
     ...item,
-    title: item.type ? (visitStatsTitleMap[item.type] || item.type) : undefined,
+    title: item.type ? visitStatsTitleMap[item.type] || item.type : undefined,
   }))
   const wc = weeklyCompare?.data
   const hotList = hotEndpoints?.data ?? []
@@ -268,9 +270,17 @@ export default function DashboardPage() {
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-50">{t('dashboard.title')}</h1>
+          <h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-50">
+            {t('dashboard.title')}
+          </h1>
           <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
-            {t('dashboard.welcome')} · {new Date().toLocaleDateString('zh-CN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+            {t('dashboard.welcome')} ·{' '}
+            {new Date().toLocaleDateString('zh-CN', {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
           </p>
         </div>
       </div>
@@ -343,16 +353,30 @@ export default function DashboardPage() {
               <Skeleton className="h-64 w-full rounded-xl" />
             ) : (
               <ResponsiveContainer width="100%" height={280}>
-                <AreaChart data={trendData || []} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                <AreaChart
+                  data={trendData || []}
+                  margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+                >
                   <defs>
                     {trendSeriesKeys.map((key, i) => (
                       <linearGradient key={key} id={`color${key}`} x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor={TREND_COLORS[i % TREND_COLORS.length]} stopOpacity={0.2} />
-                        <stop offset="95%" stopColor={TREND_COLORS[i % TREND_COLORS.length]} stopOpacity={0} />
+                        <stop
+                          offset="5%"
+                          stopColor={TREND_COLORS[i % TREND_COLORS.length]}
+                          stopOpacity={0.2}
+                        />
+                        <stop
+                          offset="95%"
+                          stopColor={TREND_COLORS[i % TREND_COLORS.length]}
+                          stopOpacity={0}
+                        />
                       </linearGradient>
                     ))}
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" className="stroke-neutral-200 dark:stroke-neutral-700" />
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    className="stroke-neutral-200 dark:stroke-neutral-700"
+                  />
                   <XAxis dataKey="date" tick={{ fontSize: 12 }} className="text-neutral-500" />
                   <YAxis tick={{ fontSize: 12 }} className="text-neutral-500" />
                   <RechartsTooltip
@@ -407,7 +431,15 @@ export default function DashboardPage() {
                     {visitStatsWithTitle.map((_, index) => (
                       <Cell
                         key={index}
-                        fill={['var(--color-primary-500)', 'var(--color-accent-500)', 'var(--color-success-500)', 'var(--color-warning-500)', 'var(--color-danger-500)'][index % 5]}
+                        fill={
+                          [
+                            'var(--color-primary-500)',
+                            'var(--color-accent-500)',
+                            'var(--color-success-500)',
+                            'var(--color-warning-500)',
+                            'var(--color-danger-500)',
+                          ][index % 5]
+                        }
                       />
                     ))}
                   </Pie>
@@ -439,7 +471,9 @@ export default function DashboardPage() {
                   {item.todayCount ?? 0}ms
                 </p>
                 <div className="flex items-center gap-1">
-                  <span className="text-xs text-neutral-400">昨日 {item.yesterdayCount ?? 0}ms</span>
+                  <span className="text-xs text-neutral-400">
+                    昨日 {item.yesterdayCount ?? 0}ms
+                  </span>
                 </div>
               </div>
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-warning-100 dark:bg-warning-900/30">
@@ -460,10 +494,18 @@ export default function DashboardPage() {
                 {formatNumber(wc?.thisWeekPv)}
               </p>
               <div className="flex items-center gap-2">
-                <span className="text-xs text-neutral-400">上周 {formatNumber(wc?.lastWeekPv)}</span>
+                <span className="text-xs text-neutral-400">
+                  上周 {formatNumber(wc?.lastWeekPv)}
+                </span>
                 {wc?.pvGrowthRate !== undefined && (
-                  <span className={`text-xs font-medium flex items-center gap-0.5 ${wc.pvGrowthRate >= 0 ? 'text-success-500' : 'text-danger-500'}`}>
-                    {wc.pvGrowthRate >= 0 ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />}
+                  <span
+                    className={`text-xs font-medium flex items-center gap-0.5 ${wc.pvGrowthRate >= 0 ? 'text-success-500' : 'text-danger-500'}`}
+                  >
+                    {wc.pvGrowthRate >= 0 ? (
+                      <ArrowUp className="h-3 w-3" />
+                    ) : (
+                      <ArrowDown className="h-3 w-3" />
+                    )}
                     {formatPercent(Math.abs(wc.pvGrowthRate))}
                   </span>
                 )}
@@ -482,10 +524,18 @@ export default function DashboardPage() {
                 {formatNumber(wc?.thisWeekIp)}
               </p>
               <div className="flex items-center gap-2">
-                <span className="text-xs text-neutral-400">上周 {formatNumber(wc?.lastWeekIp)}</span>
+                <span className="text-xs text-neutral-400">
+                  上周 {formatNumber(wc?.lastWeekIp)}
+                </span>
                 {wc?.ipGrowthRate !== undefined && (
-                  <span className={`text-xs font-medium flex items-center gap-0.5 ${wc.ipGrowthRate >= 0 ? 'text-success-500' : 'text-danger-500'}`}>
-                    {wc.ipGrowthRate >= 0 ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />}
+                  <span
+                    className={`text-xs font-medium flex items-center gap-0.5 ${wc.ipGrowthRate >= 0 ? 'text-success-500' : 'text-danger-500'}`}
+                  >
+                    {wc.ipGrowthRate >= 0 ? (
+                      <ArrowUp className="h-3 w-3" />
+                    ) : (
+                      <ArrowDown className="h-3 w-3" />
+                    )}
                     {formatPercent(Math.abs(wc.ipGrowthRate))}
                   </span>
                 )}
@@ -502,7 +552,10 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2"><Zap className="h-5 w-5 text-warning-500" />热门接口 Top 10</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <Zap className="h-5 w-5 text-warning-500" />
+              热门接口 Top 10
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -511,15 +564,21 @@ export default function DashboardPage() {
                 <div key={item.name} className="flex items-center gap-3">
                   <span className="w-5 text-xs font-bold text-neutral-400 text-right">{i + 1}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-neutral-700 dark:text-neutral-300 truncate">{item.name}</p>
+                    <p className="text-sm text-neutral-700 dark:text-neutral-300 truncate">
+                      {item.name}
+                    </p>
                     <div className="mt-1 h-1.5 rounded-full bg-neutral-100 dark:bg-neutral-800">
                       <div
                         className="h-full rounded-full bg-primary-500 transition-all"
-                        style={{ width: `${Math.min(((item.count ?? 0) / Math.max(...hotList.map((h) => h.count ?? 1))) * 100, 100)}%` }}
+                        style={{
+                          width: `${Math.min(((item.count ?? 0) / Math.max(...hotList.map((h) => h.count ?? 1))) * 100, 100)}%`,
+                        }}
                       />
                     </div>
                   </div>
-                  <span className="text-sm font-medium text-neutral-500 w-16 text-right">{formatNumber(item.count)}</span>
+                  <span className="text-sm font-medium text-neutral-500 w-16 text-right">
+                    {formatNumber(item.count)}
+                  </span>
                 </div>
               ))}
             </div>
@@ -528,7 +587,10 @@ export default function DashboardPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2"><Gauge className="h-5 w-5 text-danger-500" />慢接口 Top 10</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <Gauge className="h-5 w-5 text-danger-500" />
+              慢接口 Top 10
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -537,10 +599,16 @@ export default function DashboardPage() {
                 <div key={item.name} className="flex items-center gap-3">
                   <span className="w-5 text-xs font-bold text-neutral-400 text-right">{i + 1}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-neutral-700 dark:text-neutral-300 truncate">{item.name}</p>
-                    <p className="text-xs text-neutral-400">最大 {item.maxTimeConsuming ?? 0}ms · 平均 {item.avgTimeConsuming ?? 0}ms</p>
+                    <p className="text-sm text-neutral-700 dark:text-neutral-300 truncate">
+                      {item.name}
+                    </p>
+                    <p className="text-xs text-neutral-400">
+                      最大 {item.maxTimeConsuming ?? 0}ms · 平均 {item.avgTimeConsuming ?? 0}ms
+                    </p>
                   </div>
-                  <span className="text-sm font-medium text-neutral-500 w-16 text-right">{formatNumber(item.count)}次</span>
+                  <span className="text-sm font-medium text-neutral-500 w-16 text-right">
+                    {formatNumber(item.count)}次
+                  </span>
                 </div>
               ))}
             </div>
@@ -551,7 +619,10 @@ export default function DashboardPage() {
       {/* Hourly Visit Distribution */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2"><BarChart3 className="h-5 w-5 text-primary-500" />今日访问时段分布</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <BarChart3 className="h-5 w-5 text-primary-500" />
+            今日访问时段分布
+          </CardTitle>
         </CardHeader>
         <CardContent>
           {hourList.length === 0 ? (
@@ -559,8 +630,16 @@ export default function DashboardPage() {
           ) : (
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={hourList} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" className="stroke-neutral-200 dark:stroke-neutral-700" />
-                <XAxis dataKey="hour" tick={{ fontSize: 12 }} className="text-neutral-500" tickFormatter={(h: number) => `${h}时`} />
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  className="stroke-neutral-200 dark:stroke-neutral-700"
+                />
+                <XAxis
+                  dataKey="hour"
+                  tick={{ fontSize: 12 }}
+                  className="text-neutral-500"
+                  tickFormatter={(h: number) => `${h}时`}
+                />
                 <YAxis tick={{ fontSize: 12 }} className="text-neutral-500" />
                 <RechartsTooltip
                   contentStyle={{
@@ -572,7 +651,12 @@ export default function DashboardPage() {
                   formatter={(value: number) => [`${value} 次`, '访问量']}
                   labelFormatter={(h: number) => `${h}:00 - ${h}:59`}
                 />
-                <Bar dataKey="count" radius={[4, 4, 0, 0]} fill="var(--color-primary-500)" opacity={0.85} />
+                <Bar
+                  dataKey="count"
+                  radius={[4, 4, 0, 0]}
+                  fill="var(--color-primary-500)"
+                  opacity={0.85}
+                />
               </BarChart>
             </ResponsiveContainer>
           )}
@@ -602,7 +686,21 @@ export default function DashboardPage() {
                     paddingAngle={2}
                   >
                     {modList.map((_, i) => (
-                      <Cell key={i} fill={['var(--color-primary-500)', 'var(--color-accent-500)', 'var(--color-success-500)', 'var(--color-warning-500)', 'var(--color-danger-500)', '#8b5cf6', '#ec4899', '#06b6d4'][i % 8]} />
+                      <Cell
+                        key={i}
+                        fill={
+                          [
+                            'var(--color-primary-500)',
+                            'var(--color-accent-500)',
+                            'var(--color-success-500)',
+                            'var(--color-warning-500)',
+                            'var(--color-danger-500)',
+                            '#8b5cf6',
+                            '#ec4899',
+                            '#06b6d4',
+                          ][i % 8]
+                        }
+                      />
                     ))}
                   </Pie>
                   <RechartsTooltip
@@ -612,7 +710,10 @@ export default function DashboardPage() {
                       background: 'white',
                       color: 'var(--color-neutral-900)',
                     }}
-                    formatter={(value: number, _: string, entry: any) => [`${value} 次`, `${entry.payload.module} (${entry.payload.percentage}%)`]}
+                    formatter={(value: number, _: string, entry: any) => [
+                      `${value} 次`,
+                      `${entry.payload.module} (${entry.payload.percentage}%)`,
+                    ]}
                   />
                   <Legend />
                 </PieChart>
@@ -642,7 +743,20 @@ export default function DashboardPage() {
                     paddingAngle={2}
                   >
                     {ratioList.map((_, i) => (
-                      <Cell key={i} fill={['var(--color-primary-500)', 'var(--color-accent-500)', 'var(--color-success-500)', 'var(--color-warning-500)', 'var(--color-danger-500)', '#8b5cf6', '#ec4899'][i % 7]} />
+                      <Cell
+                        key={i}
+                        fill={
+                          [
+                            'var(--color-primary-500)',
+                            'var(--color-accent-500)',
+                            'var(--color-success-500)',
+                            'var(--color-warning-500)',
+                            'var(--color-danger-500)',
+                            '#8b5cf6',
+                            '#ec4899',
+                          ][i % 7]
+                        }
+                      />
                     ))}
                   </Pie>
                   <RechartsTooltip
@@ -652,7 +766,10 @@ export default function DashboardPage() {
                       background: 'white',
                       color: 'var(--color-neutral-900)',
                     }}
-                    formatter={(value: number, _: string, entry: any) => [`${value} 次`, `${entry.payload.operate} (${entry.payload.percentage}%)`]}
+                    formatter={(value: number, _: string, entry: any) => [
+                      `${value} 次`,
+                      `${entry.payload.operate} (${entry.payload.percentage}%)`,
+                    ]}
                   />
                   <Legend />
                 </PieChart>
@@ -665,7 +782,10 @@ export default function DashboardPage() {
       {/* Active Users Ranking */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2"><Users className="h-5 w-5 text-success-500" />活跃用户排行 Top 10</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Users className="h-5 w-5 text-success-500" />
+            活跃用户排行 Top 10
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
@@ -675,7 +795,9 @@ export default function DashboardPage() {
                 key={item.userId}
                 className="flex items-center gap-3 p-3 rounded-xl border border-neutral-200/80 dark:border-neutral-700/80"
               >
-                <span className={`text-xs font-bold w-5 text-right ${i < 3 ? 'text-warning-500' : 'text-neutral-400'}`}>
+                <span
+                  className={`text-xs font-bold w-5 text-right ${i < 3 ? 'text-warning-500' : 'text-neutral-400'}`}
+                >
                   {i + 1}
                 </span>
                 <span className="text-sm text-neutral-700 dark:text-neutral-300 truncate flex-1">

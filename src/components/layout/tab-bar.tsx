@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
-import { X, ChevronDown } from 'lucide-react'
-import { useTabsStore, useSettingStore } from '@/stores'
+import { AnimatePresence, motion } from 'framer-motion'
+import { ChevronDown, X } from 'lucide-react'
+import { useSettingStore, useTabsStore } from '@/stores'
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -43,7 +43,16 @@ export function TabBar() {
   const location = useLocation()
   const navigate = useNavigate()
   const { t } = useTranslation()
-  const { tabs, activeTab, addTab, removeTab, setActiveTab, closeOtherTabs, closeAllTabs, closeRightTabs } = useTabsStore()
+  const {
+    tabs,
+    activeTab,
+    addTab,
+    removeTab,
+    setActiveTab,
+    closeOtherTabs,
+    closeAllTabs,
+    closeRightTabs,
+  } = useTabsStore()
   const { showTabs } = useSettingStore()
   const isSyncingRef = useRef(false)
 
@@ -146,9 +155,7 @@ export function TabBar() {
             >
               {t('common.closeRight')}
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={closeAllTabs}>
-              {t('common.closeAll')}
-            </DropdownMenuItem>
+            <DropdownMenuItem onClick={closeAllTabs}>{t('common.closeAll')}</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

@@ -11,13 +11,30 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, label, error, helperText, leftIcon, rightIcon, wrapperClassName, id, type, ...props }, ref) => {
+  (
+    {
+      className,
+      label,
+      error,
+      helperText,
+      leftIcon,
+      rightIcon,
+      wrapperClassName,
+      id,
+      type,
+      ...props
+    },
+    ref,
+  ) => {
     const inputId = id || React.useId()
 
     return (
       <div className={cn('space-y-1.5', wrapperClassName)}>
         {label && (
-          <label htmlFor={inputId} className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+          <label
+            htmlFor={inputId}
+            className="block text-sm font-medium text-neutral-700 dark:text-neutral-300"
+          >
             {label}
           </label>
         )}
@@ -38,7 +55,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               'dark:border-neutral-600 dark:bg-neutral-900 dark:text-neutral-50 dark:placeholder:text-neutral-500 dark:disabled:bg-neutral-900/50',
               'dark:focus:ring-primary-400/20 dark:focus:border-primary-400',
               'transition-all duration-200',
-              error && 'border-danger-400 focus:border-danger-400 focus:ring-danger-500/15 dark:border-danger-400',
+              error &&
+                'border-danger-400 focus:border-danger-400 focus:ring-danger-500/15 dark:border-danger-400',
               leftIcon && 'pl-9',
               rightIcon && 'pr-9',
               className,
@@ -53,7 +71,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           )}
         </div>
         {error && <p className="text-xs text-danger-500">{error}</p>}
-        {helperText && !error && <p className="text-xs text-neutral-500 dark:text-neutral-400">{helperText}</p>}
+        {helperText && !error && (
+          <p className="text-xs text-neutral-500 dark:text-neutral-400">{helperText}</p>
+        )}
       </div>
     )
   },

@@ -2,15 +2,7 @@ import { useMemo } from 'react'
 import { motion } from 'framer-motion'
 
 // ── Floating particle ──
-function Particle({
-  index,
-  total,
-  color,
-}: {
-  index: number
-  total: number
-  color: string
-}) {
+function Particle({ index, total, color }: { index: number; total: number; color: string }) {
   const angle = (index / total) * Math.PI * 2
   const radius = 60 + (index % 3) * 28
   const cx = Math.cos(angle) * radius
@@ -45,7 +37,11 @@ function Particle({
 }
 
 // ── Growing ripple ring ──
-function RippleRing({ delay, duration, fromColor }: {
+function RippleRing({
+  delay,
+  duration,
+  fromColor,
+}: {
   delay: number
   duration: number
   fromColor: string
@@ -129,9 +125,14 @@ export function PageLoader() {
           </defs>
 
           {/* Arc 1 — thick partial ring, slow rotate */}
-          <g className="animate-[aurora-spin_12s_linear_infinite]" style={{ transformOrigin: '100px 100px' }}>
+          <g
+            className="animate-[aurora-spin_12s_linear_infinite]"
+            style={{ transformOrigin: '100px 100px' }}
+          >
             <circle
-              cx="100" cy="100" r="74"
+              cx="100"
+              cy="100"
+              r="74"
               stroke="url(#strokePrimary)"
               strokeWidth="1.2"
               strokeDasharray="180 280"
@@ -143,9 +144,14 @@ export function PageLoader() {
           </g>
 
           {/* Arc 2 — thinner, reverse rotate, offset */}
-          <g className="animate-[aurora-spin-reverse_9s_linear_infinite]" style={{ transformOrigin: '100px 100px' }}>
+          <g
+            className="animate-[aurora-spin-reverse_9s_linear_infinite]"
+            style={{ transformOrigin: '100px 100px' }}
+          >
             <circle
-              cx="100" cy="100" r="68"
+              cx="100"
+              cy="100"
+              r="68"
               stroke="url(#strokeAccent)"
               strokeWidth="0.8"
               strokeDasharray="120 340"
@@ -157,9 +163,14 @@ export function PageLoader() {
           </g>
 
           {/* Ring 1 — complete dashed orbit */}
-          <g className="animate-[aurora-spin_15s_linear_infinite]" style={{ transformOrigin: '100px 100px' }}>
+          <g
+            className="animate-[aurora-spin_15s_linear_infinite]"
+            style={{ transformOrigin: '100px 100px' }}
+          >
             <circle
-              cx="100" cy="100" r="58"
+              cx="100"
+              cy="100"
+              r="58"
               stroke="var(--color-primary-400)"
               strokeWidth="0.5"
               strokeDasharray="4 12"
@@ -168,7 +179,9 @@ export function PageLoader() {
             />
             {/* Orbiting dot */}
             <circle
-              cx="100" cy="42" r="2"
+              cx="100"
+              cy="42"
+              r="2"
               fill="var(--color-primary-400)"
               filter="url(#glowBlur)"
             />
@@ -180,7 +193,9 @@ export function PageLoader() {
             style={{ transformOrigin: '100px 100px', transform: 'rotate(45deg)' }}
           >
             <circle
-              cx="100" cy="100" r="64"
+              cx="100"
+              cy="100"
+              r="64"
               stroke="var(--color-accent-400)"
               strokeWidth="0.5"
               strokeDasharray="3 16"
@@ -188,7 +203,9 @@ export function PageLoader() {
               opacity="0.3"
             />
             <circle
-              cx="100" cy="36" r="1.5"
+              cx="100"
+              cy="36"
+              r="1.5"
               fill="var(--color-accent-400)"
               filter="url(#glowBlur)"
             />
@@ -200,7 +217,8 @@ export function PageLoader() {
         <motion.div
           className="absolute rounded-full animate-[halo-breathe-slow_4s_ease-in-out_infinite]"
           style={{
-            width: 180, height: 180,
+            width: 180,
+            height: 180,
             background: 'radial-gradient(circle, var(--color-primary-400) 0%, transparent 60%)',
             opacity: 0.12,
             filter: 'blur(24px)',
@@ -210,7 +228,8 @@ export function PageLoader() {
         <motion.div
           className="absolute rounded-full animate-[halo-breathe_3s_ease-in-out_infinite]"
           style={{
-            width: 140, height: 140,
+            width: 140,
+            height: 140,
             background: 'radial-gradient(circle, var(--color-accent-400) 0%, transparent 55%)',
             opacity: 0.15,
             filter: 'blur(20px)',
@@ -220,8 +239,10 @@ export function PageLoader() {
         <motion.div
           className="absolute rounded-full animate-[halo-breathe_2.5s_ease-in-out_infinite]"
           style={{
-            width: 90, height: 90,
-            background: 'radial-gradient(circle, var(--color-primary-300) 0%, var(--color-primary-500) 40%, transparent 70%)',
+            width: 90,
+            height: 90,
+            background:
+              'radial-gradient(circle, var(--color-primary-300) 0%, var(--color-primary-500) 40%, transparent 70%)',
             opacity: 0.3,
             filter: 'blur(12px)',
           }}
@@ -240,7 +261,8 @@ export function PageLoader() {
         <motion.div
           className="absolute rounded-full"
           style={{
-            width: 44, height: 44,
+            width: 44,
+            height: 44,
             background: `radial-gradient(circle at 35% 35%, rgba(255,255,255,0.9), var(--color-primary-400) 35%, var(--color-primary-600) 70%, var(--color-primary-800))`,
           }}
           animate={{
@@ -253,7 +275,8 @@ export function PageLoader() {
         <div
           className="absolute rounded-full pointer-events-none"
           style={{
-            width: 12, height: 6,
+            width: 12,
+            height: 6,
             background: 'rgba(255,255,255,0.7)',
             filter: 'blur(2px)',
             transform: 'translate(-8px, -8px)',
@@ -271,7 +294,8 @@ export function PageLoader() {
         <span
           className="text-sm font-medium tracking-[0.25em] uppercase"
           style={{
-            background: 'linear-gradient(90deg, var(--color-neutral-400), var(--color-primary-400), var(--color-accent-400), var(--color-neutral-400))',
+            background:
+              'linear-gradient(90deg, var(--color-neutral-400), var(--color-primary-400), var(--color-accent-400), var(--color-neutral-400))',
             backgroundSize: '200% 100%',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',

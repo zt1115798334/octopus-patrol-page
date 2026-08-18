@@ -1,13 +1,13 @@
 import type {
-  EnabledState,
-  SortType,
-  Operate,
   AiVendor,
+  BasedType,
+  EnabledState,
+  HttpMethod,
+  Operate,
   PlanLevel,
   PlatformCode,
-  BasedType,
+  SortType,
   TimeUnits,
-  HttpMethod,
   VisitStatsType,
 } from './enums'
 
@@ -212,8 +212,6 @@ export interface PermissionDto {
 export interface QueryPermissionDto extends PageDto {
   keywords?: string
 }
-
-
 
 // ==================== Pricing Plan Types ====================
 

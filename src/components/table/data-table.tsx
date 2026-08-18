@@ -1,33 +1,29 @@
+import { type ReactNode, useCallback, useState } from 'react'
 import {
-  useState,
-  useCallback,
-  type ReactNode,
-} from 'react'
-import {
-  useReactTable,
+  type ColumnDef,
+  type ColumnFiltersState,
+  flexRender,
   getCoreRowModel,
-  getSortedRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
-  flexRender,
-  type ColumnDef,
-  type SortingState,
-  type ColumnFiltersState,
-  type VisibilityState,
-  type RowSelectionState,
+  getSortedRowModel,
   type PaginationState,
+  type RowSelectionState,
+  type SortingState,
   type Table as TanStackTable,
+  useReactTable,
+  type VisibilityState,
 } from '@tanstack/react-table'
 import { motion } from 'framer-motion'
-import { ChevronDown, ChevronUp, ChevronsUpDown } from 'lucide-react'
+import { ChevronDown, ChevronsUpDown, ChevronUp } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import {
   Table,
-  TableHeader,
   TableBody,
-  TableRow,
-  TableHead,
   TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from '@/components/ui/table'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -95,7 +91,9 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>(sortingProp ?? [])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(columnVisibilityProp ?? {})
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+    columnVisibilityProp ?? {},
+  )
   const [rowSelection, setRowSelection] = useState<RowSelectionState>(rowSelectionProp ?? {})
   const [pagination, setPagination] = useState<PaginationState>(
     paginationProp ?? { pageIndex: 0, pageSize: 10 },
@@ -152,25 +150,25 @@ export function DataTable<TData, TValue>({
       pagination: currentPagination,
     },
     // Sync external state
-    ...(manualSorting && onSortingChange && {
-      onSortingChange: (updater) => {
-        const newVal = typeof updater === 'function' ? updater(currentSorting) : updater
-        setSorting(newVal)
-        onSortingChange(newVal)
-      },
-    }),
-    ...(manualPagination && onPaginationChange && {
-      onPaginationChange: (updater) => {
-        const newVal = typeof updater === 'function' ? updater(currentPagination) : updater
-        setPagination(newVal)
-        onPaginationChange(newVal)
-      },
-    }),
+    ...(manualSorting &&
+      onSortingChange && {
+        onSortingChange: (updater) => {
+          const newVal = typeof updater === 'function' ? updater(currentSorting) : updater
+          setSorting(newVal)
+          onSortingChange(newVal)
+        },
+      }),
+    ...(manualPagination &&
+      onPaginationChange && {
+        onPaginationChange: (updater) => {
+          const newVal = typeof updater === 'function' ? updater(currentPagination) : updater
+          setPagination(newVal)
+          onPaginationChange(newVal)
+        },
+      }),
   }) as TanStackTable<TData>
 
-  const totalPages = manualPagination
-    ? (pageCountProp ?? 1)
-    : table.getPageCount()
+  const totalPages = manualPagination ? (pageCountProp ?? 1) : table.getPageCount()
 
   const handlePageChange = useCallback(
     (page: number) => {
@@ -193,7 +191,12 @@ export function DataTable<TData, TValue>({
   // Loading skeleton
   if (isLoading) {
     return (
-      <div className={cn('rounded-xl border border-neutral-200/80 dark:border-neutral-700/80 overflow-hidden', className)}>
+      <div
+        className={cn(
+          'rounded-xl border border-neutral-200/80 dark:border-neutral-700/80 overflow-hidden',
+          className,
+        )}
+      >
         <Table>
           <TableHeader>
             <TableRow>
@@ -233,11 +236,20 @@ export function DataTable<TData, TValue>({
   // Empty state
   if (data.length === 0) {
     return (
-      <div className={cn('rounded-xl border border-neutral-200/80 dark:border-neutral-700/80 overflow-hidden', className)}>
+      <div
+        className={cn(
+          'rounded-xl border border-neutral-200/80 dark:border-neutral-700/80 overflow-hidden',
+          className,
+        )}
+      >
         <Table>
           <TableHeader>
             <TableRow>
-              {enableRowSelection && <TableHead className="w-10"><Checkbox disabled /></TableHead>}
+              {enableRowSelection && (
+                <TableHead className="w-10">
+                  <Checkbox disabled />
+                </TableHead>
+              )}
               {columns.map((col, i) => (
                 <TableHead key={i}>
                   {typeof col.header === 'string' ? col.header : col.id}
@@ -270,9 +282,7 @@ export function DataTable<TData, TValue>({
                     <TableHead
                       key={header.id}
                       style={{ width: header.getSize() !== 150 ? header.getSize() : undefined }}
-                      className={cn(
-                        isSortable && 'cursor-pointer select-none',
-                      )}
+                      className={cn(isSortable && 'cursor-pointer select-none')}
                       onClick={isSortable ? header.column.getToggleSortingHandler() : undefined}
                     >
                       <div className="flex items-center gap-1.5">
@@ -340,4 +350,11 @@ export function DataTable<TData, TValue>({
 }
 
 export { flexRender }
-export type { ColumnDef, SortingState, ColumnFiltersState, VisibilityState, RowSelectionState, PaginationState }
+export type {
+  ColumnDef,
+  SortingState,
+  ColumnFiltersState,
+  VisibilityState,
+  RowSelectionState,
+  PaginationState,
+}

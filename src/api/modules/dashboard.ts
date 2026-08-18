@@ -1,20 +1,19 @@
 import { post } from '@/lib/api-client'
 import type {
-  ResultMessage,
-  VisitStatsDto,
-  DateVisitStatsDto,
-  TimeConsumingDto,
-  QueryVisitTrendDto,
-  QueryRankDto,
-  QueryHourlyVisitDto,
-  HotEndpointDto,
-  SlowEndpointDto,
-  ModuleDistributionDto,
-  HourlyVisitDto,
   ActiveUserDto,
-  OperateRatioDto,
-  WeeklyCompareDto,
+  HotEndpointDto,
+  HourlyVisitDto,
   LogStatisticsDto,
+  ModuleDistributionDto,
+  OperateRatioDto,
+  QueryHourlyVisitDto,
+  QueryRankDto,
+  QueryVisitTrendDto,
+  ResultMessage,
+  SlowEndpointDto,
+  TimeConsumingDto,
+  VisitStatsDto,
+  WeeklyCompareDto,
 } from '@/types'
 
 /**
@@ -29,7 +28,9 @@ export function findVisitStats(): Promise<ResultMessage<VisitStatsDto[]>> {
  * 访问趋势
  * 返回 ResultMessage.data 为 {dates: string[], values: string[]}
  */
-export function findVisitTrend(data: QueryVisitTrendDto): Promise<ResultMessage<Record<string, string[]>>> {
+export function findVisitTrend(
+  data: QueryVisitTrendDto,
+): Promise<ResultMessage<Record<string, string[]>>> {
   return post<ResultMessage<Record<string, string[]>>>('/dashboard/findVisitTrend', data)
 }
 
@@ -69,7 +70,9 @@ export function findSlowEndpoints(data: QueryRankDto): Promise<ResultMessage<Slo
  * 按小时访问分布
  * 返回 ResultMessage.data 为 HourlyVisitDto[]
  */
-export function findHourlyVisitDistribution(data: QueryHourlyVisitDto): Promise<ResultMessage<HourlyVisitDto[]>> {
+export function findHourlyVisitDistribution(
+  data: QueryHourlyVisitDto,
+): Promise<ResultMessage<HourlyVisitDto[]>> {
   return post<ResultMessage<HourlyVisitDto[]>>('/dashboard/findHourlyVisitDistribution', data)
 }
 

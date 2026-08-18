@@ -1,15 +1,16 @@
 import { get, post } from '@/lib/api-client'
-import type { ResultMessage, PageData, AiUsageRecordDto, QueryAiUsageRecordDto } from '@/types'
+import type { AiUsageRecordDto, PageData, QueryAiUsageRecordDto, ResultMessage } from '@/types'
 
 export function findAiUsageRecordPage(
   data: QueryAiUsageRecordDto,
 ): Promise<ResultMessage<PageData<AiUsageRecordDto>>> {
-  return post<ResultMessage<PageData<AiUsageRecordDto>>>('/aiUsageRecord/findAiUsageRecordPage', data)
+  return post<ResultMessage<PageData<AiUsageRecordDto>>>(
+    '/aiUsageRecord/findAiUsageRecordPage',
+    data,
+  )
 }
 
-export function findAiUsageRecord(
-  id: number,
-): Promise<ResultMessage<AiUsageRecordDto>> {
+export function findAiUsageRecord(id: number): Promise<ResultMessage<AiUsageRecordDto>> {
   return get<ResultMessage<AiUsageRecordDto>>(`/aiUsageRecord/findAiUsageRecord/${id}`)
 }
 

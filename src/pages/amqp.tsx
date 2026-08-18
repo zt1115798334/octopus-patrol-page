@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { Send, Loader2 } from 'lucide-react'
+import { Send } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -62,9 +62,7 @@ export default function AmqpPage() {
         <h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-50">
           {t('nav.amqp')}
         </h1>
-        <p className="text-sm text-neutral-500 mt-1">
-          发送文章评论消息至 RabbitMQ 消息队列
-        </p>
+        <p className="text-sm text-neutral-500 mt-1">发送文章评论消息至 RabbitMQ 消息队列</p>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
@@ -124,11 +122,7 @@ export default function AmqpPage() {
                 onChange={(e) => updateField('accountCookie', e.target.value)}
                 placeholder="平台账号Cookie"
               />
-              <Button
-                type="submit"
-                className="w-full"
-                loading={sendMutation.isPending}
-              >
+              <Button type="submit" className="w-full" loading={sendMutation.isPending}>
                 <Send className="h-4 w-4 mr-2" />
                 发送消息
               </Button>

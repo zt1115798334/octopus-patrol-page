@@ -1,4 +1,10 @@
-import { createContext, forwardRef, useContext, type ComponentPropsWithoutRef, type ElementRef } from 'react'
+import {
+  type ComponentPropsWithoutRef,
+  createContext,
+  type ElementRef,
+  forwardRef,
+  useContext,
+} from 'react'
 import * as ToggleGroupPrimitive from '@radix-ui/react-toggle-group'
 import { cn } from '@/lib/utils'
 import { toggleVariants } from './toggle'
@@ -18,9 +24,7 @@ const ToggleGroup = forwardRef<
     className={cn('inline-flex items-center gap-1', className)}
     {...props}
   >
-    <ToggleGroupContext.Provider value={{ variant, size }}>
-      {children}
-    </ToggleGroupContext.Provider>
+    <ToggleGroupContext.Provider value={{ variant, size }}>{children}</ToggleGroupContext.Provider>
   </ToggleGroupPrimitive.Root>
 ))
 ToggleGroup.displayName = ToggleGroupPrimitive.Root.displayName

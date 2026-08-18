@@ -18,7 +18,9 @@ export function ErrorFallback({ error, resetErrorBoundary }: ErrorFallbackProps)
         <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-danger-100 dark:bg-danger-900/30">
           <AlertTriangle className="h-8 w-8 text-danger-500" />
         </div>
-        <h2 className="text-xl font-bold text-neutral-900 dark:text-neutral-50">Something went wrong</h2>
+        <h2 className="text-xl font-bold text-neutral-900 dark:text-neutral-50">
+          Something went wrong
+        </h2>
         <p className="text-sm text-neutral-500 dark:text-neutral-400">
           {error.message || 'An unexpected error occurred. Please try again.'}
         </p>

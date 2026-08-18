@@ -1,7 +1,7 @@
 import { StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
-import { QueryClient, QueryClientProvider, MutationCache } from '@tanstack/react-query'
+import { MutationCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ErrorBoundary } from 'react-error-boundary'
 import { toast, Toaster } from 'sonner'
 import { router } from './router'
@@ -58,7 +58,8 @@ createRoot(document.getElementById('app')!).render(
         <Toaster
           position="top-right"
           toastOptions={{
-            className: 'rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-50',
+            className:
+              'rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-50',
           }}
         />
       </QueryClientProvider>

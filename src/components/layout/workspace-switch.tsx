@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown, Building2, Plus, Check } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Building2, Check, ChevronDown, Plus } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 
@@ -106,9 +106,7 @@ export function WorkspaceSwitch({
                   </button>
                 ))}
                 <div className="mt-1 border-t border-neutral-100/80 dark:border-neutral-800/80 pt-1">
-                  <button
-                    className="flex w-full items-center gap-2 rounded-[10px] px-2 py-1.5 text-sm text-neutral-500 hover:bg-neutral-100/80 dark:hover:bg-neutral-800/80 transition-colors duration-150"
-                  >
+                  <button className="flex w-full items-center gap-2 rounded-[10px] px-2 py-1.5 text-sm text-neutral-500 hover:bg-neutral-100/80 dark:hover:bg-neutral-800/80 transition-colors duration-150">
                     <Plus className="h-4 w-4" />
                     Create Workspace
                   </button>

@@ -1,5 +1,5 @@
 import { get, put } from '@/lib/api-client'
-import type { ResultMessage, ConfigurationInformationDto, UserDto } from '@/types'
+import type { ConfigurationInformationDto, ResultMessage, UserDto } from '@/types'
 
 export function getConfigInfo(): Promise<ResultMessage<ConfigurationInformationDto>> {
   return get<ResultMessage<ConfigurationInformationDto>>('/personalCenter/getConfigInfo')

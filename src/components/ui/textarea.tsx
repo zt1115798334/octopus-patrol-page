@@ -12,7 +12,10 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     return (
       <div className="space-y-1.5">
         {label && (
-          <label htmlFor={textareaId} className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+          <label
+            htmlFor={textareaId}
+            className="text-sm font-medium text-neutral-700 dark:text-neutral-300"
+          >
             {label}
           </label>
         )}

@@ -1,5 +1,11 @@
-import { forwardRef, useCallback, type ComponentProps, type ButtonHTMLAttributes } from 'react'
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, MoreHorizontal } from 'lucide-react'
+import { type ButtonHTMLAttributes, type ComponentProps, forwardRef, useCallback } from 'react'
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+  MoreHorizontal,
+} from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button, buttonVariants } from './button'
 import type { VariantProps } from 'class-variance-authority'
@@ -31,7 +37,8 @@ const PaginationItem = forwardRef<HTMLLIElement, ComponentProps<'li'>>(
 PaginationItem.displayName = 'PaginationItem'
 
 interface PaginationLinkProps
-  extends Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'disabled'>,
+  extends
+    Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'disabled'>,
     VariantProps<typeof buttonVariants> {
   isActive?: boolean
   className?: string
@@ -59,12 +66,14 @@ function PaginationLink({
 }
 PaginationLink.displayName = 'PaginationLink'
 
-function PaginationPrevious({
-  className,
-  ...props
-}: ButtonHTMLAttributes<HTMLButtonElement>) {
+function PaginationPrevious({ className, ...props }: ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <PaginationLink aria-label="Go to previous page" size="icon" className={cn('gap-1', className)} {...props}>
+    <PaginationLink
+      aria-label="Go to previous page"
+      size="icon"
+      className={cn('gap-1', className)}
+      {...props}
+    >
       <ChevronLeft className="h-4 w-4" />
     </PaginationLink>
   )
@@ -73,7 +82,12 @@ PaginationPrevious.displayName = 'PaginationPrevious'
 
 function PaginationNext({ className, ...props }: ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <PaginationLink aria-label="Go to next page" size="icon" className={cn('gap-1', className)} {...props}>
+    <PaginationLink
+      aria-label="Go to next page"
+      size="icon"
+      className={cn('gap-1', className)}
+      {...props}
+    >
       <ChevronRight className="h-4 w-4" />
     </PaginationLink>
   )
@@ -100,7 +114,11 @@ PaginationLast.displayName = 'PaginationLast'
 
 function PaginationEllipsis({ className, ...props }: ComponentProps<'span'>) {
   return (
-    <span aria-hidden className={cn('flex h-8 w-8 items-center justify-center', className)} {...props}>
+    <span
+      aria-hidden
+      className={cn('flex h-8 w-8 items-center justify-center', className)}
+      {...props}
+    >
       <MoreHorizontal className="h-4 w-4 text-neutral-400" />
     </span>
   )
@@ -109,7 +127,10 @@ PaginationEllipsis.displayName = 'PaginationEllipsis'
 
 function PaginationSummary({ className, ...props }: ComponentProps<'div'>) {
   return (
-    <div className={cn('text-sm text-neutral-500 dark:text-neutral-400 whitespace-nowrap', className)} {...props} />
+    <div
+      className={cn('text-sm text-neutral-500 dark:text-neutral-400 whitespace-nowrap', className)}
+      {...props}
+    />
   )
 }
 PaginationSummary.displayName = 'PaginationSummary'
@@ -129,7 +150,12 @@ function PageSizeSelector({
   className,
 }: PageSizeSelectorProps) {
   return (
-    <div className={cn('flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400', className)}>
+    <div
+      className={cn(
+        'flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400',
+        className,
+      )}
+    >
       <span>Rows per page</span>
       <select
         value={value}
@@ -148,7 +174,11 @@ function PageSizeSelector({
 PageSizeSelector.displayName = 'PageSizeSelector'
 
 // Generate page numbers with ellipsis
-function getPageNumbers(currentPage: number, totalPages: number, siblingCount = 1): (number | 'ellipsis')[] {
+function getPageNumbers(
+  currentPage: number,
+  totalPages: number,
+  siblingCount = 1,
+): (number | 'ellipsis')[] {
   const totalNumbers = siblingCount * 2 + 5
   if (totalPages <= totalNumbers) {
     return Array.from({ length: totalPages }, (_, i) => i + 1)
@@ -226,7 +256,8 @@ function PaginationBar({
         )}
         {showSummary && totalItems !== undefined && (
           <PaginationSummary>
-            Showing {Math.min((currentPage - 1) * pageSize + 1, totalItems)}-{Math.min(currentPage * pageSize, totalItems)} of {totalItems.toLocaleString()}
+            Showing {Math.min((currentPage - 1) * pageSize + 1, totalItems)}-
+            {Math.min(currentPage * pageSize, totalItems)} of {totalItems.toLocaleString()}
           </PaginationSummary>
         )}
       </div>
@@ -235,7 +266,10 @@ function PaginationBar({
           <PaginationFirst onClick={() => safeOnPageChange(1)} disabled={currentPage <= 1} />
         </PaginationItem>
         <PaginationItem>
-          <PaginationPrevious onClick={() => safeOnPageChange(currentPage - 1)} disabled={currentPage <= 1} />
+          <PaginationPrevious
+            onClick={() => safeOnPageChange(currentPage - 1)}
+            disabled={currentPage <= 1}
+          />
         </PaginationItem>
         {pages.map((page, i) =>
           page === 'ellipsis' ? (
@@ -244,17 +278,26 @@ function PaginationBar({
             </PaginationItem>
           ) : (
             <PaginationItem key={page}>
-              <PaginationLink isActive={page === currentPage} onClick={() => safeOnPageChange(page)}>
+              <PaginationLink
+                isActive={page === currentPage}
+                onClick={() => safeOnPageChange(page)}
+              >
                 {page}
               </PaginationLink>
             </PaginationItem>
           ),
         )}
         <PaginationItem>
-          <PaginationNext onClick={() => safeOnPageChange(currentPage + 1)} disabled={currentPage >= totalPages} />
+          <PaginationNext
+            onClick={() => safeOnPageChange(currentPage + 1)}
+            disabled={currentPage >= totalPages}
+          />
         </PaginationItem>
         <PaginationItem>
-          <PaginationLast onClick={() => safeOnPageChange(totalPages)} disabled={currentPage >= totalPages} />
+          <PaginationLast
+            onClick={() => safeOnPageChange(totalPages)}
+            disabled={currentPage >= totalPages}
+          />
         </PaginationItem>
       </PaginationContent>
     </Pagination>

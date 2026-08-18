@@ -1,12 +1,15 @@
 import { request, upload } from '@/lib/api-client'
-import type { ResultMessage, FileUploadInfoDto, FileOperationResult, UploadInfo } from '@/types'
+import type { FileOperationResult, FileUploadInfoDto, ResultMessage, UploadInfo } from '@/types'
 
 const BASE = '/file'
 
 // ==================== 3.14.1 上传文件（直传） ====================
 
 /** POST /file/upload — multipart/form-data，参数 file */
-export function uploadFile(file: File, onProgress?: (percent: number) => void): Promise<ResultMessage<FileUploadInfoDto>> {
+export function uploadFile(
+  file: File,
+  onProgress?: (percent: number) => void,
+): Promise<ResultMessage<FileUploadInfoDto>> {
   return upload<ResultMessage<FileUploadInfoDto>>(`${BASE}/upload`, file, onProgress)
 }
 
@@ -27,7 +30,12 @@ export function checkUploadFile(fileMd5: string): Promise<ResultMessage<FileOper
 // ==================== 3.14.3 初始化分片上传 ====================
 
 /** POST /file/initiateUpload — application/x-www-form-urlencoded，参数 fileName/fileMd5/fileSize/chunkSize */
-export function initiateUpload(fileName: string, fileMd5: string, fileSize: number, chunkSize: number): Promise<ResultMessage<UploadInfo>> {
+export function initiateUpload(
+  fileName: string,
+  fileMd5: string,
+  fileSize: number,
+  chunkSize: number,
+): Promise<ResultMessage<UploadInfo>> {
   const params = new URLSearchParams()
   params.append('fileName', fileName)
   params.append('fileMd5', fileMd5)
@@ -44,7 +52,11 @@ export function initiateUpload(fileName: string, fileMd5: string, fileSize: numb
 // ==================== 3.14.4 上传文件分片 ====================
 
 /** POST /file/uploadChunk — multipart/form-data，参数 file/uploadId/chunkNumber */
-export function uploadChunk(file: Blob, uploadId: string, chunkNumber: number): Promise<ResultMessage<void>> {
+export function uploadChunk(
+  file: Blob,
+  uploadId: string,
+  chunkNumber: number,
+): Promise<ResultMessage<void>> {
   const formData = new FormData()
   formData.append('file', file)
   formData.append('uploadId', uploadId)
@@ -61,7 +73,10 @@ export function uploadChunk(file: Blob, uploadId: string, chunkNumber: number): 
 // ==================== 3.14.5 合并文件分片 ====================
 
 /** POST /file/mergeUpload — application/x-www-form-urlencoded，参数 uploadId/fileMd5 */
-export function mergeUpload(uploadId: string, fileMd5: string): Promise<ResultMessage<FileOperationResult>> {
+export function mergeUpload(
+  uploadId: string,
+  fileMd5: string,
+): Promise<ResultMessage<FileOperationResult>> {
   const params = new URLSearchParams()
   params.append('uploadId', uploadId)
   params.append('fileMd5', fileMd5)

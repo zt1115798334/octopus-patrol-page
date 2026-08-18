@@ -2,7 +2,6 @@ import * as React from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { motion, AnimatePresence } from 'framer-motion'
 
 const Dialog = DialogPrimitive.Root
 const DialogTrigger = DialogPrimitive.Trigger
@@ -24,7 +23,9 @@ const DialogOverlay = React.forwardRef<
 ))
 DialogOverlay.displayName = 'DialogOverlay'
 
-interface DialogContentProps extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
+interface DialogContentProps extends React.ComponentPropsWithoutRef<
+  typeof DialogPrimitive.Content
+> {
   size?: 'sm' | 'default' | 'lg' | 'xl' | 'full'
 }
 
@@ -70,14 +71,21 @@ const DialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivEleme
 )
 
 const DialogFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)} {...props} />
+  <div
+    className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)}
+    {...props}
+  />
 )
 
 const DialogTitle = React.forwardRef<
   React.ComponentRef<typeof DialogPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
 >(({ className, ...props }, ref) => (
-  <DialogPrimitive.Title ref={ref} className={cn('text-lg font-semibold text-neutral-900 dark:text-neutral-50', className)} {...props} />
+  <DialogPrimitive.Title
+    ref={ref}
+    className={cn('text-lg font-semibold text-neutral-900 dark:text-neutral-50', className)}
+    {...props}
+  />
 ))
 DialogTitle.displayName = 'DialogTitle'
 
@@ -85,8 +93,23 @@ const DialogDescription = React.forwardRef<
   React.ComponentRef<typeof DialogPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
 >(({ className, ...props }, ref) => (
-  <DialogPrimitive.Description ref={ref} className={cn('text-sm text-neutral-500 dark:text-neutral-400', className)} {...props} />
+  <DialogPrimitive.Description
+    ref={ref}
+    className={cn('text-sm text-neutral-500 dark:text-neutral-400', className)}
+    {...props}
+  />
 ))
 DialogDescription.displayName = 'DialogDescription'
 
-export { Dialog, DialogPortal, DialogOverlay, DialogClose, DialogTrigger, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription }
+export {
+  Dialog,
+  DialogPortal,
+  DialogOverlay,
+  DialogClose,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+}

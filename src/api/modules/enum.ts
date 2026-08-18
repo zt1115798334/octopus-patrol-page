@@ -1,5 +1,5 @@
 import { get } from '@/lib/api-client'
-import type { ResultMessage, EnumPairsData } from '@/types'
+import type { EnumPairsData, ResultMessage } from '@/types'
 
 /**
  * 查询所有枚举值列表（无参）

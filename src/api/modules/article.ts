@@ -1,5 +1,5 @@
-import { post, del } from '@/lib/api-client'
-import type { ResultMessage, PageData, ArticleDto, QueryArticleDto } from '@/types'
+import { del, post } from '@/lib/api-client'
+import type { ArticleDto, PageData, QueryArticleDto, ResultMessage } from '@/types'
 
 export function saveArticle(data: ArticleDto): Promise<ResultMessage<ArticleDto>> {
   return post<ResultMessage<ArticleDto>>('/article/saveArticle', data)
@@ -13,7 +13,9 @@ export function deleteArticles(ids: number[]): Promise<ResultMessage<void>> {
   return del<ResultMessage<void>>('/article/deleteArticles', ids)
 }
 
-export function findArticlePage(data: QueryArticleDto): Promise<ResultMessage<PageData<ArticleDto>>> {
+export function findArticlePage(
+  data: QueryArticleDto,
+): Promise<ResultMessage<PageData<ArticleDto>>> {
   return post<ResultMessage<PageData<ArticleDto>>>('/article/findArticlePage', data)
 }
 
