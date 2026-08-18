@@ -1,5 +1,5 @@
 import { get, post, request, del, WEB_BASE_URL } from '@/lib/api-client'
-import type { ResultMessage, PlatformAccountDto, EnabledState } from '@/types'
+import type { ResultMessage, PageData, PlatformAccountDto, EnabledState } from '@/types'
 import type { QueryPlatformAccountDto } from '@/types/dto'
 
 export function savePlatformAccount(data: PlatformAccountDto): Promise<ResultMessage<PlatformAccountDto>> {
@@ -18,8 +18,8 @@ export function changePlatformAccountEnabledState(data: { id: number; enabledSta
   return put<ResultMessage<void>>('/platformAccount/changePlatformAccountEnabledState', data)
 }
 
-export function findPlatformAccountPage(data: QueryPlatformAccountDto): Promise<ResultMessage<PlatformAccountDto>> {
-  return post<ResultMessage<PlatformAccountDto>>('/platformAccount/findPlatformAccountPage', data, WEB_BASE_URL)
+export function findPlatformAccountPage(data: QueryPlatformAccountDto): Promise<ResultMessage<PageData<PlatformAccountDto>>> {
+  return post<ResultMessage<PageData<PlatformAccountDto>>>('/platformAccount/findPlatformAccountPage', data, WEB_BASE_URL)
 }
 
 export function findPlatformAccountList(): Promise<ResultMessage<PlatformAccountDto[]>> {

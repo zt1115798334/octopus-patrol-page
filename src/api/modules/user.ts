@@ -1,5 +1,5 @@
 import { get, post, put, del } from '@/lib/api-client'
-import type { ResultMessage, UserDto, QueryUserDto, UserStatisticsDto, EnabledState } from '@/types'
+import type { ResultMessage, PageData, UserDto, QueryUserDto, UserStatisticsDto, EnabledState } from '@/types'
 
 export function saveUser(data: UserDto): Promise<ResultMessage<UserDto>> {
   return post<ResultMessage<UserDto>>('/user/saveUser', data)
@@ -25,8 +25,8 @@ export function changeUserEnabledState(data: { id: number; enabledState: Enabled
   return put<ResultMessage<void>>('/user/changeEnabledState', data)
 }
 
-export function findUserPage(data: QueryUserDto): Promise<ResultMessage<UserDto>> {
-  return post<ResultMessage<UserDto>>('/user/findUserPage', data)
+export function findUserPage(data: QueryUserDto): Promise<ResultMessage<PageData<UserDto>>> {
+  return post<ResultMessage<PageData<UserDto>>>('/user/findUserPage', data)
 }
 
 export function findUser(id: number): Promise<ResultMessage<UserDto>> {

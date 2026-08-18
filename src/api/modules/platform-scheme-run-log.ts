@@ -1,6 +1,7 @@
 import { get, post, WEB_BASE_URL } from '@/lib/api-client'
 import type {
   ResultMessage,
+  PageData,
   PlatformSchemeRunLogDto,
   QueryPlatformSchemeRunLogDto,
 } from '@/types'
@@ -27,8 +28,8 @@ export function findPlatformSchemeRunLogsBySchemeId(
 
 export function findPlatformSchemeRunLogPage(
   data: QueryPlatformSchemeRunLogDto,
-): Promise<ResultMessage<PlatformSchemeRunLogDto>> {
-  return post<ResultMessage<PlatformSchemeRunLogDto>>(
+): Promise<ResultMessage<PageData<PlatformSchemeRunLogDto>>> {
+  return post<ResultMessage<PageData<PlatformSchemeRunLogDto>>>(
     '/platformSchemeRunLog/findPlatformSchemeRunLogPage',
     data,
     WEB_BASE_URL,

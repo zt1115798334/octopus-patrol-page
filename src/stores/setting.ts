@@ -1,19 +1,16 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-export type ColorMode = 'default' | 'emerald' | 'orange' | 'rose' | 'sky'
 export type ThemeStyle = 'default' | 'anime' | 'shinchan'
 export type TableDensity = 'compact' | 'normal' | 'comfortable'
 
 export interface SettingState {
-  colorMode: ColorMode
   themeStyle: ThemeStyle
   tableDensity: TableDensity
   showBreadcrumb: boolean
   showTabs: boolean
   animatePageTransition: boolean
   sidebarWidth: number
-  setColorMode: (mode: ColorMode) => void
   setThemeStyle: (style: ThemeStyle) => void
   setTableDensity: (density: TableDensity) => void
   setShowBreadcrumb: (show: boolean) => void
@@ -31,7 +28,6 @@ function applyThemeStyle(style: ThemeStyle) {
 export const useSettingStore = create<SettingState>()(
   persist(
     (set) => ({
-      colorMode: 'default',
       themeStyle: 'default',
       tableDensity: 'normal',
       showBreadcrumb: true,
@@ -39,7 +35,6 @@ export const useSettingStore = create<SettingState>()(
       animatePageTransition: true,
       sidebarWidth: 260,
 
-      setColorMode: (colorMode) => set({ colorMode }),
       setThemeStyle: (themeStyle) => {
         applyThemeStyle(themeStyle)
         set({ themeStyle })

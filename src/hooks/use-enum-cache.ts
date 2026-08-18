@@ -31,7 +31,7 @@ export function useEnumCache(): { data: EnumPairsData | null; loading: boolean }
     findAllEnumPairs()
       .then((res) => {
         if (cancelled) return
-        const pairs = res.obj ?? {}
+        const pairs = res.data ?? {}
         try {
           localStorage.setItem(ENUM_STORAGE_KEY, JSON.stringify(pairs))
         } catch {

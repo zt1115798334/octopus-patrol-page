@@ -148,7 +148,7 @@ export default function UserManagement() {
     setAvatarUploading(true)
     try {
       const res = await uploadFile(file)
-      const info = res.obj ?? (res as unknown as { data?: { id?: number } }).data
+      const info = res.data
       if (info?.id != null) {
         form.setValue('avatarId', info.id)
         toast.success(t('common.operationSuccess'))
@@ -162,8 +162,8 @@ export default function UserManagement() {
     }
   }, [form, t])
 
-  const users = data?.page?.list || []
-  const total = data?.page?.total || 0
+  const users = data?.data?.content || []
+  const total = data?.data?.totalElements || 0
 
   return (
     <div className="space-y-4">

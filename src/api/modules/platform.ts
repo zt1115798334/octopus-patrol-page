@@ -1,5 +1,5 @@
 import { get, post, request, del, WEB_BASE_URL } from '@/lib/api-client'
-import type { ResultMessage, PlatformDto, QueryPlatformDto, EnabledState, SavePlatformDto } from '@/types'
+import type { ResultMessage, PageData, PlatformDto, QueryPlatformDto, EnabledState, SavePlatformDto } from '@/types'
 
 export function savePlatform(data: SavePlatformDto): Promise<ResultMessage<PlatformDto>> {
   return post<ResultMessage<PlatformDto>>('/platform/savePlatform', data, WEB_BASE_URL)
@@ -17,8 +17,8 @@ export function changePlatformEnabledState(data: { id: number; enabledState: Ena
   return request<ResultMessage<void>>({ method: 'PUT', url: '/platform/changePlatformEnabledState', params: data }, WEB_BASE_URL)
 }
 
-export function findPlatformPage(data: QueryPlatformDto): Promise<ResultMessage<PlatformDto>> {
-  return post<ResultMessage<PlatformDto>>('/platform/findPlatformPage', data, WEB_BASE_URL)
+export function findPlatformPage(data: QueryPlatformDto): Promise<ResultMessage<PageData<PlatformDto>>> {
+  return post<ResultMessage<PageData<PlatformDto>>>('/platform/findPlatformPage', data, WEB_BASE_URL)
 }
 
 export function findAllPlatforms(): Promise<ResultMessage<PlatformDto[]>> {

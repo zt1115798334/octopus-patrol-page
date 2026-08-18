@@ -108,7 +108,7 @@ instance.interceptors.response.use(
         const response = await axios.post(`${BASE_URL}/login/refresh`, {
           refreshToken,
         })
-        const newToken = response.data.obj
+        const newToken = response.data.data
         localStorage.setItem('accessToken', newToken)
         processQueue(null, newToken)
         originalRequest.headers.Authorization = `Bearer ${newToken}`

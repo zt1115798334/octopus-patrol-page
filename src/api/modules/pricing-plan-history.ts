@@ -1,10 +1,10 @@
 import { post } from '@/lib/api-client'
-import type { ResultMessage, UserPricingPlanHistoryDto, QueryKeywordsDto } from '@/types'
+import type { ResultMessage, PageData, UserPricingPlanHistoryDto, QueryKeywordsDto } from '@/types'
 
 export function findUserPricingPlanHistoryPage(
   data: QueryKeywordsDto,
-): Promise<ResultMessage<UserPricingPlanHistoryDto>> {
-  return post<ResultMessage<UserPricingPlanHistoryDto>>(
+): Promise<ResultMessage<PageData<UserPricingPlanHistoryDto>>> {
+  return post<ResultMessage<PageData<UserPricingPlanHistoryDto>>>(
     '/userPricingPlanHistory/findUserPricingPlanHistoryPage',
     data,
   )

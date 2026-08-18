@@ -321,10 +321,15 @@ export { useSettingStore } from './setting'
 
 ### 7.1 Axios 客户端
 
-- 基础路径: `/api`
-- 超时时间: 30000ms
-- 请求拦截器: 自动附加 `Authorization: Bearer <token>`
-- 响应拦截器: 401 时自动刷新 token，失败队列处理并发请求
+- 默认基础路径: `/patrol/general/api`（通用接口，定义在 `src/lib/api-client.ts`）
+- Web 模块基础路径: `WEB_BASE_URL = '/patrol/web/api'`（`api-client.ts` 导出，Web 专属接口需显式传入 `baseURL`）
+- 超时时间: `30000ms`
+- 请求拦截器: 自动附加 `Authorization: Bearer <token>`（从 `localStorage.accessToken` 读取）
+- 响应拦截器:
+  - 非 2xx / 业务失败统一 `Promise.reject`，交给 React Query 的 `onError` 处理
+  - `401` 时自动调用 `/login/refresh` 刷新 token，并用失败队列合并并发请求；刷新失败则清空 token 并跳转 `/login`
+- Mock 模式: `enableMockMode(handler)` 可临时接管 axios adapter，用于无后端联调
+- 响应解包: `request<T>()` 直接返回 `response.data`，即后端的 `ResultMessage<T>` 信封。业务层需二次解包：`data?.data?.content`、`data?.data?.totalElements`（详见 §20.4）
 
 ### 7.2 API 函数签名
 
@@ -520,45 +525,86 @@ export const router = createBrowserRouter([
 
 ### 11.2 设计令牌 (globals.css)
 
-```css
-@theme {
-  /* 主色系 */
-  --color-primary-50: #eef2ff;    /* Indigo 蓝紫 */
-  --color-accent-50: #f0f9ff;     /* Sky 天蓝 */
-  --color-success-50: #ecfdf5;    /* Emerald 翡翠绿 */
-  --color-warning-50: #fff7ed;    /* Orange 橙色 */
-  --color-danger-50: #fff1f2;     /* Rose 玫瑰红 */
-  --color-neutral-50: #fafafa;    /* 中性灰 */
+> 以 `default` 主题实际取值为准（与文档旧版不同，主色为专业 slate blue 而非 Indigo）。`anime`/`shinchan` 主题通过 `[data-theme-style]` 覆盖同名变量，组件无需改动。
 
-  /* 侧边栏 */
-  --color-sidebar-bg: #f8fafc;
-  --color-sidebar-hover: #f1f5f9;
-  --color-sidebar-active: #eef2ff;
+**主色 Primary（单一强调色，slate blue）**
 
-  /* 圆角 */
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
+| 档位 | 值 | 档位 | 值 |
+|------|-----|------|-----|
+| `primary-50` | `#f4f6fb` | `primary-600` | `#4a5f95` |
+| `primary-100` | `#e4e9f4` | `primary-700` | `#3d4e7a` |
+| `primary-200` | `#cad3e8` | `primary-800` | `#334062` |
+| `primary-300` | `#a5b5d8` | `primary-900` | `#27304a` |
+| `primary-400` | `#7b91c4` | `primary-950` | `#161b2e` |
+| `primary-500` | `#5b74b0` | | |
 
-  /* 阴影 */
-  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.06);
-  --shadow-dropdown: 0 4px 6px -1px rgb(0 0 0 / 0.08);
-}
-```
+> `accent` 与主色同族（`#5b74b0` 系列），保证"单一强调色"视觉。
+
+**功能色**
+
+| 语义 | 色系 | 500 档 |
+|------|------|--------|
+| Success | Emerald 翡翠绿 | `#10b981` |
+| Warning | Amber 琥珀橙 | `#f59e0b` |
+| Danger | Rose 玫瑰红 | `#f43f5e` |
+| Neutral | Cool Gray 冷灰 | `#6b7280`（500）/ `#111827`（900） |
+
+**圆角**
+
+| 变量 | 值 | 用途 |
+|------|-----|------|
+| `--radius-lg` | `0.75rem` | 按钮、输入 |
+| `--radius-xl` | `1rem` | 弹窗、下拉 |
+| `--radius-2xl` | `1.25rem` | 卡片（默认） |
+
+**阴影（分层纵深）**
+
+| 变量 | 用途 |
+|------|------|
+| `--shadow-card` | 卡片静态阴影 |
+| `--shadow-elevated` | 卡片 hover 抬升 |
+| `--shadow-dropdown` | 下拉/菜单 |
+| `--shadow-dialog` | 对话框 |
+| `--shadow-glow` / `--shadow-glow-lg` | 主色光晕（登录/强调） |
+
+**缓动曲线**
+
+| 变量 | 值 | 用途 |
+|------|-----|------|
+| `--ease-out-expo` | `cubic-bezier(0.16, 1, 0.3, 1)` | 默认入场/过渡（首选） |
+| `--ease-spring` | `cubic-bezier(0.34, 1.56, 0.64, 1)` | 回弹（侧栏/图标） |
+| `--ease-smooth` | `cubic-bezier(0.4, 0, 0.2, 1)` | 通用平滑 |
 
 ### 11.3 暗色模式
 
-- 使用 CSS 类切换 (`.dark`)
-- Store 管理主题: `useThemeStore`
-- 支持 `light` / `dark` / `system` 三种模式
-- 持久化到 localStorage
+- 使用 `.dark` 类挂在 `<html>` 上切换（由 `useThemeStore.mode` 驱动，支持 `light` / `dark` / `system`，持久化 localStorage）
+- **Token 反相映射策略**：并非简单反色，而是在 `globals.css` 中对每个语义色做逐档翻转，例如 `.dark .text-neutral-900 → var(--color-neutral-50)`、`.dark .text-primary-500 → var(--color-primary-400)`，保证明暗对比度一致
+- 表面/边框/侧边栏也有独立暗色变量（`--color-sidebar-bg` 等在三套主题下分别重映射为半透明深色）
+- `anime` / `shinchan` 各有一套暗色覆盖（`[data-theme-style="x"] .dark ...`），重映射文本、表面、边框、滚动条、对话框等
+- 组件不感知明暗，只写 `text-neutral-900` 等语义类名即可自动适配
 
 ### 11.4 动画
 
-- 页面过渡: Framer Motion `motion.div` + `initial/animate/exit`
+- 页面/区块过渡: Framer Motion `motion.div` + `initial/animate/exit`，或复用工具类 `.animate-page-enter`（`fade-up 0.4s var(--ease-out-expo)`）
 - 侧边栏折叠: `motion.aside` + `animate={{ width }}`
-- 表格行: `motion.tr` 逐行淡入
-- 按钮: `whileHover={{ scale: 1.02 }}`, `whileTap={{ scale: 0.97 }}`
-- 缓动函数: `[0.16, 1, 0.3, 1]` (ease-out-expo)
+- 表格行: `motion.tr` 逐行淡入（keyframes `row-enter`）
+- 按钮: `whileHover={{ scale: 1.02 }}` / `whileTap={{ scale: 0.97 }}`
+- PageHeader 标题: `initial={{ opacity: 0, y: -8 }} → animate`，缓动 `--ease-out-expo`
+- 缓动函数统一用 `[0.16, 1, 0.3, 1]`（对应 CSS `--ease-out-expo`），回弹用 `--ease-spring`
+- 登录页含品牌级 loader 彩蛋（aurora/光晕/粒子等 keyframes），属特殊页面，非通用组件规范
+
+### 11.5 主题风格系统
+
+三套皮肤通过根节点 `data-theme-style` 属性切换（`useSettingStore.themeStyle` 持久化，由 `AppLayout` 写入 `document.documentElement.dataset.themeStyle`）：
+
+| 主题 | 风格 | 主色 (500) | 强调色 (500) | 标题字体 |
+|------|------|-----------|-------------|----------|
+| `default` | 专业克制 slate blue | `#5b74b0` | `#5b74b0` | Inter |
+| `anime` | 二次元 樱花粉+天空蓝 | `#ff5c8a` | `#0ea5e9` | ZCOOL KuaiLe |
+| `shinchan` | 蜡笔小新 亮红+金黄 | `#ff5722` | `#fdd835` | ZCOOL XiaoWei |
+
+- 三套主题共享同一套组件与类名，仅靠 CSS 变量 + 少量覆盖类（如 `.gradient-text`、`.card`、`.glass`、`.skeleton` 的 `[data-theme-style]` 选择器）重着色，新增 UI 绝不依赖主题分支
+- `anime`/`shinchan` 给 `h1` 加了渐变文字（`linear-gradient` + `background-clip: text`），并整体替换 `body` 字体与背景光晕
 
 ## 12. 国际化规范
 
@@ -737,3 +783,154 @@ export default function XxxManagement() {
 - 使用 `toast` (sonner) 替代 alert 或 console
 - 使用 `formatDate` / `formatNumber` 统一格式化输出
 - 使用 `cn()` 合并条件类名
+
+## 19. 页面整体视觉风格（设计语言）
+
+本章描述产品级的视觉与交互风格，是 §11 设计令牌在"页面"层面的落地规范。所有新页面、新组件必须遵循。
+
+### 19.1 设计理念
+
+- **专业、克制、以内容为中心**的后台管理风格，不堆砌装饰。
+- **单一强调色**：默认主题为 slate blue（`#5b74b0`），全局只用一种主色；success / warning / danger 等仅用于状态与危险操作。
+- **玻璃拟态顶栏 + 白底卡片内容区**：顶栏半透明毛玻璃，内容区以卡片承载，层次清晰。
+- **弱边框 + 柔和阴影 + 充足留白**，间距统一走 4px 栅格（`gap-2`=8px、`gap-4`=16px、`p-6`=24px）。
+
+### 19.2 主题体系（三套皮肤）
+
+通过根节点 `data-theme-style` 切换（见 §11.5），同一套组件无需改动即可三变：
+
+| 主题 | 调性 | 主色(500) | 强调色(500) | 标题字体 | 阴影/光晕 |
+|------|------|-----------|-------------|----------|-----------|
+| `default` | 商务专业 | `#5b74b0` | `#5b74b0` | Inter | 中性冷灰、主色微光 |
+| `anime` | 二次元梦幻 | `#ff5c8a` 樱花粉 | `#0ea5e9` 天空蓝 | ZCOOL KuaiLe | 粉调柔光、标题渐变 |
+| `shinchan` | 童趣大胆 | `#ff5722` 亮红 | `#fdd835` 金黄 | ZCOOL XiaoWei | 暖色粗光、标题渐变 |
+
+> 新增配色/主题请扩展 CSS 变量与 `[data-theme-style]` 覆盖，禁止在组件内写死某主题色（会破坏主题切换）。
+
+### 19.3 布局结构
+
+```
+┌───────────────────────────────────────────────────────────┐
+│ Header (h-14, glass 毛玻璃: logo · 面包屑 · 搜索 · 通知 · 主题) │
+├──────────┬────────────────────────────────────────────────┤
+│ Sidebar  │  Main (p-6)                                      │
+│ 折叠72 /  │   ├─ PageHeader (标题 + actions, 入场 y:-8→0)    │
+│ 展开260   │   ├─ BreadcrumbNav                              │
+│ motion    │   ├─ TabBar (多标签)                            │
+│ width     │   └─ 内容: 卡片 / 表格 / 表单 / 图表             │
+└──────────┴────────────────────────────────────────────────┘
+```
+
+- 顶栏固定 `h-14`(56px)，毛玻璃 `.glass`；侧栏折叠 72px / 展开 260px，`motion.aside` 动画宽度。
+- 路由切换用 Framer Motion 过渡 + 路由级 `Suspense` 加载占位。
+- 主内容区最大宽度留白，桌面端内容居中不铺满。
+
+### 19.4 组件视觉规范
+
+| 元素 | 规范 |
+|------|------|
+| 卡片 `.card` | 白底、`1px` 边框、`radius-2xl`(1.25rem)、`shadow-card`；hover 升级 `shadow-elevated` 并微抬 |
+| 玻璃 `.glass` | 毛玻璃 header / 弹层（`backdrop-blur` + 半透明） |
+| 表格 | 表头 sticky、行 hover 高亮、逐行 `row-enter` 入场；斑马可选 |
+| 表单 | 标签在上、错误置于字段下方；RHF + Zod，错误态 danger 边框 |
+| 按钮 Button | `cva` 变体：`default`(主色渐变) / `secondary` / `ghost` / `outline` / `danger`；尺寸 `sm`/`default`/`lg`/`icon` |
+| 徽章 Badge | `success`/`warning`/`danger`/`neutral` 语义色，pill 圆角 |
+| 状态 | 加载用 `Skeleton`（微光 `shimmer`）；空数据用 `EmptyState`；错误用 `ErrorFallback` |
+| 标题 | `PageHeader` 统一标题层级，`h1` 1.5rem/700、`h2` 1.25rem/600（见 globals.css `@layer base`） |
+
+### 19.5 字体与排印
+
+- 西文 Inter、等宽 JetBrains Mono；中文回退 PingFang SC / Microsoft YaHei。
+- `anime` / `shinchan` 整站替换 `body` 字体为 ZCOOL 系列，并给 `h1` 叠加渐变文字（`linear-gradient` + `background-clip: text`）。
+- 数字/金额统一用 `formatNumber`，日期统一用 `formatDate`，保持对齐与本地化一致。
+
+### 19.6 动效语言
+
+- 统一缓动 `--ease-out-expo`（`cubic-bezier(0.16,1,0.3,1)`）；回弹用 `--ease-spring`。
+- 区块/页面入场：`animate-page-enter`（`fade-up`）或 `motion.div` `initial/animate/exit`。
+- 微交互：按钮 hover `scale 1.02`、tap `0.97`；卡片 hover 抬升；侧栏宽度弹簧。
+- 克制原则：非必要不引入长耗时/阻塞动画；列表/表格入场控制在 0.3–0.5s。
+
+### 19.7 无障碍
+
+- 全局 `focus-ring`：`2px` 主色 outline、`offset 2px`，键盘可达。
+- 交互元素用语义标签 / Radix 原语；`Tooltip` 用 `TooltipProvider` 统一包裹。
+- 颜色不作为唯一信息载体（状态同时有文字/图标）。
+
+### 19.8 视觉层禁止事项
+
+- 禁止硬编码颜色值（一律用 `bg-primary-500` / `text-danger-500` 等 token 类名）。
+- 禁止新增非 token 主题色（扩展请加 `--color-*` 变量并同步三套主题）。
+- 禁止在组件内直接写死 `anime`/`shinchan` 专属色（破坏主题切换）。
+- 禁止低优先级动效使用长耗时/阻塞式动画。
+
+## 20. 代码风格细则（补充要点）
+
+在 §3–§18 基础上，补充与真实代码库一致的关键写法。
+
+### 20.1 React 导入与命名空间
+
+- UI 原语（使用 `forwardRef` / `React.HTMLAttributes` 时）保留 `import * as React from 'react'`，通过 `React.forwardRef`、`React.HTMLAttributes` 访问（如 `button.tsx`、`card.tsx`）。
+- 普通页面 / 业务组件可用具名导入：`import { useState, useCallback } from 'react'`（如 `page-header.tsx`）。
+- Props 接口继承原生属性：`extends React.HTMLAttributes<HTMLDivElement>`（需 namespace 导入）或 `extends HTMLAttributes<HTMLDivElement>`（具名导入），二选一保持文件内统一。
+
+### 20.2 类名合并与变体
+
+- 统一用 `cn()`（`clsx` + `tailwind-merge`）合并条件类名，禁止字符串拼接。
+- 多形态组件用 `cva` 定义 `variants` + 用 `VariantProps<typeof xxx>` 推导类型。
+- 组件接受 `className` 并置于合并结果末尾，允许调用方覆盖：
+  ```typescript
+  const Card = React.forwardRef<HTMLDivElement, CardProps>(({ className, ...props }, ref) => (
+    <div ref={ref} className={cn('rounded-2xl border shadow-card', className)} {...props} />
+  ))
+  Card.displayName = 'Card'
+  ```
+
+### 20.3 Zustand 选择器
+
+- 用选择器精确取值，避免全量订阅导致的重渲染：`const username = useAuthStore((s) => s.username)`。
+- 取多个值用 `useShallow` 或分别 `select`，避免返回新对象引发无限渲染。
+- 业务修改逻辑放 store action 内，组件只调用 action，不在外部直接 `set`。
+
+### 20.4 API 响应解包（重要）
+
+`request<T>` / `get<T>` / `post<T>` 返回的是 `response.data`，即后端 `ResultMessage<T>` 信封：
+
+```typescript
+const { data, isLoading } = useQuery({
+  queryKey: ['users', query],
+  queryFn: () => findUserPage(query), // → ResultMessage<Page<UserDto>>
+})
+
+// 渲染时二次解包
+const list = data?.data?.content ?? []
+const total = data?.data?.totalElements ?? 0
+```
+
+- 不要对 `data` 再 `.json()`（Axios 已解析）。
+- 不要用 `any` 接 `data`；用 `ResultMessage<Page<T>>` / `ResultMessage<T>` 明确泛型。
+
+### 20.5 错误与提示
+
+- API 失败由 React Query `onError` / 拦截器统一处理，组件内不 `try-catch` API。
+- 用户提示统一 `toast`（sonner）：`toast.success(t('common.operationSuccess'))` / `toast.error(...)`。
+- 表单字段错误由 Zod 消息驱动，经 `<Input error={errors.x?.message} />` 透传。
+
+### 20.6 主题 / 外观切换
+
+- 主题风格（default/anime/shinchan）存 `useSettingStore.themeStyle`，由 `AppLayout` 写入 `document.documentElement.dataset.themeStyle`。
+- 明暗模式存 `useThemeStore.mode`，写入 `.dark` 类。
+- 组件内**不应**直接操作这些 DOM 属性，统一经 store，保证持久化与单一数据源。
+
+### 20.7 动画常量
+
+- 复用 globals.css 变量：`var(--ease-out-expo)`、`var(--ease-spring)`、`var(--ease-smooth)`。
+- Framer Motion 缓动数组用 `[0.16, 1, 0.3, 1]`，与 `--ease-out-expo` 一致。
+- 入场优先 `.animate-page-enter` 或 `motion.div`，不要各自写重复的 `@keyframes`。
+
+### 20.8 文件级约定
+
+- 单文件单组件（UI 原语可附私有子组件）。
+- 类型导入用 `import type`；项目开启 `verbatimModuleSyntax`。
+- 业务枚举用 `export enum Xxx { ON = 'ON' }`（UPPER_SNAKE 值）；UI 模式串（如主题/明暗）用 `type X = 'a' | 'b'` 联合类型。
+- 文件末尾显式 `export { Xxx }`（UI 原语额外 `export type { XxxProps }`），不导出未使用的内部符号。

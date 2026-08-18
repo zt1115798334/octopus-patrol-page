@@ -56,8 +56,8 @@ export default function LoginPage() {
   useEffect(() => {
     getPublicKey()
       .then((res) => {
-        if (res.meta.success && res.obj) {
-          setPublicKey(res.obj)
+        if (res.meta.success && res.data) {
+          setPublicKey(res.data)
           console.log('[Login] Public key loaded')
         }
       })
@@ -94,7 +94,7 @@ export default function LoginPage() {
         const res = await loginApi({ username: data.username, password: encryptedPassword })
         console.log('[Login] res:', res)
         if (res.meta.success) {
-          const token = res.obj
+          const token = res.data
           authLogin(token, token)
           toast.success(t('auth.loginSuccess'))
           const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/'

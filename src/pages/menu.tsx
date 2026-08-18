@@ -92,7 +92,7 @@ export default function MenuManagement() {
   const [formData, setFormData] = useState<Partial<MenuDto>>({})
 
   const { data, isLoading } = useQuery({ queryKey: ['menus'], queryFn: findMenuList })
-  const menus = data?.list || []
+  const menus = data?.data || []
 
   const saveMutation = useMutation({
     mutationFn: saveMenu,

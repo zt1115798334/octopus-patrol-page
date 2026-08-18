@@ -52,7 +52,7 @@ export function Header() {
     queryFn: findCurrentUser,
     staleTime: 5 * 60 * 1000,
   })
-  const avatarId = currentUser?.obj?.avatarId
+  const avatarId = currentUser?.data?.avatarId
   const avatarUrl = useShowFileUrl(avatarId)
 
   // Command palette shortcut

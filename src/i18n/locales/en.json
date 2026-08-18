@@ -179,7 +179,6 @@
     "title": "Settings",
     "description": "Set your avatar and change password",
     "theme": "Theme",
-    "colorMode": "Accent Color",
     "tableDensity": "Table Density",
     "compact": "Compact",
     "normal": "Normal",

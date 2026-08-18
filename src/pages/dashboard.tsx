@@ -163,12 +163,12 @@ export default function DashboardPage() {
 
   // 为访问统计列表附加中文 title（供饼图使用）
   const visitStatsWithTitle = useMemo(() => {
-    const list = visitStats?.list || []
+    const list = visitStats?.data || []
     return list.map((item) => ({
       ...item,
       title: item.type ? (visitStatsTitleMap[item.type] || item.type) : undefined,
     }))
-  }, [visitStats?.list, visitStatsTitleMap])
+  }, [visitStats?.data, visitStatsTitleMap])
 
   const { data: visitTrendRaw } = useQuery({
     queryKey: ['visitTrend', trendQuery],
@@ -228,7 +228,7 @@ export default function DashboardPage() {
 
   // 将后端 { PV: [], IP: [], ..., date: [] } 转换为图表格式 [{date, PV, IP, ...}, ...]
   const trendData = (() => {
-    const obj = visitTrendRaw?.obj
+    const obj = visitTrendRaw?.data
     if (!obj?.date) return undefined
     const dates: string[] = obj.date
     const seriesKeys = Object.keys(obj).filter((k) => k !== 'date')
@@ -243,25 +243,25 @@ export default function DashboardPage() {
 
   // 趋势图各系列字段名（排除 date），用于动态渲染并设置中文标题
   const trendSeriesKeys = useMemo(() => {
-    const obj = visitTrendRaw?.obj
+    const obj = visitTrendRaw?.data
     if (!obj) return []
     return Object.keys(obj).filter((k) => k !== 'date')
-  }, [visitTrendRaw?.obj])
+  }, [visitTrendRaw?.data])
 
-  const us = userStats?.obj
-  const ls = logStats?.obj
+  const us = userStats?.data
+  const ls = logStats?.data
   // 耗时统计：通过 enumPairsData 的 VisitStatsType 映射中文 title
-  const tcList = (timeConsuming?.list ?? []).map((item) => ({
+  const tcList = (timeConsuming?.data ?? []).map((item) => ({
     ...item,
     title: item.type ? (visitStatsTitleMap[item.type] || item.type) : undefined,
   }))
-  const wc = weeklyCompare?.obj
-  const hotList = hotEndpoints?.list ?? []
-  const slowList = slowEndpoints?.list ?? []
-  const modList = moduleDistribution?.list ?? []
-  const ratioList = operateRatio?.list ?? []
-  const hourList = hourlyVisit?.list ?? []
-  const userList = activeUsers?.list ?? []
+  const wc = weeklyCompare?.data
+  const hotList = hotEndpoints?.data ?? []
+  const slowList = slowEndpoints?.data ?? []
+  const modList = moduleDistribution?.data ?? []
+  const ratioList = operateRatio?.data ?? []
+  const hourList = hourlyVisit?.data ?? []
+  const userList = activeUsers?.data ?? []
 
   return (
     <div className="space-y-6">

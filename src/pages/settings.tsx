@@ -44,7 +44,7 @@ export default function Settings() {
     queryFn: findCurrentUser,
   })
 
-  const userInfo = currentUser?.obj
+  const userInfo = currentUser?.data
 
   const avatarMutation = useMutation({
     mutationFn: (avatarId: number) => modifyCurrentAvatarId(avatarId),
@@ -74,7 +74,7 @@ export default function Settings() {
       setAvatarUploading(true)
       try {
         const res = await uploadFile(file)
-        const fileId = res.obj?.id
+        const fileId = res.data?.id
         if (fileId != null) {
           await avatarMutation.mutateAsync(fileId)
         } else {

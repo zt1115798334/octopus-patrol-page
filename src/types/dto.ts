@@ -31,18 +31,16 @@ export interface ResultMessage<T = unknown> {
     timestamp: string
     message: string | null
   }
-  obj: T | null
-  list: T[] | null
-  page: PageData<T> | null
-  scroll: ScrollData<T> | null
-  value: string | null
+  data: T | null
 }
 
+/** 分页响应结构（与后端 Spring Page 序列化一致，number 从 0 开始） */
 export interface PageData<T> {
-  pageNumber: number | null
-  pageSize: number | null
-  total: number | null
-  list: T[] | null
+  content: T[]
+  totalElements: number
+  totalPages: number
+  number: number
+  size: number
 }
 
 export interface ScrollData<T> {

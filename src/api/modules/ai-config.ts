@@ -1,5 +1,5 @@
 import { get, post, request, del, WEB_BASE_URL } from '@/lib/api-client'
-import type { ResultMessage, AiConfigDto, QueryAiConfigDto, EnabledState } from '@/types'
+import type { ResultMessage, PageData, AiConfigDto, QueryAiConfigDto, EnabledState } from '@/types'
 
 export function saveAiConfig(data: AiConfigDto): Promise<ResultMessage<AiConfigDto>> {
   return post<ResultMessage<AiConfigDto>>('/aiConfig/saveAiConfig', data, WEB_BASE_URL)
@@ -17,8 +17,8 @@ export function changeAiConfigEnabledState(data: { id: number; enabledState: Ena
   return put<ResultMessage<void>>('/aiConfig/changeAiConfigEnabledState', data)
 }
 
-export function findAiConfigPage(data: QueryAiConfigDto): Promise<ResultMessage<AiConfigDto>> {
-  return post<ResultMessage<AiConfigDto>>('/aiConfig/findAiConfigPage', data, WEB_BASE_URL)
+export function findAiConfigPage(data: QueryAiConfigDto): Promise<ResultMessage<PageData<AiConfigDto>>> {
+  return post<ResultMessage<PageData<AiConfigDto>>>('/aiConfig/findAiConfigPage', data, WEB_BASE_URL)
 }
 
 export function findAiConfigList(): Promise<ResultMessage<AiConfigDto[]>> {

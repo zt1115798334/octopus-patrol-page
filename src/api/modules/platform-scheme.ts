@@ -1,5 +1,5 @@
 import { get, post, del, WEB_BASE_URL } from '@/lib/api-client'
-import type { ResultMessage, PlatformSchemeDto, QueryPlatformSchemeDto } from '@/types'
+import type { ResultMessage, PageData, PlatformSchemeDto, QueryPlatformSchemeDto } from '@/types'
 
 export function savePlatformScheme(
   data: PlatformSchemeDto,
@@ -45,8 +45,8 @@ export function findEnabledPlatformSchemesByAccountId(
 
 export function findPlatformSchemePage(
   data: QueryPlatformSchemeDto,
-): Promise<ResultMessage<PlatformSchemeDto>> {
-  return post<ResultMessage<PlatformSchemeDto>>(
+): Promise<ResultMessage<PageData<PlatformSchemeDto>>> {
+  return post<ResultMessage<PageData<PlatformSchemeDto>>>(
     '/platformScheme/findPlatformSchemePage',
     data,
     WEB_BASE_URL,

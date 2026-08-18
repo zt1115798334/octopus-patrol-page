@@ -14,7 +14,7 @@ export default function PricingHistoryPage() {
     queryKey: ['pricingHistory'],
     queryFn: () => findUserPricingPlanHistoryPage({ pageNumber: 1, pageSize: 50 }),
   })
-  const items = data?.page?.list || []
+  const items = data?.data?.content || []
 
   return (
     <div className="space-y-4">

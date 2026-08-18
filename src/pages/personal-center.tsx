@@ -39,7 +39,7 @@ export default function PersonalCenter() {
     queryFn: findCurrentUser,
   })
 
-  const userInfo = currentUser?.obj
+  const userInfo = currentUser?.data
   const avatarUrl = useShowFileUrl(userInfo?.avatarId)
 
   const passwordMutation = useMutation({
@@ -106,7 +106,7 @@ export default function PersonalCenter() {
           )}
           {activeTab === 'config' && (
             <Card><CardContent className="pt-6">
-              {configLoading ? <SkeletonCard /> : <form onSubmit={configForm.handleSubmit(handleConfig)} className="space-y-4"><Input label="Access Token 过期时长" type="number" {...configForm.register('accessExpiration', { valueAsNumber: true })} defaultValue={configData?.obj?.accessExpiration} /><Input label="Refresh Token 过期时长" type="number" {...configForm.register('refreshExpiration', { valueAsNumber: true })} defaultValue={configData?.obj?.refreshExpiration} /><Button type="submit" loading={configMutation.isPending}>{t('common.save')}</Button></form>}
+              {configLoading ? <SkeletonCard /> : <form onSubmit={configForm.handleSubmit(handleConfig)} className="space-y-4"><Input label="Access Token 过期时长" type="number" {...configForm.register('accessExpiration', { valueAsNumber: true })} defaultValue={configData?.data?.accessExpiration} /><Input label="Refresh Token 过期时长" type="number" {...configForm.register('refreshExpiration', { valueAsNumber: true })} defaultValue={configData?.data?.refreshExpiration} /><Button type="submit" loading={configMutation.isPending}>{t('common.save')}</Button></form>}
             </CardContent></Card>
           )}
         </div>
